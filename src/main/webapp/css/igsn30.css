@@ -2,10 +2,12 @@ fieldset.show-fieldset-borders{
 	border: 1px solid #c4c4c4;
     padding: 0 1.4em 1.4em 1.4em;
     margin: 0 0 1.5em 0;
+    background-color: #f9fcff
 }
 
 .show-fieldset-borders legend{
 	width:inherit; /* Or auto */
     padding:0 10px; /* To give a bit of padding on the left and right */
     border-bottom:none;
+    background-color: #ffffff
 }

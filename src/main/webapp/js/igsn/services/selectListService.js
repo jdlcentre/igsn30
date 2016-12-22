@@ -76,6 +76,67 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
     	          ];
       };
       
+      this.getIdentifierType = function(){
+    	  return [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ARK",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/arXiv",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/bibcode",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/DOI",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/EAN13",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/EISSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Handle",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IGSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISBN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISNI",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISNI",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISTC",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/LISSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/LSID",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ORCID",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/PMID",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/PURL",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/UPC",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/URL",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/URN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/VIAF"
+    	          ];
+      };
       
+      
+      this.getContributorType = function(){
+    	  return [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ContactPerson",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Funder",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Other",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ProjectLeader",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ProjectManager",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ProjectMember",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/RelatedPerson",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Researcher",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ResearchGroup",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/RightsHolder",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Sponsor",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Supervisor"
+      	          ];
+      };
+      
+      this.getRelationType = function(){
+    	  return [
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Compiles",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/hasDigitalRepresentation",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasMetadata",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasReferenceResource",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/hasSamplingFeature",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsCompiledBy",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDerivedFrom",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDigitalRepresentationOf",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDocumentedBy",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsIdenticalTo",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSamplingFeatureOf",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSourceOf",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Participates"
+        	          ];
+      }
       
 }]);

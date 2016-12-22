@@ -1,11 +1,11 @@
 
-   <div class="section section-lg section-bottom" ng-controller="addSampleCtrl">
+   <div class="section section-lg section-bottom container" ng-controller="addSampleCtrl">
       <div>                    
         <div class="row mb">        
           <div class="col-md-12">
-	       	 <div class="col-md-6 col-md-offset-3">
-	            <h3 class="title-md hr-left text-theme">Metadata Information</h3>
-	            <div class="panel panel-primary text-theme">
+	       	 <div class="row">
+	            <h3 class="title-md hr-left text-theme">Metadata Information</h3>	      
+	            <div class="panel panel-primary text-theme" >
 	              <div class="panel-heading">
 	                <h3 class="panel-title">Mandatory</h3>
 	              </div>
@@ -42,7 +42,32 @@
 	                  <div class="form-group form-group-sm">
 	                    <label>Material Type</label>
 	                    <select  class="form-control" ng-model="form.resourceType"  ng-options="type as type for type in getMaterialType"></select>	                   
-	                  </div>	                 
+	                  </div>
+	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
+					    <legend>Curation Details</legend>
+					    <div class="form-group form-group-sm">
+						    <label>Curator</label>
+		                    <input type="text" class="form-control" placeholder="Curator" ng-model="form.curator">
+	                    </div>
+	                    <div class="form-group form-group-sm">
+		                    <label>Curation Date</label>
+		                    <div class="input-group">
+		                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="curationDate.opened"  ng-model="form.curationDate" close-text="Close" alt-input-formats="altInputFormats" />
+						          <span class="input-group-btn">
+						            <button type="button" class="btn btn-default btn-sm" ng-click="curationDate.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
+						          </span>
+						     </div>
+		                 </div>
+		                 <div class="form-group form-group-sm">
+						    <label>Curation Location</label>
+		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="form.curationLocation">
+	                    </div>
+		                 <div class="form-group form-group-sm">
+						    <label>Curation Institution Uri</label>
+		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri">
+	                    </div>
+		                 
+					  </fieldset>	                 
 	                </form>	               
 	              </div>
 	            </div>
@@ -58,20 +83,20 @@
 	                  </div> 
 	                   <div class="form-group form-group-sm">
 	                    <label>Classification uri</label>
-	                    <input type="text" class="form-control" placeholder="Classification Uri" ng-model="form.classificationUri">
+	                    <input type="text" class="form-control" placeholder="http://" ng-model="form.classificationUri">
 	                  </div>  
 	                   <div class="form-group form-group-sm">
 	                    <label>purpose</label>
-	                    <input type="text" class="form-control" placeholder="Classification Uri" ng-model="form.classificationUri">
+	                    <input type="text" class="form-control" placeholder="purpose" ng-model="form.purpose">
 	                  </div>   
 	                   <div class="form-group form-group-sm">
 	                    <label>SampledFeatures</label>
 	                    <div class="row">
 						  <div class="col-sm-6 col-xs-12">						   					      
-						      <input type="text" class="form-control" placeholder="Sampled Feature URI">						    
+						      <input type="text" class="form-control" placeholder="http://" ng-model="form.sampledFeatureUri">						    
 						  </div>
 						  <div class="col-sm-6 col-xs-12">						   				      
-						      <input type="text" class="form-control" placeholder="Sampled Feature">						    
+						      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="form.sampledFeature">						    
 						  </div>
 						</div>
 	                  </div>  
@@ -79,15 +104,15 @@
 					    <legend>Location</legend>
 					    <div class="form-group form-group-sm">
 						    <label>Locality</label>
-		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.classificationUri">
+		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality">
 	                    </div>
 	                    <div class="form-group form-group-sm">
 						    <label>Locality uri</label>
-		                    <input type="text" class="form-control" placeholder="locality Uri" ng-model="form.classificationUri">
+		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri">
 	                    </div>
 	                    <div class="form-group form-group-sm">
 		                    <label>SRID</label>
-		                    <select  class="form-control" ng-model="form.epsg"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+		                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
 		                 </div>
 		                 <div class="form-group form-group-sm">
 		                    <label>Vertical Datum</label>
@@ -106,12 +131,73 @@
 					   <div class="form-group form-group-sm">
 	                    <label>Date</label>
 	                    <div class="input-group">
-	                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="popup1.opened"  ng-model="form.date" close-text="Close" alt-input-formats="altInputFormats" />
+	                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="date.opened"  ng-model="form.date" close-text="Close" alt-input-formats="altInputFormats" />
 					          <span class="input-group-btn">
-					            <button type="button" class="btn btn-default btn-sm" ng-click="popup1.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
+					            <button type="button" class="btn btn-default btn-sm" ng-click="date.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
 					          </span>
 					     </div>
-	                  </div>         
+	                  </div>
+	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
+					    <legend>Collectors</legend>
+					    <div class="form-group form-group-sm">
+						    <label>Collector Name</label>
+		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.collectorName">
+	                    </div>
+	                    <div class="form-group form-group-sm">
+						    <label>Collector Identifier</label>
+		                    <input type="text" class="form-control" placeholder="Collector Identifier" ng-model="form.collectorIdentifier">
+	                    </div>
+	                    <div class="form-group form-group-sm">
+		                    <label>Collector Identifier Type</label>
+		                    <select  class="form-control" ng-model="form.collectorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                 </div>
+					  </fieldset>
+					  <div class="form-group form-group-sm">
+	                    <label>Method</label>
+	                    <input type="text" class="form-control" placeholder="Method" ng-model="form.method">
+	                  </div>  
+	                  <div class="form-group form-group-sm">
+	                    <label>Campaign</label>
+	                    <input type="text" class="form-control" placeholder="Campaign" ng-model="form.campaign">
+	                  </div>
+	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
+					    <legend>Contributors</legend>
+					    <div class="form-group form-group-sm">
+						    <label>Contributor Name</label>
+		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="form.contributorName">
+	                    </div>	                   
+	                    <div class="form-group form-group-sm">
+		                    <label>Contributor Type</label>
+		                    <select  class="form-control" ng-model="form.contributorType"  ng-options="type as type for type in getContributorType"></select>	                   
+		                 </div>
+		                  <div class="form-group form-group-sm">
+						    <label>Contributor Identifier</label>
+		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="form.contributorIdentifier">
+	                    </div>
+	                    <div class="form-group form-group-sm">
+		                    <label>Contributor Identifier Type</label>
+		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                 </div>	
+					  </fieldset>  
+					  <fieldset class="form-group form-group-sm show-fieldset-borders">
+					    <legend>Related Resource</legend>
+					    <div class="form-group form-group-sm">
+						    <label>Related resource</label>
+		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="form.relatedResource">
+	                    </div>	                   
+	                    <div class="form-group form-group-sm">
+		                    <label>Related Identifier Type</label>
+		                    <select  class="form-control" ng-model="form.relatedIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                 </div>		                 
+	                    <div class="form-group form-group-sm">
+		                    <label>Relation Type</label>
+		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getRelationType"></select>	                   
+		                 </div>	
+					  </fieldset>  
+					  <div class="form-group form-group-sm">
+	                    <label>Comments</label>
+	                    <input type="text" class="form-control" placeholder="Comments" ng-model="form.comments">
+	                  </div>      
 	                </form>	               
 	              </div>
 	            </div>
