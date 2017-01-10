@@ -4,10 +4,13 @@ package org.csiro.igsn.entity.postgres;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,11 +19,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cv_resource_type")
+@NamedQueries({
+	@NamedQuery(
+			name="CvResourceType.listAll",
+		    query="SELECT crt FROM CvResourceType crt"
+	),
+	@NamedQuery(
+			name="CvResourceType.search",
+		    query="SELECT crt FROM CvResourceType crt where crt.resourceType = :resourceType"
+	)
+})
 public class CvResourceType implements java.io.Serializable {
 
 	private int cvResourceTypeId;
 	private String resourceType;
-	private Set<ResourceTypes> resourceTypeses = new HashSet<ResourceTypes>(0);
+	
 
 	public CvResourceType() {
 	}
@@ -29,15 +42,14 @@ public class CvResourceType implements java.io.Serializable {
 		this.cvResourceTypeId = cvResourceTypeId;
 	}
 
-	public CvResourceType(int cvResourceTypeId, String resourceType,
-			Set<ResourceTypes> resourceTypeses) {
+	public CvResourceType(int cvResourceTypeId, String resourceType) {
 		this.cvResourceTypeId = cvResourceTypeId;
 		this.resourceType = resourceType;
-		this.resourceTypeses = resourceTypeses;
+		
 	}
 
 	@Id
-	@Column(name = "cv_resource_type_id", unique = true, nullable = false)
+	@Column(name = "cv_resource_type_id", unique = true, nullable = false, insertable=false)
 	public int getCvResourceTypeId() {
 		return this.cvResourceTypeId;
 	}
@@ -55,13 +67,6 @@ public class CvResourceType implements java.io.Serializable {
 		this.resourceType = resourceType;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cvResourceType")
-	public Set<ResourceTypes> getResourceTypeses() {
-		return this.resourceTypeses;
-	}
-
-	public void setResourceTypeses(Set<ResourceTypes> resourceTypeses) {
-		this.resourceTypeses = resourceTypeses;
-	}
+	
 
 }

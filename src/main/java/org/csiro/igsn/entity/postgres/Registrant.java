@@ -5,6 +5,7 @@ package org.csiro.igsn.entity.postgres;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +24,16 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "registrant")
+@NamedQueries({
+	@NamedQuery(
+			name="Registrant.searchByUsername",
+		    query="SELECT r FROM Registrant r where r.username = :username"
+	),
+	@NamedQuery(
+			name="Registrant.getAllRegistrant",
+		    query="SELECT r FROM Registrant r"
+	)
+})
 public class Registrant implements java.io.Serializable {
 
 	private int registrantid;

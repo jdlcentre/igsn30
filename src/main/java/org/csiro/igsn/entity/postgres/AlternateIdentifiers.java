@@ -5,9 +5,12 @@ package org.csiro.igsn.entity.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -20,23 +23,19 @@ public class AlternateIdentifiers implements java.io.Serializable {
 	private int alternateIdentifiersId;
 	private Resources resources;
 	private String alternateIdentifier;
-
+	
 	public AlternateIdentifiers() {
 	}
 
-	public AlternateIdentifiers(int alternateIdentifiersId) {
-		this.alternateIdentifiersId = alternateIdentifiersId;
-	}
-
-	public AlternateIdentifiers(int alternateIdentifiersId,
-			Resources resources, String alternateIdentifier) {
-		this.alternateIdentifiersId = alternateIdentifiersId;
+	public AlternateIdentifiers(Resources resources,String alternateIdentifier) {
 		this.resources = resources;
 		this.alternateIdentifier = alternateIdentifier;
 	}
 
 	@Id
 	@Column(name = "alternate_identifiers_id", unique = true, nullable = false)
+	@SequenceGenerator(name="alternate_identifiers_id_seq",schema="version30",sequenceName="alternate_identifiers_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="alternate_identifiers_id_seq")
 	public int getAlternateIdentifiersId() {
 		return this.alternateIdentifiersId;
 	}

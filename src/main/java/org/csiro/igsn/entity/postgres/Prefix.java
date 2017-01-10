@@ -5,13 +5,19 @@ package org.csiro.igsn.entity.postgres;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,34 +28,42 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "prefix")
+@NamedQueries({
+	@NamedQuery(
+			name="Prefix.listAll",
+		    query="SELECT p FROM Prefix p"
+	),
+	@NamedQuery(
+			name="Prefix.search",
+		    query="SELECT p FROM Prefix p where p.prefix = :prefix"
+	)
+})	
 public class Prefix implements java.io.Serializable {
 
 	private int id;
 	private Integer version;
 	private String prefix;
-	private Date created;
-	private Set<Allocator> allocators = new HashSet<Allocator>(0);
+	private Date created;	
 	private Set<Registrant> registrants = new HashSet<Registrant>(0);
 
 	public Prefix() {
 	}
 
-	public Prefix(int id, String prefix) {
-		this.id = id;
+	public Prefix(String prefix) {
 		this.prefix = prefix;
 	}
 
-	public Prefix(int id, String prefix, Date created,
-			Set<Allocator> allocators, Set<Registrant> registrants) {
-		this.id = id;
+	public Prefix(String prefix, Date created,
+		 Set<Registrant> registrants) {	
 		this.prefix = prefix;
-		this.created = created;
-		this.allocators = allocators;
+		this.created = created;		
 		this.registrants = registrants;
 	}
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
+	@SequenceGenerator(name="prefix_id_seq",schema="version30",sequenceName="prefix_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="prefix_id_seq")
 	public int getId() {
 		return this.id;
 	}
@@ -87,15 +101,6 @@ public class Prefix implements java.io.Serializable {
 		this.created = created;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "allocator_prefixes", joinColumns = { @JoinColumn(name = "prefixes", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "allocator", nullable = false, updatable = false) })
-	public Set<Allocator> getAllocators() {
-		return this.allocators;
-	}
-
-	public void setAllocators(Set<Allocator> allocators) {
-		this.allocators = allocators;
-	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "registrant_prefixes", joinColumns = { @JoinColumn(name = "prefixes", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "registrant", nullable = false, updatable = false) })

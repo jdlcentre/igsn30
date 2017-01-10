@@ -34,7 +34,7 @@ public enum DatabaseErrorCode {
  				break;		
 		 	case 200: message="Database successfully updated.";
 	 			break;			 	
-			default: message="Error not capture, please send a sample of your file to cg-admin@csiro.au";	
+			default: message="Error unexpected, please send a sample of your file to cg-admin@csiro.au";	
  				break;
 		 }
 		 
