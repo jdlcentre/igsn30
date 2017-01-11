@@ -5,9 +5,12 @@ package org.csiro.igsn.entity.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -25,13 +28,10 @@ public class Classifications implements java.io.Serializable {
 	public Classifications() {
 	}
 
-	public Classifications(int classificationsId) {
-		this.classificationsId = classificationsId;
-	}
 
-	public Classifications(int classificationsId, Resources resources,
-			String classificationUri, String classification) {
-		this.classificationsId = classificationsId;
+
+	public Classifications(Resources resources,
+			String classificationUri, String classification) {	
 		this.resources = resources;
 		this.classificationUri = classificationUri;
 		this.classification = classification;
@@ -39,6 +39,8 @@ public class Classifications implements java.io.Serializable {
 
 	@Id
 	@Column(name = "classifications_id", unique = true, nullable = false)
+	@SequenceGenerator(name="classifications_id_seq",schema="version30",sequenceName="classifications_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="classifications_id_seq")
 	public int getClassificationsId() {
 		return this.classificationsId;
 	}

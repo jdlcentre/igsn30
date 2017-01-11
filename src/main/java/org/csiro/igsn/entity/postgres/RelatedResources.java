@@ -5,9 +5,12 @@ package org.csiro.igsn.entity.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -26,14 +29,11 @@ public class RelatedResources implements java.io.Serializable {
 	public RelatedResources() {
 	}
 
-	public RelatedResources(int relatedResourceId) {
-		this.relatedResourceId = relatedResourceId;
-	}
+	
 
-	public RelatedResources(int relatedResourceId,
-			CvIdentifierType cvIdentifierType, Resources resources,
-			String relatedResource, String relationType) {
-		this.relatedResourceId = relatedResourceId;
+	public RelatedResources(Resources resources,
+			CvIdentifierType cvIdentifierType, 
+			String relatedResource, String relationType) {		
 		this.cvIdentifierType = cvIdentifierType;
 		this.resources = resources;
 		this.relatedResource = relatedResource;
@@ -42,6 +42,8 @@ public class RelatedResources implements java.io.Serializable {
 
 	@Id
 	@Column(name = "related_resource_id", unique = true, nullable = false)
+	@SequenceGenerator(name="related_resource_id_seq",schema="version30",sequenceName="related_resource_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="related_resource_id_seq")
 	public int getRelatedResourceId() {
 		return this.relatedResourceId;
 	}

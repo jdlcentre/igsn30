@@ -44,7 +44,7 @@ public class ResourceTypes implements java.io.Serializable {
 		this.resourceTypeId = resourceTypeId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "resource_type")
 	public CvResourceType getCvResourceType() {
 		return this.cvResourceType;

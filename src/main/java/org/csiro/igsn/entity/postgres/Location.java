@@ -9,8 +9,11 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -29,30 +32,28 @@ public class Location implements java.io.Serializable {
 	private String verticalDatum;
 	private String geometryUri;
 	private Geometry geometry;
-	private Set<Resources> resourceses = new HashSet<Resources>(0);
+	
 
 	public Location() {
 	}
 
-	public Location(int locationId) {
-		this.locationId = locationId;
-	}
-
-	public Location(int locationId, String locality, String localityUri,
+	
+	public Location(String locality, String localityUri,
 			String srid, String verticalDatum, String geometryUri,
-			Geometry geometry, Set<Resources> resourceses) {
-		this.locationId = locationId;
+			Geometry geometry) {		
 		this.locality = locality;
 		this.localityUri = localityUri;
 		this.srid = srid;
 		this.verticalDatum = verticalDatum;
 		this.geometryUri = geometryUri;
 		this.geometry = geometry;
-		this.resourceses = resourceses;
+		
 	}
 
 	@Id
 	@Column(name = "location_id", unique = true, nullable = false)
+	@SequenceGenerator(name="location_id_seq",schema="version30",sequenceName="location_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="location_id_seq")
 	public int getLocationId() {
 		return this.locationId;
 	}
@@ -115,13 +116,6 @@ public class Location implements java.io.Serializable {
 		this.geometry = geometry;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
-	public Set<Resources> getResourceses() {
-		return this.resourceses;
-	}
-
-	public void setResourceses(Set<Resources> resourceses) {
-		this.resourceses = resourceses;
-	}
+	
 
 }

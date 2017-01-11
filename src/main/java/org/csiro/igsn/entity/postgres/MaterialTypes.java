@@ -5,9 +5,12 @@ package org.csiro.igsn.entity.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -24,19 +27,16 @@ public class MaterialTypes implements java.io.Serializable {
 	public MaterialTypes() {
 	}
 
-	public MaterialTypes(int materialTypesId) {
-		this.materialTypesId = materialTypesId;
-	}
 
-	public MaterialTypes(int materialTypesId, CvMaterialTypes cvMaterialTypes,
-			Resources resources) {
-		this.materialTypesId = materialTypesId;
+	public MaterialTypes(Resources resources, CvMaterialTypes cvMaterialTypes) {		
 		this.cvMaterialTypes = cvMaterialTypes;
 		this.resources = resources;
 	}
 
 	@Id
 	@Column(name = "material_types_id", unique = true, nullable = false)
+	@SequenceGenerator(name="material_types_id_seq",schema="version30",sequenceName="material_types_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="material_types_id_seq")
 	public int getMaterialTypesId() {
 		return this.materialTypesId;
 	}
@@ -45,7 +45,7 @@ public class MaterialTypes implements java.io.Serializable {
 		this.materialTypesId = materialTypesId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "material_type")
 	public CvMaterialTypes getCvMaterialTypes() {
 		return this.cvMaterialTypes;

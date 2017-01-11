@@ -5,9 +5,12 @@ package org.csiro.igsn.entity.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -25,13 +28,10 @@ public class SampledFeatures implements java.io.Serializable {
 	public SampledFeatures() {
 	}
 
-	public SampledFeatures(int sampledFeaturesId) {
-		this.sampledFeaturesId = sampledFeaturesId;
-	}
 
-	public SampledFeatures(int sampledFeaturesId, Resources resources,
-			String sampledFeatureUri, String sampledFeature) {
-		this.sampledFeaturesId = sampledFeaturesId;
+
+	public SampledFeatures(Resources resources,
+			String sampledFeatureUri, String sampledFeature) {		
 		this.resources = resources;
 		this.sampledFeatureUri = sampledFeatureUri;
 		this.sampledFeature = sampledFeature;
@@ -39,6 +39,8 @@ public class SampledFeatures implements java.io.Serializable {
 
 	@Id
 	@Column(name = "sampled_features_id", unique = true, nullable = false)
+	@SequenceGenerator(name="sampled_features_id_seq",schema="version30",sequenceName="sampled_features_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="sampled_features_id_seq")
 	public int getSampledFeaturesId() {
 		return this.sampledFeaturesId;
 	}

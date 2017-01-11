@@ -4,11 +4,15 @@ package org.csiro.igsn.entity.postgres;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -21,25 +25,22 @@ public class Method implements java.io.Serializable {
 	private int methodId;
 	private String method;
 	private String methodUri;
-	private Set<Resources> resourceses = new HashSet<Resources>(0);
+	
 
 	public Method() {
 	}
 
-	public Method(int methodId) {
-		this.methodId = methodId;
-	}
 
-	public Method(int methodId, String method, String methodUri,
-			Set<Resources> resourceses) {
-		this.methodId = methodId;
+
+	public Method(String method, String methodUri) {		
 		this.method = method;
-		this.methodUri = methodUri;
-		this.resourceses = resourceses;
+		this.methodUri = methodUri;		
 	}
 
 	@Id
 	@Column(name = "method_id", unique = true, nullable = false)
+	@SequenceGenerator(name="method_id_seq",schema="version30",sequenceName="method_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="method_id_seq")
 	public int getMethodId() {
 		return this.methodId;
 	}
@@ -66,13 +67,5 @@ public class Method implements java.io.Serializable {
 		this.methodUri = methodUri;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "method")
-	public Set<Resources> getResourceses() {
-		return this.resourceses;
-	}
-
-	public void setResourceses(Set<Resources> resourceses) {
-		this.resourceses = resourceses;
-	}
 
 }

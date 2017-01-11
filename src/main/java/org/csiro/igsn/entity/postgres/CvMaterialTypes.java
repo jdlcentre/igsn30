@@ -29,7 +29,7 @@ public class CvMaterialTypes implements java.io.Serializable {
 
 	private int cvMaterialTypeId;
 	private String materialType;
-	private Set<MaterialTypes> materialTypeses = new HashSet<MaterialTypes>(0);
+	
 
 	public CvMaterialTypes() {
 	}
@@ -38,11 +38,10 @@ public class CvMaterialTypes implements java.io.Serializable {
 		this.cvMaterialTypeId = cvMaterialTypeId;
 	}
 
-	public CvMaterialTypes(int cvMaterialTypeId, String materialType,
-			Set<MaterialTypes> materialTypeses) {
+	public CvMaterialTypes(int cvMaterialTypeId, String materialType) {
 		this.cvMaterialTypeId = cvMaterialTypeId;
 		this.materialType = materialType;
-		this.materialTypeses = materialTypeses;
+		
 	}
 
 	@Id
@@ -64,13 +63,6 @@ public class CvMaterialTypes implements java.io.Serializable {
 		this.materialType = materialType;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cvMaterialTypes")
-	public Set<MaterialTypes> getMaterialTypeses() {
-		return this.materialTypeses;
-	}
 
-	public void setMaterialTypeses(Set<MaterialTypes> materialTypeses) {
-		this.materialTypeses = materialTypeses;
-	}
 
 }

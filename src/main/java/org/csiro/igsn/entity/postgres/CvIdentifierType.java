@@ -29,10 +29,7 @@ public class CvIdentifierType implements java.io.Serializable {
 
 	private int cvIdentifierTypeId;
 	private String identifierType;
-	private Set<RelatedResources> relatedResourceses = new HashSet<RelatedResources>(
-			0);
-	private Set<Collectors> collectorses = new HashSet<Collectors>(0);
-	private Set<Contributors> contributorses = new HashSet<Contributors>(0);
+	
 
 	public CvIdentifierType() {
 	}
@@ -41,14 +38,10 @@ public class CvIdentifierType implements java.io.Serializable {
 		this.cvIdentifierTypeId = cvIdentifierTypeId;
 	}
 
-	public CvIdentifierType(int cvIdentifierTypeId, String identifierType,
-			Set<RelatedResources> relatedResourceses,
-			Set<Collectors> collectorses, Set<Contributors> contributorses) {
+	public CvIdentifierType(int cvIdentifierTypeId, String identifierType) {
 		this.cvIdentifierTypeId = cvIdentifierTypeId;
 		this.identifierType = identifierType;
-		this.relatedResourceses = relatedResourceses;
-		this.collectorses = collectorses;
-		this.contributorses = contributorses;
+		
 	}
 
 	@Id
@@ -68,33 +61,6 @@ public class CvIdentifierType implements java.io.Serializable {
 
 	public void setIdentifierType(String identifierType) {
 		this.identifierType = identifierType;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cvIdentifierType")
-	public Set<RelatedResources> getRelatedResourceses() {
-		return this.relatedResourceses;
-	}
-
-	public void setRelatedResourceses(Set<RelatedResources> relatedResourceses) {
-		this.relatedResourceses = relatedResourceses;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cvIdentifierType")
-	public Set<Collectors> getCollectorses() {
-		return this.collectorses;
-	}
-
-	public void setCollectorses(Set<Collectors> collectorses) {
-		this.collectorses = collectorses;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cvIdentifierType")
-	public Set<Contributors> getContributorses() {
-		return this.contributorses;
-	}
-
-	public void setContributorses(Set<Contributors> contributorses) {
-		this.contributorses = contributorses;
 	}
 
 }

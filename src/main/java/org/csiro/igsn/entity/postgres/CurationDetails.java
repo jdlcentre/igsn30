@@ -3,12 +3,16 @@ package org.csiro.igsn.entity.postgres;
 // Generated 09/01/2017 4:40:37 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,14 +35,11 @@ public class CurationDetails implements java.io.Serializable {
 	public CurationDetails() {
 	}
 
-	public CurationDetails(int curationId) {
-		this.curationId = curationId;
-	}
+	
 
-	public CurationDetails(int curationId, Resources resources, String curator,
+	public CurationDetails(Resources resources, String curator,
 			Date curationDate, String curationLocation, String institutionUri,
-			String curatingInstitution) {
-		this.curationId = curationId;
+			String curatingInstitution) {	
 		this.resources = resources;
 		this.curator = curator;
 		this.curationDate = curationDate;
@@ -49,6 +50,8 @@ public class CurationDetails implements java.io.Serializable {
 
 	@Id
 	@Column(name = "curation_id", unique = true, nullable = false)
+	@SequenceGenerator(name="curation_id_seq",schema="version30",sequenceName="curation_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="curation_id_seq")
 	public int getCurationId() {
 		return this.curationId;
 	}

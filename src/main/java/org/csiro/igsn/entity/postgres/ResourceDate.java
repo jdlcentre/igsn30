@@ -5,11 +5,15 @@ package org.csiro.igsn.entity.postgres;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,13 +34,9 @@ public class ResourceDate implements java.io.Serializable {
 	public ResourceDate() {
 	}
 
-	public ResourceDate(int resourceDateId) {
-		this.resourceDateId = resourceDateId;
-	}
 
-	public ResourceDate(int resourceDateId, Date timeInstant,
-			Date timePeriodStart, Date timePeriodEnd, Set<Resources> resourceses) {
-		this.resourceDateId = resourceDateId;
+	public ResourceDate(Date timeInstant,
+			Date timePeriodStart, Date timePeriodEnd, Set<Resources> resourceses) {	
 		this.timeInstant = timeInstant;
 		this.timePeriodStart = timePeriodStart;
 		this.timePeriodEnd = timePeriodEnd;
@@ -45,6 +45,8 @@ public class ResourceDate implements java.io.Serializable {
 
 	@Id
 	@Column(name = "resource_date_id", unique = true, nullable = false)
+	@SequenceGenerator(name="resource_date_id_seq",schema="version30",sequenceName="resource_date_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="resource_date_id_seq")
 	public int getResourceDateId() {
 		return this.resourceDateId;
 	}

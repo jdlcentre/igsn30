@@ -5,11 +5,15 @@ package org.csiro.igsn.entity.postgres;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,25 +28,21 @@ public class LogDate implements java.io.Serializable {
 	private int logDateId;
 	private String eventType;
 	private Date logDate;
-	private Set<Resources> resourceses = new HashSet<Resources>(0);
 
 	public LogDate() {
 	}
 
-	public LogDate(int logDateId) {
-		this.logDateId = logDateId;
-	}
 
-	public LogDate(int logDateId, String eventType, Date logDate,
-			Set<Resources> resourceses) {
-		this.logDateId = logDateId;
+	public LogDate(String eventType, Date logDate) {	
 		this.eventType = eventType;
 		this.logDate = logDate;
-		this.resourceses = resourceses;
+		
 	}
 
 	@Id
 	@Column(name = "log_date_id", unique = true, nullable = false)
+	@SequenceGenerator(name="log_date_id_seq",schema="version30",sequenceName="log_date_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="log_date_id_seq")
 	public int getLogDateId() {
 		return this.logDateId;
 	}
@@ -70,13 +70,6 @@ public class LogDate implements java.io.Serializable {
 		this.logDate = logDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logDate")
-	public Set<Resources> getResourceses() {
-		return this.resourceses;
-	}
-
-	public void setResourceses(Set<Resources> resourceses) {
-		this.resourceses = resourceses;
-	}
+	
 
 }

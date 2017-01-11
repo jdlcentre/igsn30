@@ -5,9 +5,12 @@ package org.csiro.igsn.entity.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -26,14 +29,12 @@ public class Collectors implements java.io.Serializable {
 	public Collectors() {
 	}
 
-	public Collectors(int collectorId) {
-		this.collectorId = collectorId;
-	}
+	
 
-	public Collectors(int collectorId, CvIdentifierType cvIdentifierType,
-			Resources resources, String collectorName,
-			String collectorIdentifier) {
-		this.collectorId = collectorId;
+	public Collectors(Resources resources,
+			CvIdentifierType cvIdentifierType,
+			String collectorName,
+			String collectorIdentifier) {		
 		this.cvIdentifierType = cvIdentifierType;
 		this.resources = resources;
 		this.collectorName = collectorName;
@@ -42,6 +43,8 @@ public class Collectors implements java.io.Serializable {
 
 	@Id
 	@Column(name = "collector_id", unique = true, nullable = false)
+	@SequenceGenerator(name="collector_id_seq",schema="version30",sequenceName="collector_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="collector_id_seq")
 	public int getCollectorId() {
 		return this.collectorId;
 	}
