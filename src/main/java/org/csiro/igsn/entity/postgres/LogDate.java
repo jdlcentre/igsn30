@@ -27,13 +27,13 @@ public class LogDate implements java.io.Serializable {
 
 	private int logDateId;
 	private String eventType;
-	private Date logDate;
+	private String logDate;
 
 	public LogDate() {
 	}
 
 
-	public LogDate(String eventType, Date logDate) {	
+	public LogDate(String eventType, String logDate) {	
 		this.eventType = eventType;
 		this.logDate = logDate;
 		
@@ -60,13 +60,13 @@ public class LogDate implements java.io.Serializable {
 		this.eventType = eventType;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
+
 	@Column(name = "log_date", length = 29)
-	public Date getLogDate() {
+	public String getLogDate() {
 		return this.logDate;
 	}
 
-	public void setLogDate(Date logDate) {
+	public void setLogDate(String logDate) {
 		this.logDate = logDate;
 	}
 

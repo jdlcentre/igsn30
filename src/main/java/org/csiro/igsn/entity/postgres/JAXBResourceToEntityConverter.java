@@ -1,14 +1,12 @@
 package org.csiro.igsn.entity.postgres;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.csiro.igsn.entity.service.ControlledValueEntityService;
 import org.csiro.igsn.jaxb.bindings.Resources.Resource;
-import org.csiro.igsn.service.ControlledValueEntityService;
 import org.csiro.igsn.utilities.SpatialUtilities;
 
 import com.vividsolutions.jts.io.ParseException;
@@ -21,7 +19,6 @@ public class JAXBResourceToEntityConverter {
 	private List<CvMaterialTypes> cvMaterialTypes;
 	private List<CvIdentifierType> cvIdentifierType;
 	
-	private DateFormat df;
 	
 	
 	public JAXBResourceToEntityConverter(ControlledValueEntityService controlledValueEntityService){
@@ -29,7 +26,7 @@ public class JAXBResourceToEntityConverter {
 		cvResourceTypes = this.controlledValueEntityService.listResourceType();
 		cvMaterialTypes = this.controlledValueEntityService.listMaterialTypes();
 		cvIdentifierType = this.controlledValueEntityService.listIdentifierType();
-		df = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ssXXX");
+		
 	}
 	
 	
@@ -66,13 +63,16 @@ public class JAXBResourceToEntityConverter {
 	public void convert(Resource resourceXML,Registrant registrant, Resources resourceEntity) throws ParseException, java.text.ParseException{
 		
 		resourceEntity.setRegisteredObjectType(resourceXML.getRegisteredObjectType());
+		resourceEntity.setResourceIdentifier(resourceXML.getResourceIdentifier().getValue());
 		
 		//VT: set alternateIdentifiers;
-		Set<AlternateIdentifiers> alternateIdentifiers=new HashSet<AlternateIdentifiers>();
-		for(String alternateIdentifier:resourceXML.getAlternateIdentifiers().getAlternateIdentifier()){
-			alternateIdentifiers.add(new AlternateIdentifiers(resourceEntity,alternateIdentifier));
+		if(resourceXML.getAlternateIdentifiers()!=null){
+			Set<AlternateIdentifiers> alternateIdentifiers=new HashSet<AlternateIdentifiers>();
+			for(String alternateIdentifier:resourceXML.getAlternateIdentifiers().getAlternateIdentifier()){
+				alternateIdentifiers.add(new AlternateIdentifiers(resourceEntity,alternateIdentifier));
+			}
+			resourceEntity.setAlternateIdentifierses(alternateIdentifiers);
 		}
-		resourceEntity.setAlternateIdentifierses(alternateIdentifiers);
 		
 		//VT: landing page, public, resource title
 		resourceEntity.setLandingPage(resourceXML.getLandingPage());
@@ -94,11 +94,13 @@ public class JAXBResourceToEntityConverter {
 		resourceEntity.setMaterialTypeses(materialTypes);
 		
 		//VT:Classification
-		Set<Classifications> classificationses = new HashSet<Classifications>();
-		for(Resource.Classifications.Classification classificationsXML:resourceXML.getClassifications().getClassification()){
-			classificationses.add(new Classifications(resourceEntity,classificationsXML.getClassificationURI(),classificationsXML.getValue()));
+		if(resourceXML.getClassifications()!=null){
+			Set<Classifications> classificationses = new HashSet<Classifications>();
+			for(Resource.Classifications.Classification classificationsXML:resourceXML.getClassifications().getClassification()){
+				classificationses.add(new Classifications(resourceEntity,classificationsXML.getClassificationURI(),classificationsXML.getValue()));
+			}
+			resourceEntity.setClassificationses(classificationses);
 		}
-		resourceEntity.setClassificationses(classificationses);
 		
 		//VT:Purpose
 		if(resourceXML.getPurpose()!=null){
@@ -106,16 +108,17 @@ public class JAXBResourceToEntityConverter {
 		}
 		
 		//VT:sampledFeature
-		
-		Set<SampledFeatures> sampledFeatureses = new HashSet<SampledFeatures>();
-		for(Resource.SampledFeatures.SampledFeature sampleFeatureXML:resourceXML.getSampledFeatures().getValue().getSampledFeature()){
-			sampledFeatureses.add(new SampledFeatures(resourceEntity,sampleFeatureXML.getSampledFeatureURI(),sampleFeatureXML.getValue()));
+		if(resourceXML.getSampledFeatures()!=null){
+			Set<SampledFeatures> sampledFeatureses = new HashSet<SampledFeatures>();
+			for(Resource.SampledFeatures.SampledFeature sampleFeatureXML:resourceXML.getSampledFeatures().getValue().getSampledFeature()){
+				sampledFeatureses.add(new SampledFeatures(resourceEntity,sampleFeatureXML.getSampledFeatureURI(),sampleFeatureXML.getValue()));
+			}
+			resourceEntity.setSampledFeatureses(sampledFeatureses);
 		}
-		resourceEntity.setSampledFeatureses(sampledFeatureses);
 				
-		//VT:location
-		Location location = new Location();
+		//VT:location		
 		if(resourceXML.getLocation()!=null){
+			Location location = new Location();
 			if(resourceXML.getLocation().getValue().getLocality()!=null){
 				location.setLocality(resourceXML.getLocation().getValue().getLocality().getValue());
 				location.setLocalityUri(resourceXML.getLocation().getValue().getLocality().getLocalityURI());
@@ -126,34 +129,39 @@ public class JAXBResourceToEntityConverter {
 				location.setVerticalDatum(resourceXML.getLocation().getValue().getGeometry().getVerticalDatum());
 				location.setGeometry(SpatialUtilities.wktToGeometry(resourceXML.getLocation().getValue().getGeometry().getValue(), 
 						resourceXML.getLocation().getValue().getGeometry().getSrid()));
-			}				
+			}	
+			resourceEntity.setLocation(location);
 		}
-		resourceEntity.setLocation(location);
+		
 		
 		
 		//VT: Date
-		ResourceDate resourceDate = new ResourceDate();
-		if(resourceXML.getDate() != null && resourceXML.getDate().getValue().getTimeInstant()!=null){
-			resourceDate.setTimeInstant(df.parse(resourceXML.getDate().getValue().getTimeInstant()));
-		}else if(resourceXML.getDate() != null && resourceXML.getDate().getValue().getTimePeriod()!=null){
-			resourceDate.setTimePeriodStart(df.parse(resourceXML.getDate().getValue().getTimePeriod().getStart()));
-			resourceDate.setTimePeriodEnd(df.parse(resourceXML.getDate().getValue().getTimePeriod().getEnd()));
+		if(resourceXML.getDate()!=null){
+			ResourceDate resourceDate = new ResourceDate();
+			if(resourceXML.getDate() != null && resourceXML.getDate().getValue().getTimeInstant()!=null){
+				resourceDate.setTimeInstant(resourceXML.getDate().getValue().getTimeInstant());
+			}else if(resourceXML.getDate() != null && resourceXML.getDate().getValue().getTimePeriod()!=null){
+				resourceDate.setTimePeriodStart(resourceXML.getDate().getValue().getTimePeriod().getStart());
+				resourceDate.setTimePeriodEnd(resourceXML.getDate().getValue().getTimePeriod().getEnd());
+			}
+			resourceEntity.setResourceDate(resourceDate);
 		}
-		resourceEntity.setResourceDate(resourceDate);
 		
 		
 		//VT: Collector
-		Set<Collectors> collectorses = new HashSet<Collectors>();
-		for(Resource.Collectors.Collector collectorXML:resourceXML.getCollectors().getCollector()){
-			Collectors c = new Collectors();
-			c.setCollectorName(collectorXML.getCollectorName());
-			if(collectorXML.getCollectorIdentifier()!= null){				
-				c.setCollectorIdentifier(collectorXML.getCollectorIdentifier().getValue());
-				c.setCvIdentifierType(searchIdentifierType(collectorXML.getCollectorIdentifier().getCollectorIdentifierType()));
+		if(resourceXML.getCollectors()!=null){
+			Set<Collectors> collectorses = new HashSet<Collectors>();
+			for(Resource.Collectors.Collector collectorXML:resourceXML.getCollectors().getCollector()){
+				Collectors c = new Collectors();
+				c.setCollectorName(collectorXML.getCollectorName());
+				if(collectorXML.getCollectorIdentifier()!= null){				
+					c.setCollectorIdentifier(collectorXML.getCollectorIdentifier().getValue());
+					c.setCvIdentifierType(searchIdentifierType(collectorXML.getCollectorIdentifier().getCollectorIdentifierType()));
+				}
+				collectorses.add(c);
 			}
-			collectorses.add(c);
+			resourceEntity.setCollectorses(collectorses);
 		}
-		resourceEntity.setCollectorses(collectorses);
 		
 		//VT:Methods
 		if(resourceXML.getMethod()!=null){
@@ -177,7 +185,7 @@ public class JAXBResourceToEntityConverter {
 				curationDetails.setCurator(curationXML.getCurator());
 			}
 			if(curationXML.getCurationDate()!=null){
-				curationDetails.setCurationDate(df.parse(curationXML.getCurationDate()));
+				curationDetails.setCurationDate(curationXML.getCurationDate());
 			}
 			if(curationXML.getCurationLocation()!=null){
 				curationDetails.setCurationLocation(curationXML.getCurationLocation());
@@ -190,34 +198,40 @@ public class JAXBResourceToEntityConverter {
 		}
 		resourceEntity.setCurationDetailses(curationDetailses);
 		
-		//VT: Contributor		
-		Set<Contributors> contributorses = new HashSet<Contributors>();
-		for(Resource.Contributors.Contributor contributorXML:resourceXML.getContributors().getContributor()){
-			contributorses.add(new Contributors(resourceEntity,
-					contributorXML.getContributorIdentifier()==null?null:searchIdentifierType(contributorXML.getContributorIdentifier().getContributorIdentifierType()),
-					contributorXML.getContributorType(),
-					contributorXML.getContributorName(),
-					contributorXML.getContributorIdentifier()==null?null:contributorXML.getContributorIdentifier().getValue()));
-			
+		//VT: Contributor	
+		if(resourceXML.getContributors()!=null){
+			Set<Contributors> contributorses = new HashSet<Contributors>();
+			for(Resource.Contributors.Contributor contributorXML:resourceXML.getContributors().getContributor()){
+				contributorses.add(new Contributors(resourceEntity,
+						contributorXML.getContributorIdentifier()==null?null:searchIdentifierType(contributorXML.getContributorIdentifier().getContributorIdentifierType()),
+						contributorXML.getContributorType(),
+						contributorXML.getContributorName(),
+						contributorXML.getContributorIdentifier()==null?null:contributorXML.getContributorIdentifier().getValue()));
+				
+			}
+			resourceEntity.setContributorses(contributorses);
 		}
-		resourceEntity.setContributorses(contributorses);
 		
-		//VT: relatedResources		
-		Set<RelatedResources> relatedResourceses = new HashSet<RelatedResources>();
-		for(Resource.RelatedResources.RelatedResource relatedResourceXMl:resourceXML.getRelatedResources().getRelatedResource()){
-			relatedResourceses.add(new RelatedResources(resourceEntity,
-					searchIdentifierType(relatedResourceXMl.getRelatedResourceIdentifierType()),
-					relatedResourceXMl.getValue(),
-					relatedResourceXMl.getRelationType()));
+		//VT: relatedResources	
+		if(resourceXML.getRelatedResources()!=null){
+			Set<RelatedResources> relatedResourceses = new HashSet<RelatedResources>();
+			for(Resource.RelatedResources.RelatedResource relatedResourceXMl:resourceXML.getRelatedResources().getRelatedResource()){
+				relatedResourceses.add(new RelatedResources(resourceEntity,
+						searchIdentifierType(relatedResourceXMl.getRelatedResourceIdentifierType()),
+						relatedResourceXMl.getValue(),
+						relatedResourceXMl.getRelationType()));
+			}
+			resourceEntity.setRelatedResourceses(relatedResourceses);
 		}
-		resourceEntity.setRelatedResourceses(relatedResourceses);
 		
 		//VT: comments		
 		resourceEntity.setComments(resourceXML.getComments());
 		
 		//VT: logDate				
-		resourceEntity.setLogDate(new LogDate(resourceXML.getLogDate().getEventType().value(),df.parse(resourceXML.getLogDate().getValue())));
+		resourceEntity.setLogDate(new LogDate(resourceXML.getLogDate().getEventType().value(),resourceXML.getLogDate().getValue()));
 		
 		resourceEntity.setModified(new Date());
+		
+		resourceEntity.setRegistrant(registrant);
 	}
 }

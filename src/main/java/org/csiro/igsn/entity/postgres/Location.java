@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
@@ -108,7 +110,8 @@ public class Location implements java.io.Serializable {
 	}
 
 	@Column(name = "geometry")
-	public Serializable getGeometry() {
+	@Type(type="org.hibernate.spatial.GeometryType")
+	public Geometry getGeometry() {
 		return this.geometry;
 	}
 

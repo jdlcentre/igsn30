@@ -1,4 +1,4 @@
-package org.csiro.igsn.service;
+package org.csiro.igsn.entity.service;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+
+
 
 
 

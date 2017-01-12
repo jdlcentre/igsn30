@@ -1,4 +1,4 @@
-package org.csiro.igsn.service;
+package org.csiro.igsn.entity.service;
 
 import java.util.List;
 
@@ -17,21 +17,7 @@ public class ControlledValueEntityService {
 
 	
 	
-	public Registrant searchRegistrant(String user){
-		EntityManager em = JPAEntityManager.createEntityManager();
-		try{			
-			Registrant registrant = em.createNamedQuery("Registrant.searchByUsername",Registrant.class)
-				.setParameter("username", user)
-				.getSingleResult();			 		 
-			 return registrant;
-		}catch(NoResultException e){
-			return null;
-		}catch(Exception e){
-			throw e;
-		}finally{
-			em.close();
-		}
-	}
+
 	
 	
 	public CvResourceType searchResourceType(String resourceType){

@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(
 			name="Registrant.searchByUsername",
-		    query="SELECT r FROM Registrant r where r.username = :username"
+		    query="SELECT r FROM Registrant r inner join fetch r.prefixes where r.username = :username"
 	),
 	@NamedQuery(
 			name="Registrant.getAllRegistrant",

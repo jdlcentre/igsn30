@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,20 +69,18 @@ public class Resources implements java.io.Serializable {
 			0);
 	private Set<MaterialTypes> materialTypeses = new HashSet<MaterialTypes>(0);
 	
-	private Registrant registrant;
+	private Registrant registrantid;
 
 	public Resources() {
 	}
 
-	public Resources(String resourceIdentifier) {
-		this.resourceIdentifier = resourceIdentifier;
-	}
 
-	public Resources(String resourceIdentifier, Location location,
+
+	public Resources(Location location,
 			LogDate logDate, Method method, ResourceDate resourceDate,
 			String registeredObjectType, String landingPage, Boolean isPublic,
 			String resourceTitle, String purpose, String campaign,
-			String comments,Registrant registrant, Set<Contributors> contributorses,
+			String comments,Registrant registrantid, Set<Contributors> contributorses,
 			Set<RelatedResources> relatedResourceses,
 			Set<AlternateIdentifiers> alternateIdentifierses,
 			Set<Classifications> classificationses,
@@ -88,7 +89,7 @@ public class Resources implements java.io.Serializable {
 			Set<Collectors> collectorses,
 			Set<CurationDetails> curationDetailses,
 			Set<MaterialTypes> materialTypeses) {
-		this.resourceIdentifier = resourceIdentifier;
+		
 		this.location = location;
 		this.logDate = logDate;
 		this.method = method;
@@ -109,11 +110,11 @@ public class Resources implements java.io.Serializable {
 		this.collectorses = collectorses;
 		this.curationDetailses = curationDetailses;
 		this.materialTypeses = materialTypeses;
-		this.registrant = registrant;
+		this.registrantid = registrantid;
 	}
 
 	@Id
-	@Column(name = "resource_identifier", unique = true, nullable = false)
+	@Column(name = "resource_identifier", unique = true, nullable = false)	
 	public String getResourceIdentifier() {
 		return this.resourceIdentifier;
 	}
@@ -122,7 +123,7 @@ public class Resources implements java.io.Serializable {
 		this.resourceIdentifier = resourceIdentifier;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
 	@JoinColumn(name = "location_id")
 	public Location getLocation() {
 		return this.location;
@@ -132,7 +133,7 @@ public class Resources implements java.io.Serializable {
 		this.location = location;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
 	@JoinColumn(name = "log_date_id")
 	public LogDate getLogDate() {
 		return this.logDate;
@@ -142,7 +143,7 @@ public class Resources implements java.io.Serializable {
 		this.logDate = logDate;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
 	@JoinColumn(name = "method_id")
 	public Method getMethod() {
 		return this.method;
@@ -152,7 +153,7 @@ public class Resources implements java.io.Serializable {
 		this.method = method;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
 	@JoinColumn(name = "date")
 	public ResourceDate getResourceDate() {
 		return this.resourceDate;
@@ -320,11 +321,11 @@ public class Resources implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn( name = "registrant", referencedColumnName="registrantid")
 	public Registrant getRegistrant() {
-		return this.registrant;
+		return this.registrantid;
 	}
 
-	public void setRegistrant(Registrant registrant) {
-		this.registrant = registrant;
+	public void setRegistrant(Registrant registrantid) {
+		this.registrantid = registrantid;
 	}
 
 }

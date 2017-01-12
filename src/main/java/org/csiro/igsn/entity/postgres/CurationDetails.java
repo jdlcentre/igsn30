@@ -27,7 +27,7 @@ public class CurationDetails implements java.io.Serializable {
 	private int curationId;
 	private Resources resources;
 	private String curator;
-	private Date curationDate;
+	private String curationDate;
 	private String curationLocation;
 	private String institutionUri;
 	private String curatingInstitution;
@@ -38,7 +38,7 @@ public class CurationDetails implements java.io.Serializable {
 	
 
 	public CurationDetails(Resources resources, String curator,
-			Date curationDate, String curationLocation, String institutionUri,
+			String curationDate, String curationLocation, String institutionUri,
 			String curatingInstitution) {	
 		this.resources = resources;
 		this.curator = curator;
@@ -79,13 +79,13 @@ public class CurationDetails implements java.io.Serializable {
 		this.curator = curator;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name = "curation_date", length = 29)
-	public Date getCurationDate() {
+	public String getCurationDate() {
 		return this.curationDate;
 	}
 
-	public void setCurationDate(Date curationDate) {
+	public void setCurationDate(String curationDate) {
 		this.curationDate = curationDate;
 	}
 

@@ -26,21 +26,20 @@ import javax.persistence.TemporalType;
 public class ResourceDate implements java.io.Serializable {
 
 	private int resourceDateId;
-	private Date timeInstant;
-	private Date timePeriodStart;
-	private Date timePeriodEnd;
-	private Set<Resources> resourceses = new HashSet<Resources>(0);
+	private String timeInstant;
+	private String timePeriodStart;
+	private String timePeriodEnd;
+
 
 	public ResourceDate() {
 	}
 
 
-	public ResourceDate(Date timeInstant,
-			Date timePeriodStart, Date timePeriodEnd, Set<Resources> resourceses) {	
+	public ResourceDate(String timeInstant,
+			String timePeriodStart, String timePeriodEnd) {	
 		this.timeInstant = timeInstant;
 		this.timePeriodStart = timePeriodStart;
-		this.timePeriodEnd = timePeriodEnd;
-		this.resourceses = resourceses;
+		this.timePeriodEnd = timePeriodEnd;	
 	}
 
 	@Id
@@ -55,43 +54,36 @@ public class ResourceDate implements java.io.Serializable {
 		this.resourceDateId = resourceDateId;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name = "time_instant", length = 29)
-	public Date getTimeInstant() {
+	public String getTimeInstant() {
 		return this.timeInstant;
 	}
 
-	public void setTimeInstant(Date timeInstant) {
+	public void setTimeInstant(String timeInstant) {
 		this.timeInstant = timeInstant;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name = "time_period_start", length = 29)
-	public Date getTimePeriodStart() {
+	public String getTimePeriodStart() {
 		return this.timePeriodStart;
 	}
 
-	public void setTimePeriodStart(Date timePeriodStart) {
+	public void setTimePeriodStart(String timePeriodStart) {
 		this.timePeriodStart = timePeriodStart;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name = "time_period_end", length = 29)
-	public Date getTimePeriodEnd() {
+	public String getTimePeriodEnd() {
 		return this.timePeriodEnd;
 	}
 
-	public void setTimePeriodEnd(Date timePeriodEnd) {
+	public void setTimePeriodEnd(String timePeriodEnd) {
 		this.timePeriodEnd = timePeriodEnd;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "resourceDate")
-	public Set<Resources> getResourceses() {
-		return this.resourceses;
-	}
 
-	public void setResourceses(Set<Resources> resourceses) {
-		this.resourceses = resourceses;
-	}
 
 }

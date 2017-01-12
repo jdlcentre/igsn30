@@ -1,4 +1,4 @@
-package org.csiro.igsn.service;
+package org.csiro.igsn.entity.service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
