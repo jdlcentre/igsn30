@@ -1,4 +1,4 @@
-package org.csiro.igsn.web.controllers;
+package org.csiro.igsn.api.controllers;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -27,9 +27,9 @@ import org.csiro.igsn.entity.service.ResourceEntityService;
 import org.csiro.igsn.exception.DatabaseErrorCode;
 import org.csiro.igsn.exception.MintErrorCode;
 import org.csiro.igsn.exception.MintEventLog;
-import org.csiro.igsn.jaxb.bindings.EventType;
-import org.csiro.igsn.jaxb.bindings.Resources;
-import org.csiro.igsn.jaxb.bindings.Resources.Resource;
+import org.csiro.igsn.jaxb.bindings.csiro.EventType;
+import org.csiro.igsn.jaxb.bindings.csiro.Resources;
+import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource;
 import org.csiro.igsn.service.MintService;
 import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;

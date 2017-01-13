@@ -1,14 +1,26 @@
 package org.csiro.igsn.entity.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+
+
+
+
+
+
 
 import org.csiro.igsn.entity.postgres.JAXBResourceToEntityConverter;
 import org.csiro.igsn.entity.postgres.Registrant;
 import org.csiro.igsn.entity.postgres.Resources;
-import org.csiro.igsn.jaxb.bindings.EventType;
-import org.csiro.igsn.jaxb.bindings.Resources.Resource;
+import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.bindings.csiro.EventType;
+import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -158,6 +170,38 @@ public class ResourceEntityService {
 	public int getPagingSize() {
 		// TODO Auto-generated method stub
 		return this.PAGING_SIZE;
+	}
+
+
+
+
+	public ResponseEntity<? extends Object> getResourceMetadataByIdentifier(String resourceIdentifier,JAXBConverterInterface converter) throws Exception {
+				
+		Resources resourceEntity= this.searchResourceByIGSN(resourceIdentifier);
+		if(resourceEntity==null){
+			return new ResponseEntity<String>("IGSN does not exists in our database", HttpStatus.NOT_FOUND); 
+		}
+
+		List<Resources> resourceEntities = new ArrayList<Resources>();
+		resourceEntities.add(resourceEntity);
+		return new ResponseEntity<Object>(converter.objectFactoryParse((resourceEntities)), HttpStatus.OK);
+
+	}
+	
+	public Resources searchResourceByIGSN(String resourceIdentifier){
+		EntityManager em = JPAEntityManager.createEntityManager();
+		try{			
+			Resources result = em.createNamedQuery("Resources.searchByIdentifier",Resources.class)
+		    .setParameter("resourceIdentifier", resourceIdentifier)
+		    .getSingleResult();			 		
+			 return result;
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw e;
+		}finally{
+			em.close();	
+		}
 	}
 
 	

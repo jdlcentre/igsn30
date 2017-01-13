@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 @Table(name = "resources")
 @NamedQueries({
 	@NamedQuery(
-			name="Resources.search",
+			name="Resources.searchByIdentifier",
 		    query="SELECT r FROM Resources r where r.resourceIdentifier = :resourceIdentifier"
 	),
 	@NamedQuery(
@@ -153,7 +153,7 @@ public class Resources implements java.io.Serializable {
 		this.method = method;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
 	@JoinColumn(name = "date")
 	public ResourceDate getResourceDate() {
 		return this.resourceDate;

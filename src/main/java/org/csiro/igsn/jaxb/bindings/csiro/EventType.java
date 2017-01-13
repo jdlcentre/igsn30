@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.igsn.jaxb.bindings;
+package org.csiro.igsn.jaxb.bindings.csiro;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;

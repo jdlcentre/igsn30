@@ -1,4 +1,4 @@
-package org.csiro.igsn.web.controllers;
+package org.csiro.igsn.exception;
 
 public class ExceptionWrapper {
 	private String header;

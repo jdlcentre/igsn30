@@ -17,7 +17,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
-import org.csiro.igsn.web.controllers.IGSNMintCtrl;
+import org.csiro.igsn.api.controllers.IGSNMintCtrl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

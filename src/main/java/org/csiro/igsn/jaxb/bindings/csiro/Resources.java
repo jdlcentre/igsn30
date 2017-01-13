@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.igsn.jaxb.bindings;
+package org.csiro.igsn.jaxb.bindings.csiro;
 
 import java.util.ArrayList;
 import java.util.List;
