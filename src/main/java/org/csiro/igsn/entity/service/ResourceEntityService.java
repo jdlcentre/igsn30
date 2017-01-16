@@ -60,21 +60,7 @@ public class ResourceEntityService {
 	}
 	
 	
-	public Resources searchResourceByIdentifier(String resourceIdentifier){
-		EntityManager em = JPAEntityManager.createEntityManager();
-		try{			
-			Resources result = em.createNamedQuery("Resources.search",Resources.class)
-		    .setParameter("resourceIdentifier", resourceIdentifier)
-		    .getSingleResult();			 		
-			 return result;
-		}catch(NoResultException e){
-			return null;
-		}catch(Exception e){
-			throw e;
-		}finally{
-			em.close();	
-		}
-	}
+	
 	
 
 	public void destroyResource(Resource resource) {
@@ -128,6 +114,7 @@ public class ResourceEntityService {
 			throw new Exception("Resource not found, unable to update: Change logElement event to register to add new record.");
 		}
 		try{
+			resourcesEntity = new Resources();
 			em.getTransaction().begin();
 			jaxbResourceToEntityConverter.convert(resourceXML,registrant,resourcesEntity);		
 			resourcesEntity.getLogDate().setEventType((EventType.UPDATED.value()));
@@ -177,7 +164,7 @@ public class ResourceEntityService {
 
 	public ResponseEntity<? extends Object> getResourceMetadataByIdentifier(String resourceIdentifier,JAXBConverterInterface converter) throws Exception {
 				
-		Resources resourceEntity= this.searchResourceByIGSN(resourceIdentifier);
+		Resources resourceEntity= this.searchResourceByIdentifier(resourceIdentifier);
 		if(resourceEntity==null){
 			return new ResponseEntity<String>("IGSN does not exists in our database", HttpStatus.NOT_FOUND); 
 		}
@@ -188,7 +175,9 @@ public class ResourceEntityService {
 
 	}
 	
-	public Resources searchResourceByIGSN(String resourceIdentifier){
+	
+
+	public Resources searchResourceByIdentifier(String resourceIdentifier){
 		EntityManager em = JPAEntityManager.createEntityManager();
 		try{			
 			Resources result = em.createNamedQuery("Resources.searchByIdentifier",Resources.class)
@@ -203,8 +192,6 @@ public class ResourceEntityService {
 			em.close();	
 		}
 	}
-
-	
 	
 	
 	

@@ -32,7 +32,12 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(
 			name="Resources.searchByIdentifier",
-		    query="SELECT r FROM Resources r where r.resourceIdentifier = :resourceIdentifier"
+		    query="SELECT r FROM Resources r left join fetch r.location left join fetch r.logDate left join fetch r.method left join fetch r.resourceDate "
+		    		+ "left join fetch r.contributorses left join fetch r.relatedResourceses left join fetch r.alternateIdentifierses "
+		    		+ "left join fetch r.classificationses "
+		    		+ "left join fetch r.resourceTypeses "
+		    		+ "left join fetch r.sampledFeatureses left join fetch r.curationDetailses left join fetch r.materialTypeses "		    		
+		    		+ "where r.resourceIdentifier = :resourceIdentifier"
 	),
 	@NamedQuery(
 			name="Resources.searchpublic",
@@ -64,7 +69,6 @@ public class Resources implements java.io.Serializable {
 	private Set<ResourceTypes> resourceTypeses = new HashSet<ResourceTypes>(0);
 	private Set<SampledFeatures> sampledFeatureses = new HashSet<SampledFeatures>(
 			0);
-	private Set<Collectors> collectorses = new HashSet<Collectors>(0);
 	private Set<CurationDetails> curationDetailses = new HashSet<CurationDetails>(
 			0);
 	private Set<MaterialTypes> materialTypeses = new HashSet<MaterialTypes>(0);
@@ -85,8 +89,7 @@ public class Resources implements java.io.Serializable {
 			Set<AlternateIdentifiers> alternateIdentifierses,
 			Set<Classifications> classificationses,
 			Set<ResourceTypes> resourceTypeses,
-			Set<SampledFeatures> sampledFeatureses,
-			Set<Collectors> collectorses,
+			Set<SampledFeatures> sampledFeatureses,		
 			Set<CurationDetails> curationDetailses,
 			Set<MaterialTypes> materialTypeses) {
 		
@@ -106,8 +109,7 @@ public class Resources implements java.io.Serializable {
 		this.alternateIdentifierses = alternateIdentifierses;
 		this.classificationses = classificationses;
 		this.resourceTypeses = resourceTypeses;
-		this.sampledFeatureses = sampledFeatureses;
-		this.collectorses = collectorses;
+		this.sampledFeatureses = sampledFeatureses;		
 		this.curationDetailses = curationDetailses;
 		this.materialTypeses = materialTypeses;
 		this.registrantid = registrantid;
@@ -279,15 +281,6 @@ public class Resources implements java.io.Serializable {
 
 	public void setSampledFeatureses(Set<SampledFeatures> sampledFeatureses) {
 		this.sampledFeatureses = sampledFeatureses;
-	}
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "resources",cascade={CascadeType.ALL}, orphanRemoval=true)
-	public Set<Collectors> getCollectorses() {
-		return this.collectorses;
-	}
-
-	public void setCollectorses(Set<Collectors> collectorses) {
-		this.collectorses = collectorses;
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "resources",cascade={CascadeType.ALL}, orphanRemoval=true)

@@ -53,7 +53,7 @@ public class Contributors implements java.io.Serializable {
 		this.contributorId = contributorId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "contributor_identifier_type")
 	public CvIdentifierType getCvIdentifierType() {
 		return this.cvIdentifierType;

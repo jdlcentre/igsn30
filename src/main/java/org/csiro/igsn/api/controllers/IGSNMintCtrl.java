@@ -59,6 +59,8 @@ public class IGSNMintCtrl {
 	@Value("#{configProperties['IGSN_CSIRO_XSD_URL']}")
 	private String IGSN_CSIRO_XSD_URL;
 
+	@Value("#{configProperties['IGSN_PREFIX']}")
+	private String IGSN_PREFIX;
 	
 	
 	@Autowired
@@ -146,6 +148,9 @@ public class IGSNMintCtrl {
 							mintEventLogs.add(mintEventLog);
 							continue;
 						}
+					}else{
+						mintEventLog.setMintLog(MintErrorCode.MINT_SUCCESS, null);
+						mintEventLog.setHandle("http://hdl.handle.net/"+IGSN_PREFIX+r.getResourceIdentifier().getValue());						
 					}
 					
 					try{

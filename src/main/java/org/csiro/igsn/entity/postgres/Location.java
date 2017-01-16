@@ -2,17 +2,11 @@ package org.csiro.igsn.entity.postgres;
 
 // Generated 09/01/2017 4:40:37 PM by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 

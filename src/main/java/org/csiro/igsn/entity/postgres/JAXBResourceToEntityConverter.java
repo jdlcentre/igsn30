@@ -76,7 +76,7 @@ public class JAXBResourceToEntityConverter {
 		
 		//VT: landing page, public, resource title
 		resourceEntity.setLandingPage(resourceXML.getLandingPage());
-		resourceEntity.setIsPublic(Boolean.valueOf(resourceXML.getIsPublic().toString()));
+		resourceEntity.setIsPublic(Boolean.valueOf(resourceXML.getIsPublic().isValue()));
 		resourceEntity.setResourceTitle(resourceXML.getResourceTitle());
 		
 		//VT: resourceType
@@ -147,21 +147,6 @@ public class JAXBResourceToEntityConverter {
 			resourceEntity.setResourceDate(resourceDate);
 		}
 		
-		
-		//VT: Collector
-		if(resourceXML.getCollectors()!=null){
-			Set<Collectors> collectorses = new HashSet<Collectors>();
-			for(Resource.Collectors.Collector collectorXML:resourceXML.getCollectors().getCollector()){
-				Collectors c = new Collectors();
-				c.setCollectorName(collectorXML.getCollectorName());
-				if(collectorXML.getCollectorIdentifier()!= null){				
-					c.setCollectorIdentifier(collectorXML.getCollectorIdentifier().getValue());
-					c.setCvIdentifierType(searchIdentifierType(collectorXML.getCollectorIdentifier().getCollectorIdentifierType()));
-				}
-				collectorses.add(c);
-			}
-			resourceEntity.setCollectorses(collectorses);
-		}
 		
 		//VT:Methods
 		if(resourceXML.getMethod()!=null){

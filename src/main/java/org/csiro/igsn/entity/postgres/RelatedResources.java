@@ -2,6 +2,7 @@ package org.csiro.igsn.entity.postgres;
 
 // Generated 09/01/2017 4:40:37 PM by Hibernate Tools 4.3.1
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,7 +53,7 @@ public class RelatedResources implements java.io.Serializable {
 		this.relatedResourceId = relatedResourceId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "related_resource_identifier_type")
 	public CvIdentifierType getCvIdentifierType() {
 		return this.cvIdentifierType;

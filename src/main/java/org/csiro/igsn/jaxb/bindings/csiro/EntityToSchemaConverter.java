@@ -1,12 +1,9 @@
 package org.csiro.igsn.jaxb.bindings.csiro;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-
 import org.csiro.igsn.entity.postgres.AlternateIdentifiers;
 import org.csiro.igsn.entity.postgres.Classifications;
-import org.csiro.igsn.entity.postgres.Collectors;
 import org.csiro.igsn.entity.postgres.Contributors;
 import org.csiro.igsn.entity.postgres.CurationDetails;
 import org.csiro.igsn.entity.postgres.MaterialTypes;
@@ -17,7 +14,6 @@ import org.csiro.igsn.entity.postgres.SampledFeatures;
 import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
 import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource;
 import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.Classifications.Classification;
-import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.Collectors.Collector.CollectorIdentifier;
 import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.Location;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -86,9 +82,12 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 		
 		resourceXML.setLandingPage(resource.getLandingPage());
 		
+		resourceXML.setIsPublic(this.objectFactory.createResourcesResourceIsPublic());
+		resourceXML.getIsPublic().setValue(resource.getIsPublic());
+		
 		resourceXML.setResourceTitle(resource.getResourceTitle());
 		
-		if(resource.getAlternateIdentifierses()!=null){
+		if(resource.getAlternateIdentifierses()!=null && !resource.getAlternateIdentifierses().isEmpty()){
 			resourceXML.setAlternateIdentifiers(this.objectFactory.createResourcesResourceAlternateIdentifiers());
 			resourceXML.getAlternateIdentifiers().alternateIdentifier = new ArrayList<String>(); 
 			for(AlternateIdentifiers alternateIdentifiers:resource.getAlternateIdentifierses()){
@@ -108,7 +107,7 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 			resourceXML.getMaterialTypes().materialType.add(materialType.getCvMaterialTypes().getMaterialType());
 		}
 		
-		if(resource.getClassificationses()!=null){
+		if(resource.getClassificationses()!=null && !resource.getClassificationses().isEmpty()){
 			resourceXML.setClassifications(this.objectFactory.createResourcesResourceClassifications());
 			resourceXML.getClassifications().classification = new ArrayList<Classification>();
 			for(Classifications classifications:resource.getClassificationses()){
@@ -123,7 +122,7 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 			resourceXML.setPurpose(resource.getPurpose());
 		}
 		
-		if(resource.getSampledFeatureses()!=null){			
+		if(resource.getSampledFeatureses()!=null && !resource.getSampledFeatureses().isEmpty()){			
 			Resource.SampledFeatures sampledFeatureXMLs = this.objectFactory.createResourcesResourceSampledFeatures();	
 			sampledFeatureXMLs.sampledFeature = new ArrayList<Resource.SampledFeatures.SampledFeature>();
 			for(SampledFeatures sampledFeatures:resource.getSampledFeatureses()){
@@ -161,18 +160,6 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 			resourceXML.setDate(this.objectFactory.createResourcesResourceDate(date));
 		}
 		
-		if(resource.getCollectorses()!=null){
-			resourceXML.setCollectors(this.objectFactory.createResourcesResourceCollectors());
-			resourceXML.getCollectors().collector = new ArrayList<Resource.Collectors.Collector>();
-			for(Collectors collector:resource.getCollectorses()){
-				Resource.Collectors.Collector collectorXML = new Resource.Collectors.Collector();
-				collectorXML.setCollectorName(collector.getCollectorName());
-				collectorXML.setCollectorIdentifier(new CollectorIdentifier());
-				collectorXML.getCollectorIdentifier().setCollectorIdentifierType(collector.getCvIdentifierType().getIdentifierType());
-				collectorXML.getCollectorIdentifier().setValue(collector.getCollectorIdentifier());
-				resourceXML.getCollectors().collector.add(collectorXML);
-			}
-		}
 		
 		if(resource.getMethod()!=null){
 			resourceXML.setMethod(this.objectFactory.createResourcesResourceMethod());
@@ -198,7 +185,7 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 			resourceXML.getCurationDetails().curation.add(curationDetailXML);
 		}
 		
-		if(resource.getContributorses()!=null){
+		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
 			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
 			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
 			for(Contributors contributor:resource.getContributorses()){
@@ -212,7 +199,7 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 			}
 		}
 		
-		if(resource.getRelatedResourceses()!=null){
+		if(resource.getRelatedResourceses()!=null && !resource.getRelatedResourceses().isEmpty()){
 			resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
 			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
 			for(RelatedResources relatedResources:resource.getRelatedResourceses()){

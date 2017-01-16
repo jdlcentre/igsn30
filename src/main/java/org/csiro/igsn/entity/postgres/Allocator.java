@@ -132,7 +132,7 @@ public class Allocator implements java.io.Serializable {
 		this.isactive = isactive;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "allocator_prefixes", joinColumns = { @JoinColumn(name = "allocator", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "prefixes", nullable = false, updatable = false) })
 	public Set<Prefix> getPrefixes() {
 		return this.prefixes;
