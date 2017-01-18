@@ -72,7 +72,7 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 	}
 
 	@Override
-	public Resource convert(Resources resource) {		
+	public org.csiro.igsn.jaxb.bindings.csiro.Resources convert(Resources resource) {		
 		Resource resourceXML = this.objectFactory.createResourcesResource();
 		
 		resourceXML.setRegisteredObjectType(resource.getRegisteredObjectType());
@@ -217,18 +217,12 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 		resourceXML.getLogDate().setEventType(EventType.fromValue(resource.getLogDate().getEventType()));
 		resourceXML.getLogDate().setValue(resource.getLogDate().getLogDate());
 		
-		return resourceXML;
+		org.csiro.igsn.jaxb.bindings.csiro.Resources resourcesXMLRoot = objectFactory.createResources();	
+		resourcesXMLRoot.getResource().add(resourceXML);
+		return resourcesXMLRoot;
 	}
 
 
-	@Override
-	public org.csiro.igsn.jaxb.bindings.csiro.Resources objectFactoryParse(List<Resources> resources) {		
-		org.csiro.igsn.jaxb.bindings.csiro.Resources resourcesXML = objectFactory.createResources();
-		for(Resources r:resources){
-			resourcesXML.getResource().add(convert(r));
-		}		
-		return resourcesXML;
-	}
 
 	
 

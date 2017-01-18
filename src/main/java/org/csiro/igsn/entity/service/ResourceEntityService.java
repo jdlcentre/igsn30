@@ -1,16 +1,16 @@
 package org.csiro.igsn.entity.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-
-
-
-
-
-
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.csiro.igsn.entity.postgres.JAXBResourceToEntityConverter;
 import org.csiro.igsn.entity.postgres.Registrant;
@@ -36,6 +36,76 @@ public class ResourceEntityService {
 		this.jaxbResourceToEntityConverter = new JAXBResourceToEntityConverter(controlledValueEntityService);
 	}
 
+	public Long getResourcesSizeByDate(Date fromDate, Date until) {
+		
+		EntityManager em = JPAEntityManager.createEntityManager();
+		
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();				
+		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+		Root<Resources> from = countQuery.from(Resources.class);				
+					
+		List<Predicate> predicates =this.oaiPredicateBuilder(fromDate,until, criteriaBuilder,from);
+			
+		CriteriaQuery<Long> select = countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+		
+		TypedQuery<Long> typedQuery = em.createQuery(select);		
+		
+	   Long result = typedQuery.getSingleResult();
+		
+		em.close();
+		return result;
+	}
+	
+	public List<Resources> searchSampleByDate(Date fromDate, Date until, Integer pageNumber){
+		
+		final Integer pageSize = getPagingSize();
+		
+		EntityManager em = JPAEntityManager.createEntityManager();
+		
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();				
+		CriteriaQuery<Resources> criteriaQuery = criteriaBuilder.createQuery(Resources.class);
+		Root<Resources> from = criteriaQuery.from(Resources.class);
+		
+		
+					
+		List<Predicate> predicates =this.oaiPredicateBuilder(fromDate,until, criteriaBuilder,from);
+			
+		CriteriaQuery<Resources> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+		
+		select = select.orderBy(criteriaBuilder.asc(from.get("resourceid")));
+	
+		TypedQuery<Resources> typedQuery = em.createQuery(select);
+		
+		if(pageNumber != null && pageSize != null){
+			typedQuery.setFirstResult((pageNumber)*pageSize);
+		    typedQuery.setMaxResults(pageSize);
+		}
+
+	    List<Resources> result = typedQuery.getResultList();
+		
+		em.close();
+		return result;
+	}
+	
+	
+	private List<Predicate> oaiPredicateBuilder(Date from, Date until,CriteriaBuilder criteriaBuilder,Root<Resources> fromTable){
+		
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		//VT: we are only keen in public date for oai harvesting
+		predicates.add(criteriaBuilder.isTrue(fromTable.get("isPublic")));
+		
+		if (from != null) {
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(fromTable.get("modified"),from));
+		}
+		
+		if (until != null) {
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(fromTable.get("modified"),until));
+		}
+		
+		
+		return predicates;
+	}
 	
 
 
@@ -63,11 +133,14 @@ public class ResourceEntityService {
 	
 	
 
-	public void destroyResource(Resource resource) {
+	public void destroyResource(Resource resource) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();		
 		try{
 			em.getTransaction().begin();			
 			Resources r = this.searchResourceByIdentifier(resource.getResourceIdentifier().getValue());
+			if(r==null){
+				throw new Exception("Resource not found, unable to update resource. Change event type to registered");
+			}
 			r.getLogDate().setEventType((EventType.DESTROYED.value()));
 			em.merge(r);
 			em.flush();
@@ -78,16 +151,21 @@ public class ResourceEntityService {
 			em.close();
 			throw e;
 		}finally{
-			em.close();
+			if(em.isOpen()){
+				em.close();
+			}
 		}
 		
 	}
 	
-	public void deprecateResource(Resource resource) {
+	public void deprecateResource(Resource resource) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();		
 		try{
 			em.getTransaction().begin();			
 			Resources r = this.searchResourceByIdentifier(resource.getResourceIdentifier().getValue());
+			if(r==null){
+				throw new Exception("Resource not found, unable to update resource. Change event type to registered");
+			}
 			r.getLogDate().setEventType((EventType.DEPRECATED.value()));
 			em.merge(r);
 			em.flush();
@@ -98,7 +176,9 @@ public class ResourceEntityService {
 			em.close();
 			throw e;
 		}finally{
-			em.close();
+			if(em.isOpen()){
+				em.close();
+			}
 		}
 		
 	}
@@ -168,10 +248,7 @@ public class ResourceEntityService {
 		if(resourceEntity==null){
 			return new ResponseEntity<String>("IGSN does not exists in our database", HttpStatus.NOT_FOUND); 
 		}
-
-		List<Resources> resourceEntities = new ArrayList<Resources>();
-		resourceEntities.add(resourceEntity);
-		return new ResponseEntity<Object>(converter.objectFactoryParse((resourceEntities)), HttpStatus.OK);
+		return new ResponseEntity<Object>(converter.convert(resourceEntity), HttpStatus.OK);
 
 	}
 	

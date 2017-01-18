@@ -1,10 +1,7 @@
 package org.csiro.igsn.jaxb.bindings;
 
 
-import java.util.List;
-
 import org.csiro.igsn.entity.postgres.Resources;
-import org.springframework.util.MultiValueMap;
 
 
 
@@ -22,5 +19,4 @@ public interface JAXBConverterInterface {
 	
 	public Class getXMLRootClass();
 
-	public Object objectFactoryParse(List<Resources> resources);
 }

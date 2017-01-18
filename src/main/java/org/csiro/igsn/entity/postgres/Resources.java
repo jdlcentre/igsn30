@@ -46,6 +46,7 @@ import javax.persistence.TemporalType;
 })		
 public class Resources implements java.io.Serializable {
 
+	private Integer resourceid;
 	private String resourceIdentifier;
 	private Location location;
 	private LogDate logDate;
@@ -113,6 +114,18 @@ public class Resources implements java.io.Serializable {
 		this.curationDetailses = curationDetailses;
 		this.materialTypeses = materialTypeses;
 		this.registrantid = registrantid;
+	}
+	
+
+	@SequenceGenerator(name="resources_resourceid_seq", schema="version30", sequenceName="resources_resourceid_seq",allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="resources_resourceid_seq")
+	@Column(name = "idwebuser", updatable=false)
+	public Integer getResourceid() {
+		return resourceid;
+	}
+
+	public void setResourceid(Integer resourceid) {
+		this.resourceid = resourceid;
 	}
 
 	@Id
@@ -320,5 +333,6 @@ public class Resources implements java.io.Serializable {
 	public void setRegistrant(Registrant registrantid) {
 		this.registrantid = registrantid;
 	}
+
 
 }
