@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.csiro.igsn.entity.service.ControlledValueEntityService;
-import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource;
+import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
 import org.csiro.igsn.utilities.SpatialUtilities;
 
 import com.vividsolutions.jts.io.ParseException;

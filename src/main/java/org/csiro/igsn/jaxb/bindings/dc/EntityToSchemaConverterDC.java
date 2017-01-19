@@ -31,11 +31,13 @@ public class EntityToSchemaConverterDC implements JAXBConverterInterface{
 	SimpleDateFormat dateFormatterLong = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ssXXX");
 	
 	
+	@Override
 	public boolean supports(String metadataPrefix){
-		if(metadataPrefix.toLowerCase().equals(this.METAPREFIX)){
-			return true;
-		}else{
+	
+		if(metadataPrefix==null || !metadataPrefix.toLowerCase().equals(this.METAPREFIX)){
 			return false;
+		}else{
+			return true;
 		}
 			
 	}

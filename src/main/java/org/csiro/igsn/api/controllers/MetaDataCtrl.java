@@ -52,7 +52,7 @@ public class MetaDataCtrl {
 			try {
 				JAXBConverterInterface converter = getSupportedConverter(schema);
 				if(converter==null){
-					converter = new org.csiro.igsn.jaxb.bindings.csiro.EntityToSchemaConverter();
+					converter = new org.csiro.igsn.jaxb.bindings.csiro.EntityToSchemaConverterCSIRO();
 				}
 				response = resourceEntityService.getResourceMetadataByIdentifier(resourceIdentifier,converter);
 			} catch (Exception e) {

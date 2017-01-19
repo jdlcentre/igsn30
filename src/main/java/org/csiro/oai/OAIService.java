@@ -54,8 +54,8 @@ public class OAIService {
 	
 	List<JAXBConverterInterface> jaxbConverterInterface;
 	
-	@Value("#{configProperties['OAI_CSIRO_IDENTIFIER_PREFIX']}")
-	private String OAI_CSIRO_IDENTIFIER_PREFIX;
+	@Value("#{configProperties['OAI_IDENTIFIER_PREFIX']}")
+	private String OAI_IDENTIFIER_PREFIX;
 	
 	@Value("#{configProperties['OAI_BASEURL_VALUE']}")
 	private String OAI_BASEURL_VALUE;
@@ -346,7 +346,7 @@ public class OAIService {
 		//VT:Set Request Type
 		RequestType requestType = new RequestType();
 		requestType.setVerb(VerbType.GET_RECORD);	
-		requestType.setIdentifier(OAI_CSIRO_IDENTIFIER_PREFIX + resources.getResourceIdentifier());
+		requestType.setIdentifier(OAI_IDENTIFIER_PREFIX + resources.getResourceIdentifier());
 		requestType.setMetadataPrefix(metadataPrefix);
 		requestType.setValue(OAI_BASEURL_VALUE);
 		oaiType.setRequest(requestType);
@@ -357,7 +357,7 @@ public class OAIService {
 		HeaderType headerType = new HeaderType();		
 		
 		//GetRecord header
-		headerType.setIdentifier(OAI_CSIRO_IDENTIFIER_PREFIX + resources.getRegisteredObjectType());
+		headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resources.getRegisteredObjectType());
 		headerType.setDatestamp(dateFormatterShort.format(resources.getModified()));
 		if(resources.getLogDate().getEventType().equals("Deprecated")){
 			headerType.setStatus(StatusType.DELETED);
@@ -420,7 +420,7 @@ public class OAIService {
 			HeaderType headerType = new HeaderType();		
 			
 			//GetRecord header
-			headerType.setIdentifier(OAI_CSIRO_IDENTIFIER_PREFIX + resource.getResourceIdentifier());
+			headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resource.getResourceIdentifier());
 			headerType.setDatestamp(dateFormatterShort.format(resource.getModified()));
 			if(resource.getLogDate()!=null && (resource.getLogDate().getEventType().equals("Deprecated") || resource.getLogDate().getEventType().equals("Destroyed"))){
 				headerType.setStatus(StatusType.DELETED);
@@ -480,7 +480,7 @@ public class OAIService {
 			HeaderType headerType = new HeaderType();		
 			
 			//GetRecord header
-			headerType.setIdentifier(OAI_CSIRO_IDENTIFIER_PREFIX + resource.getResourceIdentifier());
+			headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resource.getResourceIdentifier());
 			headerType.setDatestamp(dateFormatterShort.format(resource.getModified()));
 			if(resource.getLogDate().getEventType().equals("Deprecated")||resource.getLogDate().getEventType().equals("Destroyed")){
 				headerType.setStatus(StatusType.DELETED);

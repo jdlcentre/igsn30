@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class EntityToSchemaConverter implements JAXBConverterInterface{
+public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 	
 	ObjectFactory objectFactory;
 	final String METAPREFIX="cs_igsn";
@@ -32,7 +32,7 @@ public class EntityToSchemaConverter implements JAXBConverterInterface{
 		
 	
 	
-	public EntityToSchemaConverter(){
+	public EntityToSchemaConverterCSIRO(){
 		this.objectFactory = new ObjectFactory();		 
 	}
 	
