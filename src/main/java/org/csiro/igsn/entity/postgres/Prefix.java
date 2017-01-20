@@ -31,7 +31,7 @@ import javax.persistence.Version;
 @NamedQueries({
 	@NamedQuery(
 			name="Prefix.listAll",
-		    query="SELECT p FROM Prefix p"
+		    query="SELECT p FROM Prefix p left join fetch p.registrants"
 	),
 	@NamedQuery(
 			name="Prefix.search",
@@ -102,7 +102,7 @@ public class Prefix implements java.io.Serializable {
 	}
 
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "registrant_prefixes", joinColumns = { @JoinColumn(name = "prefixes", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "registrant", nullable = false, updatable = false) })
 	public Set<Registrant> getRegistrants() {
 		return this.registrants;

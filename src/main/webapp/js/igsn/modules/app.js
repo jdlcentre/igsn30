@@ -10,7 +10,11 @@ app.config(['$routeProvider',
       when('/addsample', {
         templateUrl: 'restricted/addSample.html'
      
-      }).    
+      }).  
+      when('/registrant', {
+          templateUrl: 'restricted/registrant.html'
+       
+        }). 
       when('/login', {
           templateUrl: 'views/login.html'        
       }).      
@@ -27,14 +31,6 @@ app.config(function(uiGmapGoogleMapApiProvider) {
         libraries: 'weather,geometry,visualization'
     });
 })
-
-
-
-
-
-
-
-
 
 
 app.directive('jqdatepicker', function () {

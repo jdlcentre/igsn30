@@ -22,7 +22,7 @@ import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
 import org.csiro.igsn.entity.service.ControlledValueEntityService;
 import org.csiro.igsn.entity.service.PrefixEntityService;
-import org.csiro.igsn.entity.service.RegisterantEntityService;
+import org.csiro.igsn.entity.service.RegistrantEntityService;
 import org.csiro.igsn.entity.service.ResourceEntityService;
 import org.csiro.igsn.exception.DatabaseErrorCode;
 import org.csiro.igsn.exception.MintErrorCode;
@@ -53,7 +53,7 @@ public class IGSNMintCtrl {
 	PrefixEntityService prefixEntityService;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	ControlledValueEntityService controlledValueEntityService;
-	RegisterantEntityService registerantEntityService;
+	RegistrantEntityService registerantEntityService;
 
 	
 	@Value("#{configProperties['IGSN_CSIRO_XSD_URL']}")
@@ -66,7 +66,7 @@ public class IGSNMintCtrl {
 	@Autowired
 	public IGSNMintCtrl(ResourceEntityService resourceEntityService,MintService mintService,PrefixEntityService prefixEntityService,
 			ControlledValueEntityService controlledValueEntityService,
-			RegisterantEntityService registerantEntityService){
+			RegistrantEntityService registerantEntityService){
 		this.resourceEntityService = resourceEntityService;
 		this.mintService = mintService;
 		this.prefixEntityService = prefixEntityService;

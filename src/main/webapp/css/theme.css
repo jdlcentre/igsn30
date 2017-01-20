@@ -3173,6 +3173,8 @@ a .fa-round:hover {
   color: #1e8bc3;
 }
 
+
+
 /* NAVBAR SEARCH BOX  ================================================== */
 .wrapper-search-all {
   width: 60px;
@@ -3937,6 +3939,29 @@ a .fa-round:hover {
 
 .small-paragraph-14 {
     font-size: 14px;
+}
+
+.tab-content-shop,
+.tab-content-shop .tab-pane {
+  padding: 0;
+}
+.nav-tabs.nav-tabs-shop {
+  border-bottom: solid 1px #1e8bc3;
+}
+.nav-tabs.nav-tabs-shop > li.active > a,
+.nav-tabs.nav-tabs-shop > li.active > a:hover,
+.nav-tabs.nav-tabs-shop > li.active > a:focus {
+  color: white;
+  border: 0;
+  background-color: #1e8bc3;
+}
+
+.badge-success {
+  background-color: #468847;
+}
+
+.badge-error {
+  background-color: #b94a48;
 }
 
  

@@ -46,12 +46,18 @@
   <script src="js/igsn/controllers/loginStatusCtrl.js"></script>
   <script src="js/igsn/controllers/loginCtrl.js"></script>
   <script src="js/igsn/controllers/addSampleCtrl.js"></script>
+  <script src="js/igsn/controllers/registrant.js"></script>
+
   
 
   <!-- Angular Services  -->	
   <script src="js/igsn/services/currentAuthService.js"></script>
   <script src="js/igsn/services/modalService.js"></script>
   <script src="js/igsn/services/selectListService.js"></script>
+  
+  <!-- Modals -->
+  <script src="js/igsn/modals/modalCtrl.js"></script>
+  <script src="js/igsn/modals/registrant.js"></script>
 
   
 </head>
@@ -91,86 +97,19 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-           <li class="dropdown">
-             <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-search"></i> Browse</a>
-             <ul class="dropdown-menu dropdown-menu-left">
-             	<li>
-                 <a href="#/browsecollections">Collections</a>
-               </li>
-               <li>
-                 <a href="#/browsesubcollections">SubCollections</a>
-               </li>
-               <li>
-                 <a href="#/browsesamples">Samples</a>
-               </li>
-             </ul>
-           </li>
            <li ng-show="status.authenticated">
-            	<a href="#/registercheckout"><i class="fa fa-info"></i> Request Checkout</a>
-            </li>             
-           <li class="dropdown" ng-show="status.authenticated">
-              <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-edit"></i> Edit</a>
-              <ul class="dropdown-menu dropdown-menu-left">
-              	<li ng-show="status.permissions.canEdit">
-                  <a href="#/collections">Collections</a>
-                </li>
-                <li ng-show="status.permissions.canEdit">
-                  <a href="#/subcollections">SubCollections</a>
-                </li>
-                <li ng-show="status.permissions.canEdit">
-                  <a href="#/samples">Samples</a>
-                </li> 
-                <li>
-                  <a href="#/import">Import Excel</a>
-                </li>
-                <li>
-                  <a href="#/batchlog">View batch log</a>
-                </li>                                
-              </ul>
-            </li>
-             <li class="dropdown" ng-show="status.permissions.admin">
-              <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-cogs"></i> Admin</a>
-              <ul class="dropdown-menu dropdown-menu-left">
-              	<li>
-                  <a href="#/usersettings">User List</a>
-                </li>                
-                <li>
-                  <a href="#/staffsettings">Staff Management</a>
-                </li> 
-                <li>
-                  <a href="#/rolesettings">Login Role</a>
-                </li>
-                <li>
-                  <a href="http://gs-test1.arrc.csiro.au:8080/jasperserver">Reports</a>
-                </li>
-                <li>
-                  <a href="#/managecheckouts">Manage checkouts</a>
-                </li>          
-              </ul>
-            </li>           
-            
-                                  
-              
+            	<a href="#/addSample"><i class="fa fa-pencil-square-o"></i> Add Sample</a>
+            </li> 
+            <li ng-show="status.authenticated">
+            	<a href="#/registrant"><i class="fa fa-user-plus"></i> Registrant</a>
+            </li>                         
+                      
           </ul>
         </div>
       </div>
     </div>
    </div>
-   
-    <script> 
-		<!--Dates -->
-		$(function() {
-		    $( "#ProjectCloseDate" ).datepicker();
-		    $( "#ArchiveDue" ).datepicker();
-		    $( "#DateSampled" ).datepicker();
-		    $( "#DateDisposed" ).datepicker();
-		    $( "#registercheckout-checkoutdate" ).datepicker();
-		    $( "#registercheckout-duebackdate" ).datepicker();
-		    
-		  });
-		
-	</script>
-   
+
    <!-- CONTENT STARTS HERE -->
    <div ng-view></div>
    
