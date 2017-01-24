@@ -85,7 +85,8 @@ public class MultiHttpSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {	
 			http.authorizeRequests()
-			 .antMatchers("/restricted/**").authenticated()		
+			 .antMatchers("/restricted/**").authenticated()	
+			 .antMatchers("/web/**").authenticated()
 			 .and()
 			    .formLogin()
 			    	.usernameParameter("j_username") // default is username

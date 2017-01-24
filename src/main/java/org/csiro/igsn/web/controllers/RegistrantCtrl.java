@@ -13,9 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
+@RequestMapping(value = "/web/")
 public class RegistrantCtrl {
 	
 	static final Logger log = Logger.getLogger(RegistrantCtrl.class);
@@ -42,6 +44,25 @@ public class RegistrantCtrl {
 		
 		return new ResponseEntity<List<Prefix>>(this.prefixEntityService.listAllPrefix(),HttpStatus.OK);
 		
+	}
+	
+	@RequestMapping("allocatePrefix.do")
+	public ResponseEntity<List<Prefix>> allocatePrefix(
+			@RequestParam(required = true, value ="prefix") String prefix,
+			@RequestParam(required = true, value ="registrant") String registrant,
+			Principal user) throws Exception {
+		this.registrantEntityService.allocatePrefix(prefix,registrant);
+		return listPrefix(user);
+	}
+	
+	
+	@RequestMapping("unAllocatePrefix.do")
+	public ResponseEntity<List<Prefix>> unAllocatePrefix(
+			@RequestParam(required = true, value ="prefix") String prefix,
+			@RequestParam(required = true, value ="registrant") String registrant,
+			Principal user) throws Exception {
+		this.registrantEntityService.unAllocatePrefix(prefix,registrant);
+		return listPrefix(user);
 	}
 
 }

@@ -31,7 +31,7 @@ public class PrefixEntityService {
 		return result;
 	}
 
-	public ResponseEntity<String> registerPrefix(String usr, String string,
+	public ResponseEntity<String> registerPrefix(String usr,
 			String prefix) {
 		
 		ResponseEntity<String> response = null;
@@ -75,6 +75,21 @@ public class PrefixEntityService {
 		try{
 			EntityManager em = JPAEntityManager.createEntityManager();
 			Prefix result = em.createNamedQuery("Prefix.search",Prefix.class)
+		    .setParameter("prefix", prefix)
+		    .getSingleResult();
+			 em.close();			 
+			 return result;
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	public Prefix searchJoinRegistrant(String prefix){
+		try{
+			EntityManager em = JPAEntityManager.createEntityManager();
+			Prefix result = em.createNamedQuery("Prefix.searchJoinRegistrant",Prefix.class)
 		    .setParameter("prefix", prefix)
 		    .getSingleResult();
 			 em.close();			 

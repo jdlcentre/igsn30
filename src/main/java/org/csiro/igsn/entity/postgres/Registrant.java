@@ -30,12 +30,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "registrant")
 @NamedQueries({
 	@NamedQuery(
-			name="Registrant.searchByUsername",
+			name="Registrant.searchByUsernameJoinPrefix",
 		    query="SELECT r FROM Registrant r inner join fetch r.prefixes where r.username = :username"
 	),
 	@NamedQuery(
+			name="Registrant.searchByUsername",
+		    query="SELECT r FROM Registrant r where r.username = :username"
+	),
+	@NamedQuery(
 			name="Registrant.getAllRegistrant",
-		    query="SELECT r FROM Registrant r left join fetch r.prefixes inner join fetch r.allocator left join fetch r.allocator.prefixes"
+		    query="SELECT r FROM Registrant r"
 	)
 })
 public class Registrant implements java.io.Serializable {
@@ -129,6 +133,7 @@ public class Registrant implements java.io.Serializable {
 	}
 
 	@Column(name = "password", nullable = false, length = 50)
+	@JsonIgnore
 	public String getPassword() {
 		return this.password;
 	}
@@ -167,7 +172,7 @@ public class Registrant implements java.io.Serializable {
 		this.isactive = isactive;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "registrant_prefixes", joinColumns = { @JoinColumn(name = "registrant", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "prefixes", nullable = false, updatable = false) })
 	@JsonIgnore
 	public Set<Prefix> getPrefixes() {

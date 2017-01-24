@@ -9,13 +9,27 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.csiro.igsn.entity.postgres.AlternateIdentifiers;
+import org.csiro.igsn.entity.postgres.Classifications;
+import org.csiro.igsn.entity.postgres.Contributors;
+import org.csiro.igsn.entity.postgres.CurationDetails;
 import org.csiro.igsn.entity.postgres.JAXBResourceToEntityConverter;
+import org.csiro.igsn.entity.postgres.LogDate;
+import org.csiro.igsn.entity.postgres.MaterialTypes;
+import org.csiro.igsn.entity.postgres.Method;
 import org.csiro.igsn.entity.postgres.Registrant;
+import org.csiro.igsn.entity.postgres.RelatedResources;
+import org.csiro.igsn.entity.postgres.ResourceDate;
+import org.csiro.igsn.entity.postgres.ResourceTypes;
 import org.csiro.igsn.entity.postgres.Resources;
+import org.csiro.igsn.entity.postgres.SampledFeatures;
 import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.Location;
 import org.csiro.igsn.jaxb.bindings.registration.EventType;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +56,8 @@ public class ResourceEntityService {
 		
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();				
 		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-		Root<Resources> from = countQuery.from(Resources.class);				
-					
+		Root<Resources> from = countQuery.from(Resources.class);
+	
 		List<Predicate> predicates =this.oaiPredicateBuilder(fromDate,until, criteriaBuilder,from);
 			
 		CriteriaQuery<Long> select = countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
@@ -66,6 +80,18 @@ public class ResourceEntityService {
 		CriteriaQuery<Resources> criteriaQuery = criteriaBuilder.createQuery(Resources.class);
 		Root<Resources> from = criteriaQuery.from(Resources.class);
 		
+		from.fetch("location",JoinType.LEFT);		
+		from.fetch("logDate", JoinType.LEFT);		
+		from.fetch("method", JoinType.LEFT);		
+		from.fetch("resourceDate", JoinType.LEFT);		
+		from.fetch("contributorses", JoinType.LEFT).fetch("cvIdentifierType",JoinType.LEFT);		
+		from.fetch("relatedResourceses", JoinType.LEFT).fetch("cvIdentifierType",JoinType.LEFT);
+		from.fetch("alternateIdentifierses", JoinType.LEFT);
+		from.fetch("classificationses", JoinType.LEFT);
+		from.fetch("resourceTypeses", JoinType.LEFT).fetch("cvResourceType",JoinType.LEFT);
+		from.fetch("sampledFeatureses", JoinType.LEFT);
+		from.fetch("curationDetailses", JoinType.LEFT);
+		from.fetch("materialTypeses", JoinType.LEFT).fetch("cvMaterialTypes",JoinType.LEFT);
 		
 					
 		List<Predicate> predicates =this.oaiPredicateBuilder(fromDate,until, criteriaBuilder,from);

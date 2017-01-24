@@ -11,3 +11,9 @@ fieldset.show-fieldset-borders{
     border-bottom:none;
     background-color: #ffffff
 }
+
+
+#registrant-list-table .table-row-selected{
+    background-color: #1e8bc3;
+    color: #ffffff;
+}

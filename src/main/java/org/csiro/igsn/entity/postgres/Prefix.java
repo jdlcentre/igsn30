@@ -31,11 +31,15 @@ import javax.persistence.Version;
 @NamedQueries({
 	@NamedQuery(
 			name="Prefix.listAll",
-		    query="SELECT p FROM Prefix p left join fetch p.registrants"
+		    query="SELECT p FROM Prefix p where LENGTH(p.prefix) > 2 order by p.prefix"
+	),
+	@NamedQuery(
+			name="Prefix.searchJoinRegistrant",
+		    query="SELECT p FROM Prefix p left join fetch p.registrants where p.prefix  = :prefix order by p.prefix"
 	),
 	@NamedQuery(
 			name="Prefix.search",
-		    query="SELECT p FROM Prefix p where p.prefix = :prefix"
+		    query="SELECT p FROM Prefix p where p.prefix = :prefix order by p.prefix"
 	)
 })	
 public class Prefix implements java.io.Serializable {
@@ -45,6 +49,7 @@ public class Prefix implements java.io.Serializable {
 	private String prefix;
 	private Date created;	
 	private Set<Registrant> registrants = new HashSet<Registrant>(0);
+	private String description;
 
 	public Prefix() {
 	}
@@ -110,6 +115,15 @@ public class Prefix implements java.io.Serializable {
 
 	public void setRegistrants(Set<Registrant> registrants) {
 		this.registrants = registrants;
+	}
+
+	@Column(name = "description", length = 29)
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

@@ -74,7 +74,7 @@ public class Resources implements java.io.Serializable {
 			0);
 	private Set<MaterialTypes> materialTypeses = new HashSet<MaterialTypes>(0);
 	
-	private Registrant registrantid;
+	private Registrant registrant;
 
 	public Resources() {
 	}
@@ -85,7 +85,7 @@ public class Resources implements java.io.Serializable {
 			LogDate logDate, Method method, ResourceDate resourceDate,
 			String registeredObjectType, String landingPage, Boolean isPublic,
 			String resourceTitle, String purpose, String campaign,
-			String comments,Registrant registrantid, Set<Contributors> contributorses,
+			String comments,Registrant registrant, Set<Contributors> contributorses,
 			Set<RelatedResources> relatedResourceses,
 			Set<AlternateIdentifiers> alternateIdentifierses,
 			Set<Classifications> classificationses,
@@ -113,7 +113,7 @@ public class Resources implements java.io.Serializable {
 		this.sampledFeatureses = sampledFeatureses;		
 		this.curationDetailses = curationDetailses;
 		this.materialTypeses = materialTypeses;
-		this.registrantid = registrantid;
+		this.registrant = registrant;
 	}
 	
 
@@ -327,11 +327,11 @@ public class Resources implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn( name = "registrant", referencedColumnName="registrantid")
 	public Registrant getRegistrant() {
-		return this.registrantid;
+		return this.registrant;
 	}
 
-	public void setRegistrant(Registrant registrantid) {
-		this.registrantid = registrantid;
+	public void setRegistrant(Registrant registrant) {
+		this.registrant = registrant;
 	}
 
 

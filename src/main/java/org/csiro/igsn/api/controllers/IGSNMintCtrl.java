@@ -132,9 +132,11 @@ public class IGSNMintCtrl {
 		
 		if (isXMLValid) {						
 			usr = user.getName();			
-			Registrant registrant = registerantEntityService.searchRegistrant(usr);
+			Registrant registrant = registerantEntityService.searchRegistrantAndPrefix(usr);
+			
 			for (Resource r : resources.getResource()) {
 				MintEventLog mintEventLog= new MintEventLog(r.getResourceIdentifier().getValue());
+				
 				if(resourceStartsWithAllowedPrefix(registrant.getPrefixes(),r)){		
 					if(r.getLogDate().getEventType().equals(EventType.REGISTERED)||r.getLogDate().getEventType().equals(EventType.UPDATED)){
 						try{
