@@ -49,7 +49,26 @@ allControllers.controller('registrantCtrl', ['$scope','$http','addRegistrantModa
 		    });	   
 	}
 	
+	$scope.removeRegistrant = function(registrant){
+		$http.get('web/removeRegistrants.do', {
+		 	params: {		 	
+		 		registrant : registrant
+		 		}
+        }).success(function(data,status) {
+        	 $scope.registrantList = data;
+        	 $scope.setSelected($scope.registrantList[0]);
+	    }).error(function(response,status) {
+	    	modalService.showModal({}, {    	            	           
+		           headerText: response.header ,
+		           bodyText: "FAILURE:" + response.message
+	    	 });
+	    });	   
+	}
+	
 	checkAssignedRegistrant = function(){
+		if($scope.selectedRegistrant==null){
+			return;
+		}
 		for(var prefixIndex in $scope.prefixList){
 			for(prefixRegistrantIndex in $scope.prefixList[prefixIndex].registrants){
 				if($scope.prefixList[prefixIndex].registrants[prefixRegistrantIndex].registrantid ==$scope.selectedRegistrant.registrantid){

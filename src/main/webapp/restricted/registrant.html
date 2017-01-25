@@ -28,7 +28,7 @@
 			    </thead>
 	            <tbody>
 	              <tr ng-repeat="registrant in registrantList" ng-click="setSelected(registrant)" ng-class="{'table-row-selected': registrant==selectedRegistrant}">
-	              	<td><i class="fa fa-minus-circle" style="color:red"></i></td>
+	              	<td ng-click="removeRegistrant(registrant.username)"><i class="fa fa-minus-circle" style="color:red"></i></td>
 	                <td>{{registrant.registrantname}}</td>
 	                <td>{{registrant.registrantemail}}</td>
 	                <td><input type="checkbox" name="active" ng-checked="registrant.isactive"></td>

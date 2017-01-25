@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQueries({
 	@NamedQuery(
 			name="Registrant.searchByUsernameJoinPrefix",
-		    query="SELECT r FROM Registrant r inner join fetch r.prefixes where r.username = :username"
+		    query="SELECT r FROM Registrant r left join fetch r.prefixes where r.username = :username"
 	),
 	@NamedQuery(
 			name="Registrant.searchByUsername",
@@ -153,7 +153,7 @@ public class Registrant implements java.io.Serializable {
 	}
 
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.MERGE,CascadeType.PERSIST})
 	@JoinColumn(name = "allocator")
 	public Allocator getAllocator() {
 		return this.allocator;

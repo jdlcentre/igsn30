@@ -139,6 +139,30 @@ public class RegistrantEntityService {
 		
 	}
 
+
+	public void removeRegistrant(String registrant) throws Exception {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		try{	
+			em.getTransaction().begin();
+		
+			Registrant registrantEntity = searchRegistrantAndPrefix(registrant);
+			if(registrantEntity.getPrefixes()==null || registrantEntity.getPrefixes().isEmpty()){
+				em.remove(em.contains(registrantEntity) ? registrantEntity : em.merge(registrantEntity));
+				em.getTransaction().commit();
+			}else{
+				throw new Exception("Registrant cannot be deleted as it has prefixes assigned to it.");
+			}
+			
+		
+		}catch(Exception e){
+			em.getTransaction().rollback();
+			throw e;
+		}finally{
+			em.close();
+		}
+		
+	}
+
 	
 	
 

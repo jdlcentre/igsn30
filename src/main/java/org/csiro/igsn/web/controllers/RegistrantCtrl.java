@@ -8,6 +8,7 @@ import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
 import org.csiro.igsn.entity.service.PrefixEntityService;
 import org.csiro.igsn.entity.service.RegistrantEntityService;
+import org.csiro.igsn.exception.ExceptionWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,16 +39,32 @@ public class RegistrantCtrl {
 		
 	}
 	
+	@RequestMapping("removeRegistrants.do")
+	public ResponseEntity<Object> removeRegistrants(
+			@RequestParam(required = true, value ="registrant") String registrant,
+			Principal user) {
+		
+		try {
+			this.registrantEntityService.removeRegistrant(registrant);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to remove registrant",e.getMessage()),HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(this.registrantEntityService.listRegistrant(),HttpStatus.OK);
+		
+	}
+	
 
 	@RequestMapping("listPrefix.do")
-	public ResponseEntity<List<Prefix>> listPrefix(Principal user) {
+	public ResponseEntity<Object> listPrefix(Principal user) {
 		
-		return new ResponseEntity<List<Prefix>>(this.prefixEntityService.listAllPrefix(),HttpStatus.OK);
+		return new ResponseEntity<Object>(this.prefixEntityService.listAllPrefix(),HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping("allocatePrefix.do")
-	public ResponseEntity<List<Prefix>> allocatePrefix(
+	public ResponseEntity<Object> allocatePrefix(
 			@RequestParam(required = true, value ="prefix") String prefix,
 			@RequestParam(required = true, value ="registrant") String registrant,
 			Principal user) throws Exception {
@@ -57,11 +74,16 @@ public class RegistrantCtrl {
 	
 	
 	@RequestMapping("unAllocatePrefix.do")
-	public ResponseEntity<List<Prefix>> unAllocatePrefix(
+	public ResponseEntity<Object> unAllocatePrefix(
 			@RequestParam(required = true, value ="prefix") String prefix,
 			@RequestParam(required = true, value ="registrant") String registrant,
-			Principal user) throws Exception {
-		this.registrantEntityService.unAllocatePrefix(prefix,registrant);
+			Principal user){
+		try {
+			this.registrantEntityService.unAllocatePrefix(prefix,registrant);
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return new ResponseEntity<Object>(e.getMessage(),HttpStatus.OK);
+		}
 		return listPrefix(user);
 	}
 
