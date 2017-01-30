@@ -29,7 +29,7 @@ app.service('addPrefixModalService',['$uibModal','$q',function ($modal,$q) {
     	         animation: true,
     	         templateUrl: 'widget/addPrefix.html',
     	         controller: 'addPrefixCtrl',
-    	         size: 'lg'         
+    	         size: 'md'         
     	       });
     		 
     	       modalInstance.result.then(function (result) {

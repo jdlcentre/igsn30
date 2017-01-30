@@ -1,13 +1,57 @@
 allControllers.controller('registrantCtrl', ['$scope','$http','addRegistrantModalService','addPrefixModalService','modalService',
                                                     function ($scope,$http,addRegistrantModalService,addPrefixModalService,modalService) {
 	
-
-	$scope.addRegistrant = function(){
-		addRegistrantModalService.open();
+	
+	listRegistrants = function(){
+		$http.get('web/listRegistrants.do')     
+	     .success(function(data) {
+	    	 $scope.registrantList = data;
+	    	 $scope.setSelected($scope.registrantList[0]);
+	    	 
+	     })
+	     .error(function(data, status) {    	
+	    	 modalService.showModal({}, {    	            	           
+		           headerText: "Retrieve registrant" ,
+		           bodyText: "FAILURE: Please contact administrator"
+	    	 });			       
+	     })
+	};
+	
+	listRegistrants();
+	
+     
+	listPrefix = function(){
+		$http.get('web/listPrefix.do')     
+	     .success(function(data) {
+	    	 $scope.prefixList = data;
+	    	 checkAssignedRegistrant();
+	     })
+	     .error(function(data, status) {    	
+	    	 modalService.showModal({}, {    	            	           
+		           headerText: "Retrieve prefix" ,
+		           bodyText: "FAILURE: Please contact your administrator"
+	    	 });			       
+	     })
+	};
+	listPrefix();
+	
+	
+	$scope.addRegistrant = function(){		
+		var promise = addRegistrantModalService.open();
+	  	 promise.then(function(status) { 
+	  		listRegistrants();
+	  	 }, function() {
+	  		 alert('Failed:');
+	  	 });
 	}
 	
 	$scope.addPrefix = function(){
-		addPrefixModalService.open();
+		var promise = addPrefixModalService.open();
+		 promise.then(function(status) { 
+			 listPrefix();
+	  	 }, function() {
+	  		 alert('Failed:');
+	  	 });
 	}
 	
 	$scope.setSelected = function(registrant){
@@ -19,15 +63,15 @@ allControllers.controller('registrantCtrl', ['$scope','$http','addRegistrantModa
 		 $http.get('web/allocatePrefix.do', {
 			 	params: {
 			 		prefix: prefix,
-			 		registrant : username
+			 		username : username
 			 		}
 	        }).success(function(data,status) {
 	        	$scope.prefixList = data;
 	       	 	checkAssignedRegistrant();
 		    }).error(function(response) {
 		    	modalService.showModal({}, {    	            	           
-			           headerText: "Allocate prefix" ,
-			           bodyText: "FAILURE: Please contact administrator:"
+		    		 headerText: response.header ,
+			           bodyText: "FAILURE:" + response.message
 		    	 });
 		    });	   
 	}
@@ -36,23 +80,23 @@ allControllers.controller('registrantCtrl', ['$scope','$http','addRegistrantModa
 		 $http.get('web/unAllocatePrefix.do', {
 			 	params: {
 			 		prefix: prefix,
-			 		registrant : username
+			 		username : username
 			 		}
 	        }).success(function(data,status) {
 	        	$scope.prefixList = data;
 	       	 	checkAssignedRegistrant();
 		    }).error(function(response) {
 		    	modalService.showModal({}, {    	            	           
-			           headerText: "Allocate prefix" ,
-			           bodyText: "FAILURE: Please contact administrator:"
+		    		 headerText: response.header ,
+			           bodyText: "FAILURE:" + response.message
 		    	 });
 		    });	   
 	}
 	
-	$scope.removeRegistrant = function(registrant){
+	$scope.removeRegistrant = function(username){
 		$http.get('web/removeRegistrants.do', {
 		 	params: {		 	
-		 		registrant : registrant
+		 		username : username
 		 		}
         }).success(function(data,status) {
         	 $scope.registrantList = data;
@@ -83,30 +127,24 @@ allControllers.controller('registrantCtrl', ['$scope','$http','addRegistrantModa
 		
 	}
 	
-	$http.get('web/listRegistrants.do')     
-     .success(function(data) {
-    	 $scope.registrantList = data;
-    	 $scope.setSelected($scope.registrantList[0]);
-    	 
-     })
-     .error(function(data, status) {    	
-    	 modalService.showModal({}, {    	            	           
-	           headerText: "Retrieve registrant" ,
-	           bodyText: "FAILURE: Please contact administrator"
-    	 });			       
-     })
+	$scope.changeActive = function(username,isactive){
+		$http.get('web/setRegistrantActive.do', {
+		 	params: {
+		 		active 	: isactive,
+		 		username : username
+		 		}
+        }).success(function(data,status) {
+        	        	 
+	    }).error(function(response,status) {
+	    	modalService.showModal({}, {    	            	           
+		           headerText: response.header ,
+		           bodyText: "FAILURE:" + response.message
+	    	 });
+	    });	   
+	}
+	
+	
      
-     $http.get('web/listPrefix.do')     
-     .success(function(data) {
-    	 $scope.prefixList = data;
-    	 checkAssignedRegistrant();
-     })
-     .error(function(data, status) {    	
-    	 modalService.showModal({}, {    	            	           
-	           headerText: "Retrieve prefix" ,
-	           bodyText: "FAILURE: Please contact your administrator"
-    	 });			       
-     })
 	
 	
 	

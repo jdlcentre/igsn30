@@ -32,6 +32,7 @@ import org.csiro.igsn.jaxb.bindings.registration.Resources;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
 import org.csiro.igsn.service.MintService;
 import org.csiro.igsn.utilities.IGSNDateUtil;
+import org.csiro.igsn.utilities.IGSNUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -132,12 +133,12 @@ public class IGSNMintCtrl {
 		
 		if (isXMLValid) {						
 			usr = user.getName();			
-			Registrant registrant = registerantEntityService.searchRegistrantAndPrefix(usr);
+			Registrant registrant = registerantEntityService.searchActiveRegistrantAndPrefix(usr);
 			
 			for (Resource r : resources.getResource()) {
 				MintEventLog mintEventLog= new MintEventLog(r.getResourceIdentifier().getValue());
 				
-				if(resourceStartsWithAllowedPrefix(registrant.getPrefixes(),r)){		
+				if(IGSNUtil.resourceStartsWithAllowedPrefix(registrant.getPrefixes(),r)){		
 					if(r.getLogDate().getEventType().equals(EventType.REGISTERED)||r.getLogDate().getEventType().equals(EventType.UPDATED)){
 						try{
 							SimpleDateFormat metadataDateFormat = IGSNDateUtil.getISODateFormatter();
@@ -198,14 +199,6 @@ public class IGSNMintCtrl {
 	
 	}
 	
-	private boolean resourceStartsWithAllowedPrefix(Set<Prefix> allowedPrefix,Resource r){
-		boolean result = false;
-		for(Prefix prefix:allowedPrefix){
-			if(r.getResourceIdentifier().getValue().startsWith(prefix.getPrefix())){
-				return true;
-			};
-		}
-		return result;
-	}
+	
 
 }

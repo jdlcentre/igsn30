@@ -31,7 +31,7 @@
 	              	<td ng-click="removeRegistrant(registrant.username)"><i class="fa fa-minus-circle" style="color:red"></i></td>
 	                <td>{{registrant.registrantname}}</td>
 	                <td>{{registrant.registrantemail}}</td>
-	                <td><input type="checkbox" name="active" ng-checked="registrant.isactive"></td>
+	                <td><input type="checkbox" name="active" ng-model="registrant.isactive" ng-change="changeActive(registrant.username,registrant.isactive)"></td>
 	              </tr>	                           
 	            </tbody>
             </table>

@@ -6,32 +6,28 @@
     
      <div class="panel-primary text-theme content-box col-md-12" >
        <div class="panel-heading">
-         <h3 class="panel-title">Mandatory</h3>
+         <h3 class="panel-title">Registrant Details</h3>
        </div>
        <div class="panel-body">
          <form>
            <div class="form-group form-group-sm">
-             <label>Resource Identifier</label>
-             <input type="text" class="form-control" placeholder="Enter a unique identifier" ng-model="form.resourceIdentifier">
+             <label>Name</label>
+             <input type="text" class="form-control" placeholder="Enter name" ng-model="form.name">
            </div>
            <div class="form-group form-group-sm">
-             <label>Landing Page</label>
-             <input type="password" class="form-control" placeholder="Enter a valid landing page" ng-model="form.landingPage">
+             <label>Username</label>
+             <input type="text" class="form-control" placeholder="Enter LDAP username" ng-model="form.username">
            </div>
            <div class="form-group form-group-sm">
-             <label>Resource Title</label>
-             <input type="text" class="form-control" placeholder="Title for resource" ng-model="form.resourceTitle">
+             <label>Email</label>
+             <input type="email" class="form-control" placeholder="Email Address" ng-model="form.email">
            </div>	     
-           <div class="form-group form-group-sm">
-             <label>Resource Title</label>
-             <input type="text" class="form-control" placeholder="Title for resource" ng-model="form.resourceTitle">
-           </div>   
          </form>	               
        </div>
      </div>	            
    </div>    
  </div>
  <div class="modal-footer">
- 	<button class="btn btn-warning" type="button" ng-click="ok()">CANCEL</button>
+ 	<button class="btn btn-warning" type="button" ng-click="cancel()">CANCEL</button>
      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
  </div>

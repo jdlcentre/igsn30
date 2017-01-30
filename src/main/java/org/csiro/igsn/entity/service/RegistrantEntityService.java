@@ -1,11 +1,14 @@
 package org.csiro.igsn.entity.service;
 
+import java.security.Principal;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.csiro.igsn.entity.postgres.Allocator;
 import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,12 @@ import org.springframework.stereotype.Service;
 public class RegistrantEntityService {
 	
 	PrefixEntityService prefixEntityService;
+	AllocatorEntityService allocatorEntityService;
 	
 	@Autowired	
-	public RegistrantEntityService(PrefixEntityService prefixEntityService){
+	public RegistrantEntityService(PrefixEntityService prefixEntityService,AllocatorEntityService allocatorEntityService){
 		this.prefixEntityService = prefixEntityService;
+		this.allocatorEntityService = allocatorEntityService;
 	}
 	
 	
@@ -26,6 +31,22 @@ public class RegistrantEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		try{			
 			Registrant registrant = em.createNamedQuery("Registrant.searchByUsernameJoinPrefix",Registrant.class)
+				.setParameter("username", user)
+				.getSingleResult();				
+			return registrant;
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw e;
+		}finally{
+			em.close();
+		}
+	}
+	
+	public Registrant searchActiveRegistrantAndPrefix(String user){
+		EntityManager em = JPAEntityManager.createEntityManager();
+		try{			
+			Registrant registrant = em.createNamedQuery("Registrant.searchActiveByUsernameJoinPrefix",Registrant.class)
 				.setParameter("username", user)
 				.getSingleResult();				
 			return registrant;
@@ -140,12 +161,12 @@ public class RegistrantEntityService {
 	}
 
 
-	public void removeRegistrant(String registrant) throws Exception {
+	public void removeRegistrant(String username) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		try{	
 			em.getTransaction().begin();
 		
-			Registrant registrantEntity = searchRegistrantAndPrefix(registrant);
+			Registrant registrantEntity = searchRegistrantAndPrefix(username);
 			if(registrantEntity.getPrefixes()==null || registrantEntity.getPrefixes().isEmpty()){
 				em.remove(em.contains(registrantEntity) ? registrantEntity : em.merge(registrantEntity));
 				em.getTransaction().commit();
@@ -154,6 +175,54 @@ public class RegistrantEntityService {
 			}
 			
 		
+		}catch(Exception e){
+			em.getTransaction().rollback();
+			throw e;
+		}finally{
+			em.close();
+		}
+		
+	}
+	
+	public boolean setActiveRegistrant(String username,boolean active) throws Exception {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		try{	
+			em.getTransaction().begin();		
+			Registrant registrantEntity = searchRegistrantAndPrefix(username);
+			registrantEntity.setIsactive(active);
+			em.merge(registrantEntity);
+			em.flush();
+			em.getTransaction().commit();
+			return true;
+		}catch(Exception e){
+			em.getTransaction().rollback();
+			throw e;
+		}finally{
+			em.close();
+		}
+		
+	}
+	
+	public boolean addRegistrant(Principal user,String email,String name,String username) throws Exception {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		try{	
+			em.getTransaction().begin();
+			
+			Allocator allocator = this.allocatorEntityService.searchAllocator(user.getName());
+			
+			Registrant registrant = new Registrant();
+			registrant.setAllocator(allocator);
+			registrant.setCreated(new Date());
+			registrant.setIsactive(true);
+			registrant.setPassword("Not used");
+			registrant.setRegistrantemail(email);
+			registrant.setRegistrantname(name);
+			registrant.setUpdated(new Date());
+			registrant.setUsername(username);
+			em.merge(registrant);
+			em.flush();
+			em.getTransaction().commit();
+			return true;
 		}catch(Exception e){
 			em.getTransaction().rollback();
 			throw e;

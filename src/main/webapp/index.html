@@ -52,12 +52,12 @@
 
   <!-- Angular Services  -->	
   <script src="js/igsn/services/currentAuthService.js"></script>
-  <script src="js/igsn/services/modalService.js"></script>
+  <script src="js/igsn/services/modalDialogService.js"></script>
   <script src="js/igsn/services/selectListService.js"></script>
   
   <!-- Modals -->
   <script src="js/igsn/modals/modalCtrl.js"></script>
-  <script src="js/igsn/modals/registrant.js"></script>
+  <script src="js/igsn/modals/ModalService.js"></script>
 
   
 </head>
@@ -100,7 +100,7 @@
            <li ng-show="status.authenticated">
             	<a href="#/addSample"><i class="fa fa-pencil-square-o"></i> Add Sample</a>
             </li> 
-            <li ng-show="status.authenticated">
+            <li ng-show="status.isAllocator">
             	<a href="#/registrant"><i class="fa fa-user-plus"></i> Registrant</a>
             </li>                         
                       

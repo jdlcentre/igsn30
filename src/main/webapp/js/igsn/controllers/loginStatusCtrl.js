@@ -10,7 +10,7 @@ allControllers.controller('LoginStatusCtrl', ['$scope','$http','currentAuthServi
 				 currentAuthService.setAuthenticated(true);
 				 currentAuthService.setUsername(response.userName); 
 				 currentAuthService.setName(response.name);
-				 currentAuthService.setPermissions(response.userPermission);
+				 currentAuthService.setIsAllocator(response.allocator);
 			 }else{
 				 currentAuthService.setAuthenticated(false);
 			 }		  

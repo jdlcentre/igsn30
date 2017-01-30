@@ -41,11 +41,11 @@ public class RegistrantCtrl {
 	
 	@RequestMapping("removeRegistrants.do")
 	public ResponseEntity<Object> removeRegistrants(
-			@RequestParam(required = true, value ="registrant") String registrant,
+			@RequestParam(required = true, value ="username") String username,
 			Principal user) {
 		
 		try {
-			this.registrantEntityService.removeRegistrant(registrant);
+			this.registrantEntityService.removeRegistrant(username);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,9 +66,9 @@ public class RegistrantCtrl {
 	@RequestMapping("allocatePrefix.do")
 	public ResponseEntity<Object> allocatePrefix(
 			@RequestParam(required = true, value ="prefix") String prefix,
-			@RequestParam(required = true, value ="registrant") String registrant,
+			@RequestParam(required = true, value ="username") String username,
 			Principal user) throws Exception {
-		this.registrantEntityService.allocatePrefix(prefix,registrant);
+		this.registrantEntityService.allocatePrefix(prefix,username);
 		return listPrefix(user);
 	}
 	
@@ -76,15 +76,60 @@ public class RegistrantCtrl {
 	@RequestMapping("unAllocatePrefix.do")
 	public ResponseEntity<Object> unAllocatePrefix(
 			@RequestParam(required = true, value ="prefix") String prefix,
-			@RequestParam(required = true, value ="registrant") String registrant,
+			@RequestParam(required = true, value ="username") String username,
 			Principal user){
 		try {
-			this.registrantEntityService.unAllocatePrefix(prefix,registrant);
+			this.registrantEntityService.unAllocatePrefix(prefix,username);
 		} catch (Exception e) {			
 			e.printStackTrace();
-			return new ResponseEntity<Object>(e.getMessage(),HttpStatus.OK);
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to unallocate prefix",e.getMessage()),HttpStatus.BAD_REQUEST);
 		}
 		return listPrefix(user);
 	}
-
+	
+	
+	@RequestMapping("addRegistrant.do")
+	public ResponseEntity<Object> addRegistrant(		
+			@RequestParam(required = true, value ="email") String email,
+			@RequestParam(required = true, value ="name") String name,
+			@RequestParam(required = true, value ="username") String username,
+			Principal user){
+		try {
+			this.registrantEntityService.addRegistrant(user, email, name, username);
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to add registrant",e.getMessage()),HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@RequestMapping("setRegistrantActive.do")
+	public ResponseEntity<Object> setRegistrantActive(		
+			@RequestParam(required = true, value ="active") boolean active,		
+			@RequestParam(required = true, value ="username") String username,
+			Principal user){
+		try {
+			this.registrantEntityService.setActiveRegistrant(username, active);
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to change registrant status",e.getMessage()),HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@RequestMapping("addPrefix.do")
+	public ResponseEntity<Object> addPrefix(		
+			@RequestParam(required = true, value ="description") String description,		
+			@RequestParam(required = true, value ="prefix") String prefix,
+			Principal user){
+		try {
+			this.prefixEntityService.addPrefix(user, description, prefix);
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to change registrant status",e.getMessage()),HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	
 }

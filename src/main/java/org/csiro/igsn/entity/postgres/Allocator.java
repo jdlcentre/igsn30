@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +26,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "allocator")
+@NamedQueries({
+	@NamedQuery(
+			name="Allocator.searchByUsername",
+		    query="SELECT a FROM Allocator a where a.username = :username"
+	)
+})
 public class Allocator implements java.io.Serializable {
 
 	private int allocatorid;

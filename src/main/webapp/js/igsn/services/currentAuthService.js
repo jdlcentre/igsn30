@@ -29,6 +29,12 @@ app.service('currentAuthService', function() {
         },
         getStatus : function(){
         	return status;
+        },
+        setIsAllocator : function(isAllocator){
+        	status.isAllocator=isAllocator;
+        },
+        getIsAllocator : function(){
+        	return status.isAllocator;
         }
     };	    
     

@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,10 +35,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 	@NamedQuery(
 			name="Registrant.searchByUsernameJoinPrefix",
 		    query="SELECT r FROM Registrant r left join fetch r.prefixes where r.username = :username"
+	),@NamedQuery(
+			name="Registrant.searchActiveByUsernameJoinPrefix",
+		    query="SELECT r FROM Registrant r left join fetch r.prefixes where r.isactive=true and r.username = :username"
 	),
 	@NamedQuery(
 			name="Registrant.searchByUsername",
-		    query="SELECT r FROM Registrant r where r.username = :username"
+		    query="SELECT r FROM Registrant r where r.isactive=true and r.username = :username"
 	),
 	@NamedQuery(
 			name="Registrant.getAllRegistrant",
@@ -58,10 +64,9 @@ public class Registrant implements java.io.Serializable {
 	public Registrant() {
 	}
 
-	public Registrant(int registrantid, String registrantname,
+	public Registrant(String registrantname,
 			String registrantemail, String username, String password,
-			Allocator allocator) {
-		this.registrantid = registrantid;
+			Allocator allocator) {		
 		this.registrantname = registrantname;
 		this.registrantemail = registrantemail;
 		this.username = username;
@@ -69,11 +74,10 @@ public class Registrant implements java.io.Serializable {
 		this.allocator = allocator;
 	}
 
-	public Registrant(int registrantid, String registrantname,
+	public Registrant(String registrantname,
 			String registrantemail, Date created, String username,
 			String password, Date updated, Allocator allocator, Boolean isactive,
-			Set<Prefix> prefixes) {
-		this.registrantid = registrantid;
+			Set<Prefix> prefixes) {		
 		this.registrantname = registrantname;
 		this.registrantemail = registrantemail;
 		this.created = created;
@@ -87,6 +91,8 @@ public class Registrant implements java.io.Serializable {
 
 	@Id
 	@Column(name = "registrantid", unique = true, nullable = false)
+	@SequenceGenerator(name="registrant_registrantid_seq",schema="version30",sequenceName="registrant_registrantid_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="registrant_registrantid_seq")
 	public int getRegistrantid() {
 		return this.registrantid;
 	}

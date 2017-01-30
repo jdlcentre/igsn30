@@ -1,5 +1,6 @@
 package org.csiro.igsn.entity.service;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,15 +14,22 @@ import javax.persistence.NoResultException;
 
 
 
+
+
+
+
+import org.csiro.igsn.entity.postgres.Allocator;
 import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
+import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
+import org.csiro.igsn.utilities.IGSNUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PrefixEntityService {
-
 	
 	public List<Prefix> listAllPrefix(){
 		EntityManager em = JPAEntityManager.createEntityManager();
@@ -31,34 +39,47 @@ public class PrefixEntityService {
 		return result;
 	}
 
-	public ResponseEntity<String> registerPrefix(String usr,
-			String prefix) {
-		
-		ResponseEntity<String> response = null;
-		
-		if(search(prefix)!=null){
-			response = new ResponseEntity<String>("Sub-namespace already exists!", HttpStatus.BAD_REQUEST);
-		}else{
+	public boolean addPrefix(Principal user,String description,String prefix) throws Exception {
+		EntityManager em = JPAEntityManager.createEntityManager();		
+		try{	
 			
-			EntityManager em = JPAEntityManager.createEntityManager();
-			Registrant registrant = em.createNamedQuery("Registrant.searchByUsername",Registrant.class)
-		    .setParameter("username", usr)
-		    .getSingleResult();
-			em.close();			 
+			em.getTransaction().begin();
+			Registrant registrant = em.createNamedQuery("Registrant.searchActiveByUsernameJoinPrefix",Registrant.class)
+					.setParameter("username", user.getName())
+					.getSingleResult();	
 			
-			Set<Registrant> reg = new HashSet<Registrant>();
-			reg.add(registrant);
-			 
-			Prefix p = new Prefix(prefix.toUpperCase(),new Date(),reg); 
-			this.persist(p);
+			Allocator allocator = registrant.getAllocator();
+			if(!IGSNUtil.prefixStartsWithAllowedPrefix(allocator.getPrefixes(), prefix)){
+				throw new Exception("Prefix not supported by allocator");
+			}				
+			Prefix prefixEntity = new Prefix();
+			prefixEntity.setCreated(new Date());
+			prefixEntity.setDescription(description);
+			prefixEntity.setPrefix(prefix.toUpperCase());
+			prefixEntity.setVersion(1);
 			
-			response = new ResponseEntity<String>("Sub-namespace has been registered", HttpStatus.CREATED);
-			
+			em.merge(prefixEntity);
+			em.flush();
+			em.getTransaction().commit();
+			return true;
+		}catch(Exception e){
+			em.getTransaction().rollback();
+			throw e;
+		}finally{
+			em.close();
 		}
-		return response;
 		
 	}
 	
+	private boolean resourceStartsWithAllowedPrefix(Set<Prefix> allowedPrefix,Resource r){
+		boolean result = false;
+		for(Prefix prefix:allowedPrefix){
+			if(r.getResourceIdentifier().getValue().startsWith(prefix.getPrefix())){
+				return true;
+			};
+		}
+		return result;
+	}
 	
 	public void persist(Prefix rs){
 		EntityManager em = JPAEntityManager.createEntityManager();

@@ -12,8 +12,15 @@ app.config(['$routeProvider',
      
       }).  
       when('/registrant', {
-          templateUrl: 'restricted/registrant.html'
-       
+          templateUrl: 'restricted/registrant.html',
+          resolve:{
+              "check":function($location,currentAuthService){   
+                  if(currentAuthService.getAuthenticated() && !currentAuthService.getIsAllocator()){ 
+                	  $location.path('/');    //redirect user to home.
+                      alert("You don't have access here");
+                  }
+              }
+          }
         }). 
       when('/login', {
           templateUrl: 'views/login.html'        
