@@ -1,14 +1,14 @@
-var app = angular.module('app', ['ngRoute','allControllers','ui.bootstrap','uiGmapgoogle-maps','ngAnimate','ngFileUpload']);
+var app = angular.module('app', ['ngRoute','allControllers','ui.bootstrap','ngAnimate','ngFileUpload']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-    	  redirectTo: '/addsample'
+    	  redirectTo: '/addresource'
       
       }).
-      when('/addsample', {
-        templateUrl: 'restricted/addSample.html'
+      when('/addresource', {
+        templateUrl: 'restricted/addResource.html'
      
       }).  
       when('/registrant', {
@@ -22,7 +22,10 @@ app.config(['$routeProvider',
               }
           }
         }). 
-      when('/login', {
+      when('/meta/:igsn', {
+          templateUrl: 'views/meta.html'        
+      }).    
+      when('/login/:igsn', {
           templateUrl: 'views/login.html'        
       }).      
       otherwise({
@@ -31,13 +34,7 @@ app.config(['$routeProvider',
   
   }]);
 
-app.config(function(uiGmapGoogleMapApiProvider) {
-    uiGmapGoogleMapApiProvider.configure({
-        //    key: 'your api key',
-        //v: '3.20', //defaults to latest 3.X anyhow
-        libraries: 'weather,geometry,visualization'
-    });
-})
+
 
 
 app.directive('jqdatepicker', function () {

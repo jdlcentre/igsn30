@@ -1,6 +1,5 @@
 package org.csiro.igsn.api.controllers;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
@@ -8,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -18,7 +16,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.Logger;
-import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
 import org.csiro.igsn.entity.service.ControlledValueEntityService;
 import org.csiro.igsn.entity.service.PrefixEntityService;
@@ -27,7 +24,7 @@ import org.csiro.igsn.entity.service.ResourceEntityService;
 import org.csiro.igsn.exception.DatabaseErrorCode;
 import org.csiro.igsn.exception.MintErrorCode;
 import org.csiro.igsn.exception.MintEventLog;
-import org.csiro.igsn.jaxb.bindings.csiro.EventType;
+import org.csiro.igsn.jaxb.bindings.registration.EventType;
 import org.csiro.igsn.jaxb.bindings.registration.Resources;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
 import org.csiro.igsn.service.MintService;

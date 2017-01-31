@@ -17,3 +17,8 @@ fieldset.show-fieldset-borders{
     background-color: #1e8bc3;
     color: #ffffff;
 }
+
+#igsn-map{
+	width : 100%;
+	height: 500px; 
+}

@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
@@ -105,9 +107,21 @@ public class Location implements java.io.Serializable {
 
 	@Column(name = "geometry")
 	@Type(type="org.hibernate.spatial.GeometryType")
+	@JsonIgnore
 	public Geometry getGeometry() {
 		return this.geometry;
 	}
+	
+	@Transient
+	public String getWkt() {
+		if(this.getGeometry()!=null){
+			return this.getGeometry().toText();
+		}else{
+			return null;
+		}		
+	}
+	
+	
 
 	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;

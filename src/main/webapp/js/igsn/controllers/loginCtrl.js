@@ -1,5 +1,5 @@
-allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService',
-                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService ) {
+allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','$routeParams',
+                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,$routeParams) {
 	
 	
 	var authenticate = function(credentials) {
@@ -23,7 +23,9 @@ allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$
 			  currentAuthService.setName(data.name);
 			  currentAuthService.setPermissions(data.userPermission);
 			  currentAuthService.setIsAllocator(data.isAllocator);
-	    	  if($location.path()=='/login'){	    		  
+			  if($routeParams.igsn){
+				  $location.path("/meta/" + $routeParams.igsn);
+			  }else if($location.path()=='/login'){	    		  
 	    		  $location.path("/");
 	    	  }else{
 	    		  var currentPageTemplate = $route.current.templateUrl;
