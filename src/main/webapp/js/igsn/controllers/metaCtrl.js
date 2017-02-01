@@ -1,12 +1,22 @@
-allControllers.controller('metaCtrl', ['$scope','$http','currentAuthService','$templateCache','$location','modalService','$routeParams',
-                                                    function ($scope,$http,currentAuthService,$templateCache,$location,modalService,$routeParams) {
+allControllers.controller('metaCtrl', ['$rootScope','$scope','$http','currentAuthService','$templateCache','$location','modalService','$routeParams','leafletData',
+                                                    function ($rootScope,$scope,$http,currentAuthService,$templateCache,$location,modalService,$routeParams,leafletData) {	
 	
-	var mymap = L.map('igsn-map').setView([-27.7, 133], 4);
-	
-	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-	    maxZoom: 18	   
-	}).addTo(mymap);
+	angular.extend($scope, {
+	    defaults: {
+	        tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+	        maxZoom: 14,
+	        path: {
+	            weight: 10,
+	            color: '#800000',
+	            opacity: 1
+	        }
+	    },
+	    center: {
+	        lat: -27.7,
+	        lng: 133,
+	        zoom: 4
+	    }
+	});
 	
 	
 	$scope.resource={};
@@ -18,26 +28,26 @@ allControllers.controller('metaCtrl', ['$scope','$http','currentAuthService','$t
         }).success(function(data,status) {
         	$scope.resource = data; 
         	
-        	if(data.location.wkt!=null){
-	        	var wkt = new Wkt.Wkt();        	
-	        	wkt.read(data.location.wkt);        	
-	        	wkt.toObject();	        	
-	        	var myLayer = L.geoJSON().addTo(mymap);
-	        	myLayer.addData(wkt.toJson());
-	        	if(wkt.type=="point"){
-	        		mymap.panTo(L.latLng(wkt.components[0].y, wkt.components[0].x));
-	        	}else if(wkt.components[0][0]){
-	        		var arr = [];
-	        		for(var i = 0; i<wkt.components[0].length;i++){
-	        			arr.push(L.latLng(wkt.components[0][i].y, wkt.components[0][i].x));
-	        		}
-	        		var polygon = L.polygon(arr);
-	        		mymap.panTo(polygon.getBounds().getCenter());
-	        	}
-	        	
-        	}
-        	
-        	
+        	 leafletData.getMap().then(function(mymap) {
+        		 if(data.location && data.location.wkt!=null){
+     	        	var wkt = new Wkt.Wkt();        	
+     	        	wkt.read(data.location.wkt);        	
+     	        	wkt.toObject();	        	
+     	        	var myLayer = L.geoJSON().addTo(mymap);
+     	        	myLayer.addData(wkt.toJson());
+     	        	if(wkt.type=="point"){
+     	        		mymap.panTo(L.latLng(wkt.components[0].y, wkt.components[0].x));
+     	        	}else if(wkt.components[0][0]){
+     	        		var arr = [];
+     	        		for(var i = 0; i<wkt.components[0].length;i++){
+     	        			arr.push(L.latLng(wkt.components[0][i].y, wkt.components[0][i].x));
+     	        		}
+     	        		var polygon = L.polygon(arr);
+     	        		mymap.panTo(polygon.getBounds().getCenter());
+     	        	}
+     	        	
+             	}
+             });        	        	
 	    }).error(function(response,status) {
 	    	if(status == 401){
 	    		$location.path("/login/" + $routeParams.igsn);

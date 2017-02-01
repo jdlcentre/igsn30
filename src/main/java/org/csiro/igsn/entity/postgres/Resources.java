@@ -35,10 +35,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 	@NamedQuery(
 			name="Resources.searchByIdentifier",
 		    query="SELECT r FROM Resources r left join fetch r.location left join fetch r.logDate left join fetch r.method left join fetch r.resourceDate "
-		    		+ "left join fetch r.contributorses left join fetch r.relatedResourceses left join fetch r.alternateIdentifierses "
+		    		+ "left join fetch r.contributorses c left join fetch c.cvIdentifierType left join fetch r.relatedResourceses rr left join fetch rr.cvIdentifierType left join fetch r.alternateIdentifierses "
 		    		+ "left join fetch r.classificationses "
-		    		+ "left join fetch r.resourceTypeses "
-		    		+ "left join fetch r.sampledFeatureses left join fetch r.curationDetailses left join fetch r.materialTypeses "		    		
+		    		+ "left join fetch r.resourceTypeses rt left join fetch rt.cvResourceType "
+		    		+ "left join fetch r.sampledFeatureses left join fetch r.curationDetailses left join fetch r.materialTypeses mt left join fetch mt.cvMaterialTypes "		    		
 		    		+ "where r.resourceIdentifier = :resourceIdentifier"
 	),
 	@NamedQuery(

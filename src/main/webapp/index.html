@@ -47,7 +47,8 @@
 	<script src="js/lib/leaflet/leaflet.js"></script>
 	<script src="js/lib/leaflet/wicket.js"></script>
 	<script src="js/lib/leaflet/wicket-leaflet.js"></script>
-	
+	<script src="js/lib/angular-ui/ui-leaflet/angular-simple-logger.min.js"></script>	
+	<script src="js/lib/angular-ui/ui-leaflet/ui-leaflet.min.js"></script>
 	
 	
   <!-- Angular Controllers  -->	
@@ -79,7 +80,7 @@
 
 <body class="body-nav-fixed-menu-top" ng-app="app">
   <div class="wrapper-body">
-    <div id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="LoginStatusCtrl">
+    <div id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="LoginStatusCtrl" style="z-index:1001">
       <div class="menu-top menu-top-inverse">
         <div class="container">
           <div class="row">

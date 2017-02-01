@@ -28,7 +28,7 @@ public enum DatabaseErrorCode {
 		 switch(number){
 		 	case 103: message="Error updating the database, please try again later.";
 		 		break;
-		 	case 104: message="Duplicate key. Please use updated instead of submitted";
+		 	case 104: message="Duplicate key. Please use updated instead of registered";
 	 			break;
 		 	case 105: message="Database update not attempted";
  				break;		

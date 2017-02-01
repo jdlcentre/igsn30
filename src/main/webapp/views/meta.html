@@ -4,16 +4,16 @@
         <div class="row">        
           <div class="col-md-12">
 	       	 <div class="row">
-	            <h3 class="title-md hr-left text-theme">Metadata Information</h3>	      
+	            <h3 class="title-md hr-left text-theme">{{resource.resourceIdentifier}}</h3>	      
 	            <div class="panel-primary text-theme content-box col-md-6" >
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Resource Identifier: {{resource.resourceIdentifier}}</h3>
+	                <h3 class="panel-title">Metadata Information</h3>
 	              </div>
 	              <div class="panel-body">
 	                <form>	                  
 	                  <div class="form-group form-group-sm">
 	                    <label>Landing Page</label>
-	                    <div class="form-control well"><label>{{resource.landingPage}}</label></div>                   
+	                    <div class="form-control well"><label><u><i class="fa fa-external-link"></i> <a ng-href="{{resource.landingPage}}">{{resource.landingPage}}</a></u></label></div>                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
 	                    <label>Public Data</label>
@@ -26,176 +26,22 @@
 	                  <div class="form-group form-group-sm">
 	                    <label>Resouce Type</label>
 	                    <div class="well well-sm mb-0"> <ul class="list-group mb-0">
-					      <li class="list-group-item form-control" ng-repeat="resourceType in resource.resourceTypeses"><a ng-href="{{resourceType.cvResourceType.resourceType}}">{{resourceType.cvResourceType.resourceType}}</a></li> 
+					      <li class="list-group-item form-control" ng-repeat="resourceType in resource.resourceTypeses"><u><i class="fa fa-external-link"></i> <a ng-href="{{resourceType.cvResourceType.resourceType}}">{{resourceType.cvResourceType.resourceType}}</a></u></li> 
 					    </ul></div>	                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
 	                    <label>Material Type</label>
 	                    <div class="well well-sm mb-0"> <ul class="list-group mb-0">
-					      <li class="list-group-item form-control" ng-repeat="materialType in resource.materialTypeses"><a ng-href="{{materialType.cvMaterialTypes.materialType}}">{{materialType.cvMaterialTypes.materialType}}</a></li> 
+					      <li class="list-group-item form-control" ng-repeat="materialType in resource.materialTypeses"><u><i class="fa fa-external-link"></i> <a ng-href="{{materialType.cvMaterialTypes.materialType}}">{{materialType.cvMaterialTypes.materialType}}</a></u></li> 
 					    </ul></div>	                   
-	                  </div>
-	                  <!-- fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Curation Details</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Curator</label>
-		                    <input type="text" class="form-control" placeholder="Curator" ng-model="form.curator">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>Curation Date</label>
-		                    <div class="input-group">
-		                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="curationDate.opened"  ng-model="form.curationDate" close-text="Close" alt-input-formats="altInputFormats" />
-						          <span class="input-group-btn">
-						            <button type="button" class="btn btn-default btn-sm" ng-click="curationDate.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
-						          </span>
-						     </div>
-		                 </div>
-		                 <div class="form-group form-group-sm">
-						    <label>Curation Location</label>
-		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="form.curationLocation">
-	                    </div>
-		                 <div class="form-group form-group-sm">
-						    <label>Curation Institution Uri</label>
-		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri">
-	                    </div>
-		                 
-					  </fieldset-->	                 
+	                  </div>	                          
 	                </form>	               
 	              </div>
 	            </div>
 	            <div class="panel-primary text-theme content-box col-md-6">
-	            	<div id="igsn-map"></div>	            	
-	            </div>
-	            <!-- div class="panel-primary text-theme content-box col-md-6">
-	              <div class="panel-heading">
-	                <h3 class="panel-title">Optional</h3>
-	              </div>
-	              <div class="panel-body">
-	                <form>
-	                  <div class="form-group form-group-sm">
-	                    <label>Alternate Identifier</label>
-	                    <input type="text" class="form-control" placeholder="Alternate identifier" ng-model="form.alternateIdentifier">
-	                  </div> 
-	                   <div class="form-group form-group-sm">
-	                    <label>Classification uri</label>
-	                    <input type="text" class="form-control" placeholder="http://" ng-model="form.classificationUri">
-	                  </div>  
-	                   <div class="form-group form-group-sm">
-	                    <label>purpose</label>
-	                    <input type="text" class="form-control" placeholder="purpose" ng-model="form.purpose">
-	                  </div>   
-	                   <div class="form-group form-group-sm">
-	                    <label>SampledFeatures</label>
-	                    <div class="row">
-						  <div class="col-sm-6 col-xs-12">						   					      
-						      <input type="text" class="form-control" placeholder="http://" ng-model="form.sampledFeatureUri">						    
-						  </div>
-						  <div class="col-sm-6 col-xs-12">						   				      
-						      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="form.sampledFeature">						    
-						  </div>
-						</div>
-	                  </div>  
-	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Location</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Locality</label>
-		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-						    <label>Locality uri</label>
-		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>SRID</label>
-		                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
-		                 </div>
-		                 <div class="form-group form-group-sm">
-		                    <label>Vertical Datum</label>
-		                    <select  class="form-control" ng-model="form.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
-		                 </div>
-		                 <div class="form-group form-group-sm">
-						    <label>Geometry uri</label>
-		                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="form.geometryUri">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-						    <label>location wkt</label>
-		                    <input type="text" class="form-control" placeholder="spatial well known text" ng-model="form.classificationUri">
-	                    </div>
-	                    
-					  </fieldset>  
-					   <div class="form-group form-group-sm">
-	                    <label>Date</label>
-	                    <div class="input-group">
-	                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="date.opened"  ng-model="form.date" close-text="Close" alt-input-formats="altInputFormats" />
-					          <span class="input-group-btn">
-					            <button type="button" class="btn btn-default btn-sm" ng-click="date.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
-					          </span>
-					     </div>
-	                  </div>
-	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Collectors</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Collector Name</label>
-		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.collectorName">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-						    <label>Collector Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Collector Identifier" ng-model="form.collectorIdentifier">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>Collector Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.collectorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
-		                 </div>
-					  </fieldset>
-					  <div class="form-group form-group-sm">
-	                    <label>Method</label>
-	                    <input type="text" class="form-control" placeholder="Method" ng-model="form.method">
-	                  </div>  
-	                  <div class="form-group form-group-sm">
-	                    <label>Campaign</label>
-	                    <input type="text" class="form-control" placeholder="Campaign" ng-model="form.campaign">
-	                  </div>
-	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Contributors</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Contributor Name</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="form.contributorName">
-	                    </div>	                   
-	                    <div class="form-group form-group-sm">
-		                    <label>Contributor Type</label>
-		                    <select  class="form-control" ng-model="form.contributorType"  ng-options="type as type for type in getContributorType"></select>	                   
-		                 </div>
-		                  <div class="form-group form-group-sm">
-						    <label>Contributor Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="form.contributorIdentifier">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>Contributor Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
-		                 </div>	
-					  </fieldset>  
-					  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Related Resource</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Related resource</label>
-		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="form.relatedResource">
-	                    </div>	                   
-	                    <div class="form-group form-group-sm">
-		                    <label>Related Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.relatedIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
-		                 </div>		                 
-	                    <div class="form-group form-group-sm">
-		                    <label>Relation Type</label>
-		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getRelationType"></select>	                   
-		                 </div>	
-					  </fieldset>  
-					  <div class="form-group form-group-sm">
-	                    <label>Comments</label>
-	                    <input type="text" class="form-control" placeholder="Comments" ng-model="form.comments">
-	                  </div>      
-	                </form>	               
-	              </div>
-	            </div-->
+	            	<!-- div id="igsn-map"></div-->	
+	            	<leaflet defaults="defaults" lf-center="center" height="480px" width="100%"></leaflet>            	
+	            </div>	            
 	          </div>
 	          <div class="row mt-20 mb-30">
 			      <div class="col-sm-12">
@@ -214,7 +60,7 @@
 			           <a data-target="#meta-contributors" role="tab" data-toggle="tab">Contributors</a>
 			          </li>
 			          <li>
-			           <a data-target="#related-resource" role="tab" data-toggle="tab">Related Resource</a>
+			           <a data-target="#meta-related-resource" role="tab" data-toggle="tab">Related Resource</a>
 			          </li>
 			        </ul>
 			        <!-- Tab panes -->
@@ -270,8 +116,98 @@
 								</div>				                                
 				            </div>					                       
 					      </div>
-			          
-			            	
+			          </div>
+			          <div class="tab-pane fade in tab-shop-item" id="meta-misc">
+			          	 <div class="row">	          
+				          	<div class="col-md-6 mt-20">				                    
+					            <form>
+					              <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Alternate Identifier</h3>
+				                    <div ng-show="resource.alternateIdentifierses.length > 0" class="well well-sm mb-0"> <ul class="list-group mb-0">
+								      <li class="list-group-item form-control" ng-repeat="alternateIdentifier in resource.alternateIdentifierses">{{alternateIdentifier.alternateIdentifier}}</li> 
+								    </ul></div>	                   
+				                  </div>
+				                  <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Classification</h3>
+				                    <div class="well well-sm mb-10" ng-repeat="classification in resource.classificationses"> <ul class="list-group mb-0">
+								      <li class="list-group-item form-control" >{{classification.classification}}</li> 
+								      <li class="list-group-item form-control" >{{classification.classificationUri}}</li>
+								    </ul></div>	                   
+				                  </div>	                  
+				                  <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Purpose</h3>
+				                    <div ng-show="resource.purpose" class="form-control well"><label>{{resource.purpose}}</label></div>                   
+				                  </div>				                     	                
+				                </form>			                                
+				            </div>	
+				            <div class="col-md-6 mt-20">				                    
+					            <form>					              
+				                  <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Sampled Feature</h3>
+				                    <div class="well well-sm mb-10" ng-repeat="sampledFeature in resource.sampledFeatureses"> <ul class="list-group mb-0">
+								      <li class="list-group-item form-control" >{{sampledFeature.sampledFeature}}</li> 
+								      <li class="list-group-item form-control" >{{sampledFeature.sampledFeatureUri}}</li>
+								    </ul></div>	                   
+				                  </div>
+				                  <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Log Date</h3>	                   
+				                    <div class="form-control well"><label>{{resource.logDate.eventType}}: {{resource.logDate.logDate}}</label></div>
+				                  </div>	     	                 	                 
+				                  <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Method</h3>	
+				                    <div ng-show="resource.method.method || resource.method.methodUri" class="well well-sm mb-0"> <ul class="list-group mb-0">
+								      <li ng-show="resource.method.method" class="list-group-item form-control" >{{resource.method.method}}</li> 
+								      <li ng-show="resource.method.methodUri" class="list-group-item form-control" >{{resource.method.methodUri}}</li>
+								    </ul></div>	                    				                    
+				                  </div>
+				                  <div class="form-group form-group-sm">
+				                    <h3 class="title-xs text-theme hr-before mb-10">Campaign</h3>	                   
+				                    <div ng-show="resource.campaign" class="form-control well"><label>{{resource.campaign}}</label></div>
+				                  </div>	          	                
+				                </form>			                                
+				            </div>				                       
+					      </div>
+			          </div>
+			          <div class="tab-pane fade in tab-shop-item" id="meta-contributors">
+			          	 <div class="row">	          
+				          	<div class="col-md-12 mt-20" ng-repeat="contributor in resource.contributorses">				                    
+					             <fieldset class="form-group form-group-sm show-fieldset-borders">
+								    <legend>Name:{{contributor.contributorName}}</legend>
+								     <ul class="list-unstyled list-md text-theme">
+						              <li><i class="fa fa-user fa-box"></i>Identifier: {{contributor.contributorIdentifier}}</li>						             
+						            </ul>	
+						            <div class="form-group form-group-sm mt-16">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Contributor Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="contributor.contributorType">{{contributor.contributorType}}</a></u></label></div>
+					                  </div>	     	                 	                 
+					               
+					                  <div class="form-group form-group-sm">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Identifier Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="contributor.cvIdentifierType.identifierType">{{contributor.cvIdentifierType.identifierType}}</a></u></label></div>
+					                  </div>													            								    	                 				                    
+								  </fieldset> 			                                
+				            </div>					                       
+					      </div>
+			          </div>
+			          <div class="tab-pane fade in tab-shop-item" id="meta-related-resource">
+			          	 <div class="row">	          
+				          	<div class="col-md-12 mt-20" ng-repeat="relatedResource in resource.relatedResourceses">				                    
+					             <fieldset class="form-group form-group-sm show-fieldset-borders">
+								    <legend>Related Resource:{{relatedResource.relatedResource}}</legend>
+								    <form>					              					                  
+					                  <div class="form-group form-group-sm">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Relation Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="relatedResource.relationType">{{relatedResource.relationType}}</a></u></label></div>
+					                  </div>	     	                 	                 
+					               
+					                  <div class="form-group form-group-sm">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Identifier Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="relatedResource.cvIdentifierType.identifierType">{{relatedResource.cvIdentifierType.identifierType}}</a></u></label></div>
+					                  </div>	          	                
+					                </form>										    													            								    	                 				                   
+								  </fieldset> 			                                
+				            </div>			                       
+					      </div>
 			          </div>
 			        </div>
 			      </div>

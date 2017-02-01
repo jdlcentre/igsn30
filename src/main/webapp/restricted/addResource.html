@@ -13,11 +13,11 @@
 	                <form>
 	                  <div class="form-group form-group-sm">
 	                    <label>Resource Identifier</label>
-	                    <input type="text" class="form-control" placeholder="Enter a unique identifier" ng-model="form.resourceIdentifier">
+	                    <input type="text" class="form-control" placeholder="Enter a unique identifier" ng-model="form.resourceIdentifier"/>
 	                  </div>
 	                  <div class="form-group form-group-sm">
 	                    <label>Landing Page</label>
-	                    <input type="password" class="form-control" placeholder="Enter a valid landing page" ng-model="form.landingPage">
+	                    <input type="password" class="form-control" placeholder="Enter a valid landing page" ng-model="form.landingPage"/>
 	                  </div>
 	                  <div class="form-group form-group-sm">
 	                    <label>isPublic</label>
@@ -29,139 +29,179 @@
 	                  </div>	
 	                  <div class="form-group form-group-sm">
 	                    <label>Resource Title</label>
-	                    <input type="text" class="form-control" placeholder="Title for resource" ng-model="form.resourceTitle">
+	                    <input type="text" class="form-control" placeholder="Title for resource" ng-model="form.resourceTitle"/>
 	                  </div>	     
 	                  <div class="form-group form-group-sm">
-	                    <label>Resource Title</label>
-	                    <input type="text" class="form-control" placeholder="Title for resource" ng-model="form.resourceTitle">
-	                  </div>
-	                  <div class="form-group form-group-sm">
-	                    <label>Resouce Type</label>
+	                    <label>Resource Type</label>
 	                    <select  class="form-control" ng-model="form.resourceType"  ng-options="type as type for type in getResourceType"></select>	                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
 	                    <label>Material Type</label>
-	                    <select  class="form-control" ng-model="form.resourceType"  ng-options="type as type for type in getMaterialType"></select>	                   
+	                    <select  class="form-control" ng-model="form.materialType"  ng-options="type as type for type in getMaterialType"></select>	                   
 	                  </div>
-	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Curation Details</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Curator</label>
-		                    <input type="text" class="form-control" placeholder="Curator" ng-model="form.curator">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>Curation Date</label>
-		                    <div class="input-group">
-		                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="curationDate.opened"  ng-model="form.curationDate" close-text="Close" alt-input-formats="altInputFormats" />
-						          <span class="input-group-btn">
-						            <button type="button" class="btn btn-default btn-sm" ng-click="curationDate.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
-						          </span>
-						     </div>
-		                 </div>
-		                 <div class="form-group form-group-sm">
-						    <label>Curation Location</label>
-		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="form.curationLocation">
-	                    </div>
-		                 <div class="form-group form-group-sm">
-						    <label>Curation Institution Uri</label>
-		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri">
-	                    </div>
-		                 
-					  </fieldset>	                 
+	                                   
 	                </form>	               
 	              </div>
 	            </div>
 	            <div class="panel-primary text-theme content-box col-md-6">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Optional</h3>
+	                <h3 class="panel-title">Mandatory</h3>
 	              </div>
 	              <div class="panel-body">
 	                <form>
-	                  <div class="form-group form-group-sm">
-	                    <label>Alternate Identifier</label>
-	                    <input type="text" class="form-control" placeholder="Alternate identifier" ng-model="form.alternateIdentifier">
-	                  </div> 
-	                   <div class="form-group form-group-sm">
-	                    <label>Classification uri</label>
-	                    <input type="text" class="form-control" placeholder="http://" ng-model="form.classificationUri">
-	                  </div>  
-	                   <div class="form-group form-group-sm">
-	                    <label>purpose</label>
-	                    <input type="text" class="form-control" placeholder="purpose" ng-model="form.purpose">
-	                  </div>   
-	                   <div class="form-group form-group-sm">
-	                    <label>SampledFeatures</label>
-	                    <div class="row">
-						  <div class="col-sm-6 col-xs-12">						   					      
-						      <input type="text" class="form-control" placeholder="http://" ng-model="form.sampledFeatureUri">						    
-						  </div>
-						  <div class="col-sm-6 col-xs-12">						   				      
-						      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="form.sampledFeature">						    
-						  </div>
-						</div>
-	                  </div>  
 	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Location</legend>
+					    <legend><div class="title-sm text-theme hr-left">Curation Details</div></legend>
 					    <div class="form-group form-group-sm">
-						    <label>Locality</label>
-		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality">
+						    <label>Curator</label>
+		                    <input type="text" class="form-control" placeholder="Curator" ng-model="form.curator"/>
 	                    </div>
 	                    <div class="form-group form-group-sm">
-						    <label>Locality uri</label>
-		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>SRID</label>
-		                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+		                    <label>Curation Date</label>
+		                    <div class="input-group">
+		                     <input type="date" class="form-control" ng-model="form.curationDate" />
+						     </div>
 		                 </div>
 		                 <div class="form-group form-group-sm">
-		                    <label>Vertical Datum</label>
-		                    <select  class="form-control" ng-model="form.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
-		                 </div>
+						    <label>Curation Location</label>
+		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="form.curationLocation"/>
+	                    </div>
 		                 <div class="form-group form-group-sm">
-						    <label>Geometry uri</label>
-		                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="form.geometryUri">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-						    <label>location wkt</label>
-		                    <input type="text" class="form-control" placeholder="spatial well known text" ng-model="form.classificationUri">
-	                    </div>
-	                    
-					  </fieldset>  
-					   <div class="form-group form-group-sm">
-	                    <label>Date</label>
-	                    <div class="input-group">
-	                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="date.opened"  ng-model="form.date" close-text="Close" alt-input-formats="altInputFormats" />
-					          <span class="input-group-btn">
-					            <button type="button" class="btn btn-default btn-sm" ng-click="date.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
-					          </span>
-					     </div>
-	                  </div>
-	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Collectors</legend>
-					    <div class="form-group form-group-sm">
-						    <label>Collector Name</label>
-		                    <input type="text" class="form-control" placeholder="locality" ng-model="form.collectorName">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-						    <label>Collector Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Collector Identifier" ng-model="form.collectorIdentifier">
-	                    </div>
-	                    <div class="form-group form-group-sm">
-		                    <label>Collector Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.collectorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
-		                 </div>
-					  </fieldset>
-					  <div class="form-group form-group-sm">
-	                    <label>Method</label>
-	                    <input type="text" class="form-control" placeholder="Method" ng-model="form.method">
-	                  </div>  
-	                  <div class="form-group form-group-sm">
-	                    <label>Campaign</label>
-	                    <input type="text" class="form-control" placeholder="Campaign" ng-model="form.campaign">
-	                  </div>
-	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Contributors</legend>
+						    <label>Curation Institution Uri</label>
+		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri"/>
+	                    </div>		                 
+					  </fieldset>			                       
+	                </form>	               
+	              </div>
+	            </div>
+	          </div>
+          </div>         
+        </div>
+        <div class="row mt-20 mb-30">
+	      <div class="col-sm-12">
+	        <!-- Nav tabs -->
+	        <ul class="nav nav-tabs nav-tabs-shop" role="tablist">
+	          <li class="active">
+	          	<a data-target="#addresource-location" role="tab" data-toggle="tab">Location</a>	          		                      
+	          </li>
+	          <li>
+	           	<a data-target="#addresource-misc" role="tab" data-toggle="tab">Misc</a>
+	          </li>	         
+	          <li>
+	           <a data-target="#addresource-contributors" role="tab" data-toggle="tab">Contributors</a>
+	          </li>
+	          <li>
+	           <a data-target="#addresource-related-resource" role="tab" data-toggle="tab">Related Resource</a>
+	          </li>
+	        </ul>
+	        <!-- Tab panes -->
+	        <div class="tab-content tab-content-shop">
+	          <div class="tab-pane fade active in" id="addresource-location">		
+		          <div class="row">	  
+			          <div class="col-md-12">        
+			          	<fieldset class="form-group form-group-sm show-fieldset-borders">
+						    <legend><div class="title-sm text-theme hr-left">Location</div></legend>
+						    <div class="form-group form-group-sm">
+							    <label>Locality</label>
+			                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality"/>
+		                    </div>
+		                    <div class="form-group form-group-sm">
+							    <label>Locality uri</label>
+			                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri"/>
+		                    </div>
+		                    <div class="form-group form-group-sm">
+			                    <label>SRID</label>
+			                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+			                 </div>
+			                 <div class="form-group form-group-sm">
+			                    <label>Vertical Datum</label>
+			                    <select  class="form-control" ng-model="form.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+			                 </div>
+			                 <div class="form-group form-group-sm">
+							    <label>Geometry uri</label>
+			                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="form.geometryUri"/>
+		                    </div>
+		                    <div class="form-group form-group-sm">
+							    <label>location wkt</label>
+			                    <input type="text" class="form-control" placeholder="spatial well known text" ng-model="form.wkt" />
+		                    </div>
+						  </fieldset> 
+						</div>               
+			      </div>            					      
+		      </div>	
+	          <div class="tab-pane fade  in tab-shop-item" id="addresource-misc">
+	          	 <div class="row mt-20">
+	          	 	<div class="col-md-12">	          
+			         	<form>		              	
+		                  <div class="form-group form-group-sm">
+		                    <label>Alternate Identifier</label>
+		                    <input type="text" class="form-control" placeholder="Alternate identifier" ng-model="form.alternateIdentifier"/>
+		                  </div> 
+		                   <div class="form-group form-group-sm">
+		                    <label>Classification uri</label>
+		                     <div class="row">
+							  <div class="col-sm-6 col-xs-12">						   					      
+							      <input type="text" class="form-control" placeholder="http://" ng-model="form.classificationUri"/>		    
+							  </div>
+							  <div class="col-sm-6 col-xs-12">									  	  		   				     
+							      <input type="text" class="form-control" placeholder="classification" ng-model="form.classification"/>						    
+							  </div>
+							</div>
+		                    
+		                  </div>  
+		                   <div class="form-group form-group-sm">
+		                    <label>purpose</label>
+		                    <input type="text" class="form-control" placeholder="purpose" ng-model="form.purpose"/>
+		                  </div>   
+		                   <div class="form-group form-group-sm">
+		                    <label>SampledFeatures</label>
+		                    <div class="row">
+							  <div class="col-sm-6 col-xs-12">						   					      
+							      <input type="text" class="form-control" placeholder="http://" ng-model="form.sampledFeatureUri"/>						    
+							  </div>
+							  <div class="col-sm-6 col-xs-12">						   				      
+							      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="form.sampledFeature"/>						    
+							  </div>
+							</div>
+		                  </div>  
+						   <div class="form-group form-group-sm">
+		                    <label>Date</label>
+		                    <div class="input-group">
+		                     <input type="date" class="form-control"  ng-model="form.date"/>						          
+						     </div>
+		                  </div>
+						  <div class="form-group form-group-sm">
+		                    <label>Method</label>
+		                    <div class="row">
+							  <div class="col-sm-6 col-xs-12">						   					      
+							      <input type="text" class="form-control" placeholder="Method uri" ng-model="form.methodURI"/>				    
+							  </div>
+							  <div class="col-sm-6 col-xs-12">		
+							  	  <input type="text" class="form-control" placeholder="Method" ng-model="form.method"/>				   				      
+							      						    
+							  </div>
+							</div>
+		                    
+		                  </div>  
+		                  <div class="form-group form-group-sm">
+		                    <label>Campaign</label>
+		                    <input type="text" class="form-control" placeholder="Campaign" ng-model="form.campaign"/>
+		                  </div> 
+						  <div class="form-group form-group-sm">
+		                    <label>Comments</label>
+		                    <input type="text" class="form-control" placeholder="Comments" ng-model="form.comments"/>
+		                  </div>      
+		                </form>	 	
+					 </div>				                       
+			      </div>
+	          </div>	
+	          
+	          
+	         
+	          <div class="tab-pane fade in tab-shop-item" id="addresource-contributors">
+	          	 <div class="row">	
+	          	 	<div class="col-md-12">          
+		          	  <fieldset class="form-group form-group-sm show-fieldset-borders">
+					    <legend><div class="title-sm text-theme hr-left">Contributors</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Contributor Name</label>
 		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="form.contributorName">
@@ -178,9 +218,15 @@
 		                    <label>Contributor Identifier Type</label>
 		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
 		                 </div>	
-					  </fieldset>  
-					  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend>Related Resource</legend>
+					    </fieldset>  
+					  </div>				                       
+			      </div>
+	          </div>
+	          <div class="tab-pane fade in tab-shop-item" id="addresource-related-resource">
+	          	 <div class="row">	
+	          	 	<div class="col-md-12">          
+		          	  <fieldset class="form-group form-group-sm show-fieldset-borders">
+					    <legend><div class="title-sm text-theme hr-left">Related Resource</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Related resource</label>
 		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="form.relatedResource">
@@ -193,17 +239,13 @@
 		                    <label>Relation Type</label>
 		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getRelationType"></select>	                   
 		                 </div>	
-					  </fieldset>  
-					  <div class="form-group form-group-sm">
-	                    <label>Comments</label>
-	                    <input type="text" class="form-control" placeholder="Comments" ng-model="form.comments">
-	                  </div>      
-	                </form>	               
-	              </div>
-	            </div>
+					  </fieldset> 
+					 </div>	                       
+			      </div>
 	          </div>
-          </div>         
-        </div>
+	        </div>
+	      </div>
+	    </div>
       </div>
     </div>
   
