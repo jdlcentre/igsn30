@@ -14,6 +14,7 @@
 		              </div>
 		              <div class="panel-body">
 		                <form ng-submit="login()">
+		                  <div ng-show="isRedirect" class="text-theme-xs form-group a-red"><p>Accessing {{redirectIGSN}} require you to login.</p></div>
 		                  <div class="form-group">
 		                    <label for="inputEmail">Username</label>
 		                    <input type="text" class="form-control" placeholder="Username" ng-model="credentials.username">

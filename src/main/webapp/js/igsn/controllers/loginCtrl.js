@@ -1,6 +1,12 @@
 allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','$routeParams',
                                                     function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,$routeParams) {
 	
+	$scope.isRedirect = false;
+	
+	if(Object.keys($routeParams).length > 0){
+		$scope.isRedirect = true;
+		$scope.redirectIGSN = $routeParams.igsn;
+	}
 	
 	var authenticate = function(credentials) {
 		if(!(credentials.username && credentials.password)){

@@ -1,5 +1,5 @@
 
-   <div class="section section-lg section-bottom container" ng-controller="addSampleCtrl">
+   <div class="section section-lg section-bottom container" ng-controller="addResourceCtrl">
       <div>                    
         <div class="row">        
           <div class="col-md-12">
@@ -70,12 +70,16 @@
 		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri"/>
 	                    </div>		                 
 					  </fieldset>			                       
-	                </form>	               
+	                </form>	
+	                              
 	              </div>
 	            </div>
 	          </div>
           </div>         
         </div>
+        <div class="row">
+        	<button class="btn btn-blue  pull-right" type="button" ng-click="mintResource()">Mint IGSN</button>
+        </div> 
         <div class="row mt-20 mb-30">
 	      <div class="col-sm-12">
 	        <!-- Nav tabs -->
@@ -200,45 +204,50 @@
 	          <div class="tab-pane fade in tab-shop-item" id="addresource-contributors">
 	          	 <div class="row">	
 	          	 	<div class="col-md-12">          
-		          	  <fieldset class="form-group form-group-sm show-fieldset-borders">
+		          	  <fieldset class="form-group form-group-sm show-fieldset-borders" ng-repeat="contributor in form.contributors">
 					    <legend><div class="title-sm text-theme hr-left">Contributors</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Contributor Name</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="form.contributorName">
+		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="form.contributors[$index].contributorName">
 	                    </div>	                   
 	                    <div class="form-group form-group-sm">
 		                    <label>Contributor Type</label>
-		                    <select  class="form-control" ng-model="form.contributorType"  ng-options="type as type for type in getContributorType"></select>	                   
+		                    <select  class="form-control" ng-model="form.contributors[$index].contributorType"  ng-options="type as type for type in getContributorType"></select>	                   
 		                 </div>
 		                  <div class="form-group form-group-sm">
 						    <label>Contributor Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="form.contributorIdentifier">
+		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="form.contributors[$index].contributorIdentifier">
 	                    </div>
 	                    <div class="form-group form-group-sm">
 		                    <label>Contributor Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                    <select  class="form-control" ng-model="form.contributors[$index].contributorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
 		                 </div>	
+		                 <button class="btn btn-red btn-sm" type="button" ng-click="removeContributor($index)">Remove Contributor</button>
+					     <button class="btn btn-blue btn-sm" type="button" ng-click="addContributor()">Add More Contributor</button>
 					    </fieldset>  
+					    
 					  </div>				                       
 			      </div>
 	          </div>
 	          <div class="tab-pane fade in tab-shop-item" id="addresource-related-resource">
 	          	 <div class="row">	
 	          	 	<div class="col-md-12">          
-		          	  <fieldset class="form-group form-group-sm show-fieldset-borders">
+		          	  <fieldset class="form-group form-group-sm show-fieldset-borders" ng-repeat="relatedResource in form.relatedResources">
 					    <legend><div class="title-sm text-theme hr-left">Related Resource</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Related resource</label>
-		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="form.relatedResource">
+		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="form.relatedResources[$index].relatedResource">
 	                    </div>	                   
 	                    <div class="form-group form-group-sm">
 		                    <label>Related Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.relatedIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                    <select  class="form-control" ng-model="form.relatedResources[$index].relatedIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
 		                 </div>		                 
 	                    <div class="form-group form-group-sm">
 		                    <label>Relation Type</label>
-		                    <select  class="form-control" ng-model="form.contributorIdentifierType"  ng-options="type as type for type in getRelationType"></select>	                   
+		                    <select  class="form-control" ng-model="form.relatedResources[$index].contributorIdentifierType"  ng-options="type as type for type in getRelationType"></select>	                   
 		                 </div>	
+		                 <button class="btn btn-red btn-sm" type="button" ng-click="removeRelatedResource($index)">Remove Related Resource</button>
+					     <button class="btn btn-blue btn-sm" type="button" ng-click="addRelatedResource()">Add More Related Resource</button>
 					  </fieldset> 
 					 </div>	                       
 			      </div>

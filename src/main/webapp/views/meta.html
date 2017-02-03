@@ -7,13 +7,17 @@
 	            <h3 class="title-md hr-left text-theme">{{resource.resourceIdentifier}}</h3>	      
 	            <div class="panel-primary text-theme content-box col-md-6" >
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Metadata Information</h3>
+	                <h3 class="panel-title">Metadata</h3>
 	              </div>
 	              <div class="panel-body">
 	                <form>	                  
 	                  <div class="form-group form-group-sm">
 	                    <label>Landing Page</label>
 	                    <div class="form-control well"><label><u><i class="fa fa-external-link"></i> <a ng-href="{{resource.landingPage}}">{{resource.landingPage}}</a></u></label></div>                   
+	                  </div>
+	                  <div class="form-group form-group-sm">
+	                    <label>IGSN Handle</label>
+	                    <div class="form-control well"><label><u><i class="fa fa-external-link"></i> <a ng-href="http://hdl.handle.net/10273/{{resource.landingPage}}">http://hdl.handle.net/10273/{{resource.resourceIdentifier}}</a></u></label></div>                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
 	                    <label>Public Data</label>
@@ -54,13 +58,13 @@
 			           <a data-target="#meta-curation" role="tab" data-toggle="tab">Curation</a>
 			          </li>
 			          <li>
-			           <a data-target="#meta-misc" role="tab" data-toggle="tab">Misc</a>
+			           <a data-target="#meta-related-resource" role="tab" data-toggle="tab">Related Resource</a>
 			          </li>
 			          <li>
 			           <a data-target="#meta-contributors" role="tab" data-toggle="tab">Contributors</a>
 			          </li>
-			          <li>
-			           <a data-target="#meta-related-resource" role="tab" data-toggle="tab">Related Resource</a>
+			          <li>			           
+			           <a data-target="#meta-other-information" role="tab" data-toggle="tab">Other Information</a>
 			          </li>
 			        </ul>
 			        <!-- Tab panes -->
@@ -117,7 +121,49 @@
 				            </div>					                       
 					      </div>
 			          </div>
-			          <div class="tab-pane fade in tab-shop-item" id="meta-misc">
+			          
+			          <div class="tab-pane fade in tab-shop-item" id="meta-contributors">
+			          	 <div class="row">	          
+				          	<div class="col-md-12 mt-20" ng-repeat="contributor in resource.contributorses">				                    
+					             <fieldset class="form-group form-group-sm show-fieldset-borders">
+								    <legend>Name:{{contributor.contributorName}}</legend>
+								     <ul class="list-unstyled list-md text-theme">
+						              <li><i class="fa fa-user fa-box"></i>Identifier: {{contributor.contributorIdentifier}}</li>						             
+						            </ul>	
+						            <div class="form-group form-group-sm mt-16">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Contributor Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="contributor.contributorType">{{contributor.contributorType}}</a></u></label></div>
+					                  </div>	     	                 	                 
+					               
+					                  <div class="form-group form-group-sm">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Identifier Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="contributor.cvIdentifierType.identifierType">{{contributor.cvIdentifierType.identifierType}}</a></u></label></div>
+					                  </div>													            								    	                 				                    
+								  </fieldset> 			                                
+				            </div>					                       
+					      </div>
+			          </div>
+			          <div class="tab-pane fade in tab-shop-item" id="meta-related-resource">
+			          	 <div class="row">	          
+				          	<div class="col-md-12 mt-20" ng-repeat="relatedResource in resource.relatedResourceses">				                    
+					             <fieldset class="form-group form-group-sm show-fieldset-borders">
+								    <legend>Related Resource:{{relatedResource.relatedResource}}</legend>
+								    <form>					              					                  
+					                  <div class="form-group form-group-sm">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Relation Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="relatedResource.relationType">{{relatedResource.relationType}}</a></u></label></div>
+					                  </div>	     	                 	                 
+					               
+					                  <div class="form-group form-group-sm">
+					                    <h3 class="title-xs text-theme hr-before mb-10">Identifier Type</h3>	                   
+					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="relatedResource.cvIdentifierType.identifierType">{{relatedResource.cvIdentifierType.identifierType}}</a></u></label></div>
+					                  </div>	          	                
+					                </form>										    													            								    	                 				                   
+								  </fieldset> 			                                
+				            </div>			                       
+					      </div>
+			          </div>
+			          <div class="tab-pane fade in tab-shop-item" id="meta-other-information">
 			          	 <div class="row">	          
 				          	<div class="col-md-6 mt-20">				                    
 					            <form>
@@ -166,47 +212,6 @@
 				                  </div>	          	                
 				                </form>			                                
 				            </div>				                       
-					      </div>
-			          </div>
-			          <div class="tab-pane fade in tab-shop-item" id="meta-contributors">
-			          	 <div class="row">	          
-				          	<div class="col-md-12 mt-20" ng-repeat="contributor in resource.contributorses">				                    
-					             <fieldset class="form-group form-group-sm show-fieldset-borders">
-								    <legend>Name:{{contributor.contributorName}}</legend>
-								     <ul class="list-unstyled list-md text-theme">
-						              <li><i class="fa fa-user fa-box"></i>Identifier: {{contributor.contributorIdentifier}}</li>						             
-						            </ul>	
-						            <div class="form-group form-group-sm mt-16">
-					                    <h3 class="title-xs text-theme hr-before mb-10">Contributor Type</h3>	                   
-					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="contributor.contributorType">{{contributor.contributorType}}</a></u></label></div>
-					                  </div>	     	                 	                 
-					               
-					                  <div class="form-group form-group-sm">
-					                    <h3 class="title-xs text-theme hr-before mb-10">Identifier Type</h3>	                   
-					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="contributor.cvIdentifierType.identifierType">{{contributor.cvIdentifierType.identifierType}}</a></u></label></div>
-					                  </div>													            								    	                 				                    
-								  </fieldset> 			                                
-				            </div>					                       
-					      </div>
-			          </div>
-			          <div class="tab-pane fade in tab-shop-item" id="meta-related-resource">
-			          	 <div class="row">	          
-				          	<div class="col-md-12 mt-20" ng-repeat="relatedResource in resource.relatedResourceses">				                    
-					             <fieldset class="form-group form-group-sm show-fieldset-borders">
-								    <legend>Related Resource:{{relatedResource.relatedResource}}</legend>
-								    <form>					              					                  
-					                  <div class="form-group form-group-sm">
-					                    <h3 class="title-xs text-theme hr-before mb-10">Relation Type</h3>	                   
-					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="relatedResource.relationType">{{relatedResource.relationType}}</a></u></label></div>
-					                  </div>	     	                 	                 
-					               
-					                  <div class="form-group form-group-sm">
-					                    <h3 class="title-xs text-theme hr-before mb-10">Identifier Type</h3>	                   
-					                    <div class="form-control well"><label><i class="fa fa-external-link"></i> <u><a ng-href="relatedResource.cvIdentifierType.identifierType">{{relatedResource.cvIdentifierType.identifierType}}</a></u></label></div>
-					                  </div>	          	                
-					                </form>										    													            								    	                 				                   
-								  </fieldset> 			                                
-				            </div>			                       
 					      </div>
 			          </div>
 			        </div>

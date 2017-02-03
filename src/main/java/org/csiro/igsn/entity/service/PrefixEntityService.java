@@ -49,7 +49,7 @@ public class PrefixEntityService {
 					.getSingleResult();	
 			
 			Allocator allocator = registrant.getAllocator();
-			if(!IGSNUtil.prefixStartsWithAllowedPrefix(allocator.getPrefixes(), prefix)){
+			if(!IGSNUtil.stringStartsWithAllowedPrefix(allocator.getPrefixes(), prefix)){
 				throw new Exception("Prefix not supported by allocator");
 			}				
 			Prefix prefixEntity = new Prefix();

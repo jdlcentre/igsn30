@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.ldap.authentication.SpringSecurityAuthenticationSource;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -48,18 +50,20 @@ public class MultiHttpSecurityConfig {
 					.antMatchers("/igsn/**").authenticated()				
 			.and()
 				.csrf().disable();
+			
 		}
 		
 		
 		
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		 
+			
 			auth.ldapAuthentication()
 			.userDetailsContextMapper(new UserDetailsContextMapperImpl())
 	        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
 	        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
-	        .contextSource(getLdapContextSource());              
+	        .contextSource(getLdapContextSource()); 
+			
 			
 		}
 		
@@ -68,7 +72,7 @@ public class MultiHttpSecurityConfig {
 	        cs.setUrl(Config.getLdapUrl());
 	        cs.setBase("DC=nexus,DC=csiro,DC=au");
 	        cs.setUserDn(Config.getUserDN());
-	        
+	        //cs.setAnonymousReadOnly(true);
 	        Hashtable<String, Object> env = new Hashtable<String, Object>();
 	        env.put(Context.REFERRAL, "follow");
 	        cs.setBaseEnvironmentProperties(env);
@@ -107,14 +111,13 @@ public class MultiHttpSecurityConfig {
 			}
 		
 		@Autowired
-		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		 
+		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {		 
 			auth.ldapAuthentication()
 			.userDetailsContextMapper(new UserDetailsContextMapperImpl())
 	        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
 	        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
-	        .contextSource(getLdapContextSource());              
-			
+	        .contextSource(getLdapContextSource());
+
 		}
 		
 		private LdapContextSource getLdapContextSource() throws Exception {
@@ -122,7 +125,7 @@ public class MultiHttpSecurityConfig {
 	        cs.setUrl(Config.getLdapUrl());
 	        cs.setBase("DC=nexus,DC=csiro,DC=au");
 	        cs.setUserDn(Config.getUserDN());
-	        
+	        //cs.setAnonymousReadOnly(true);
 	        Hashtable<String, Object> env = new Hashtable<String, Object>();
 	        env.put(Context.REFERRAL, "follow");
 	        cs.setBaseEnvironmentProperties(env);

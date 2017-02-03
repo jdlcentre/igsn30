@@ -87,7 +87,7 @@ public class Prefix implements java.io.Serializable {
 		this.version = version;
 	}
 
-	@Column(name = "prefix", nullable = false, length = 15)
+	@Column(name = "prefix", nullable = false,unique=true, length = 15)
 	public String getPrefix() {
 		return this.prefix;
 	}

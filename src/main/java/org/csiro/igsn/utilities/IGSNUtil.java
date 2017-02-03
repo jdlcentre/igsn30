@@ -17,14 +17,13 @@ public class IGSNUtil {
 		return result;
 	}
 	
-	public static boolean prefixStartsWithAllowedPrefix(Set<Prefix> allowedPrefix,String p){
-		boolean result = false;
+	public static boolean stringStartsWithAllowedPrefix(Set<Prefix> allowedPrefix,String p){		
 		for(Prefix prefix:allowedPrefix){
 			if(p.startsWith(prefix.getPrefix())){
 				return true;
 			};
 		}
-		return result;
+		return false;
 	}
 
 }
