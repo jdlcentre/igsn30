@@ -19,7 +19,7 @@ public class IGSNUtil {
 	
 	public static boolean stringStartsWithAllowedPrefix(Set<Prefix> allowedPrefix,String p){		
 		for(Prefix prefix:allowedPrefix){
-			if(p.startsWith(prefix.getPrefix())){
+			if(p.toUpperCase().startsWith(prefix.getPrefix().toUpperCase())){
 				return true;
 			};
 		}

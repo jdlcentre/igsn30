@@ -63,7 +63,7 @@ public class JAXBResourceToEntityConverter {
 	public void convert(Resource resourceXML,Registrant registrant, Resources resourceEntity) throws ParseException, java.text.ParseException{
 		
 		resourceEntity.setRegisteredObjectType(resourceXML.getRegisteredObjectType());
-		resourceEntity.setResourceIdentifier(resourceXML.getResourceIdentifier().getValue());
+		resourceEntity.setResourceIdentifier(resourceXML.getResourceIdentifier().getValue().toUpperCase());
 		
 		//VT: set alternateIdentifiers;
 		if(resourceXML.getAlternateIdentifiers()!=null){

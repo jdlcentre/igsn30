@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 		    		+ "left join fetch r.classificationses "
 		    		+ "left join fetch r.resourceTypeses rt left join fetch rt.cvResourceType "
 		    		+ "left join fetch r.sampledFeatureses left join fetch r.curationDetailses left join fetch r.materialTypeses mt left join fetch mt.cvMaterialTypes "		    		
-		    		+ "where r.resourceIdentifier = :resourceIdentifier"
+		    		+ "where upper(r.resourceIdentifier) = upper(:resourceIdentifier)"
 	),
 	@NamedQuery(
 			name="Resources.searchpublic",

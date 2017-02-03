@@ -18,11 +18,15 @@ import javax.persistence.NoResultException;
 
 
 
+
+import javax.persistence.PersistenceException;
+
 import org.csiro.igsn.entity.postgres.Allocator;
 import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
 import org.csiro.igsn.utilities.IGSNUtil;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +66,9 @@ public class PrefixEntityService {
 			em.flush();
 			em.getTransaction().commit();
 			return true;
+		}catch(PersistenceException pe){
+			em.getTransaction().rollback();			
+			throw new PersistenceException("Duplicate prefix");
 		}catch(Exception e){
 			em.getTransaction().rollback();
 			throw e;
@@ -71,15 +78,7 @@ public class PrefixEntityService {
 		
 	}
 	
-	private boolean resourceStartsWithAllowedPrefix(Set<Prefix> allowedPrefix,Resource r){
-		boolean result = false;
-		for(Prefix prefix:allowedPrefix){
-			if(r.getResourceIdentifier().getValue().startsWith(prefix.getPrefix())){
-				return true;
-			};
-		}
-		return result;
-	}
+	
 	
 	public void persist(Prefix rs){
 		EntityManager em = JPAEntityManager.createEntityManager();

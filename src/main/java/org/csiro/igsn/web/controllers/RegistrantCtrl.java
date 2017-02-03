@@ -126,7 +126,7 @@ public class RegistrantCtrl {
 			this.prefixEntityService.addPrefix(user, description, prefix);
 		} catch (Exception e) {			
 			e.printStackTrace();
-			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to change registrant status",e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to add new prefix",e.getMessage()),HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
