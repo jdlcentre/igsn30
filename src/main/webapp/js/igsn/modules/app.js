@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','allControllers','ui.bootstrap','ngAnimate','ngFileUpload','ui-leaflet','nemLogging']);
+var app = angular.module('app', ['ngRoute','allControllers','ui.bootstrap','ngAnimate','ngFileUpload','ui-leaflet','nemLogging','monospaced.qrcode']);
 
 app.config(['$routeProvider',
   function($routeProvider) {

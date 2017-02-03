@@ -4,7 +4,7 @@
         <div class="row">        
           <div class="col-md-12">
 	       	 <div class="row">
-	            <h3 class="title-md hr-left text-theme">{{resource.resourceIdentifier}}</h3>	      
+	            <h3 class="title-md hr-left text-theme">{{resource.resourceIdentifier}}<span class="pull-right"><qrcode  version="5" error-correction-level="L" data="http://hdl.handle.net/10273/{{resource.resourceIdentifier}}" download size="100"></qrcode></span></h3>	      
 	            <div class="panel-primary text-theme content-box col-md-6" >
 	              <div class="panel-heading">
 	                <h3 class="panel-title">Metadata</h3>
@@ -16,7 +16,7 @@
 	                    <div class="form-control well"><label><u><i class="fa fa-external-link"></i> <a ng-href="{{resource.landingPage}}">{{resource.landingPage}}</a></u></label></div>                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
-	                    <label>IGSN Handle</label>
+	                    <label>IGSN Handle</label>					                  
 	                    <div class="form-control well"><label><u><i class="fa fa-external-link"></i> <a ng-href="http://hdl.handle.net/10273/{{resource.landingPage}}">http://hdl.handle.net/10273/{{resource.resourceIdentifier}}</a></u></label></div>                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
