@@ -14,31 +14,31 @@
 	                  <div class="form-group form-group-sm">
 	                      <label>Resource Identifier: {{form.prefix}}{{form.resourceIdentifier}}</label>
 	                      <div class="form-inline">
-		                      <div class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
-			                     <select  class="form-control" ng-model="form.prefix"  name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
+		                      <div ng-hide="update" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
+			                     <select  class="form-control" ng-model="resource.prefix" ng-change="changePrefix(allocatedPrefix.prefix)" name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
 							  </div>
 							  <div class="form-group">
 			                      <div class="input-group" style="width:400px" ng-class="{ 'has-error' : mandatoryleft.resourceIdentifier.$invalid}">						            
-						            <input type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="form.resourceIdentifier" pattern="^(?!{{form.prefix}}.*$).*"/>						            
+						            <input  ng-disabled="update" type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{form.prefix}}.*"/>						            
 						          </div>
 					          </div>
 				          </div>
-				          <p ng-show="mandatoryleft.prefix.$invalid" class="small help-block" style="color: #a94442;">Select prefix</p>	
-				          <p ng-show="mandatoryleft.resourceIdentifier.$invalid" class="small help-block" style="color: #c4d44a;">Warning:prefix duplicated</p>	                    	                    
+				          <p ng-show="mandatoryleft.prefix.$invalid && !update" class="small help-block" style="color: #a94442;">Select prefix</p>	
+				          <p ng-show="(mandatoryleft.resourceIdentifier.$invalid && !update)" class="small help-block" style="color: #c4d44a;">Warning:Resource Identifier has to start with selected prefix</p>	                    	                    
 	                  </div>
 	                   <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.registeredObjectType.$invalid}">
 	                    <label>Registered Object Type</label>
-	                    <select  class="form-control" ng-model="form.registeredObjectType"  name="registeredObjectType" ng-options="type as type for type in registeredObjectType" required></select>	 
+	                    <select  class="form-control" ng-model="resource.registeredObjectType"  name="registeredObjectType" ng-options="type as type for type in registeredObjectType" required></select>	 
 	                    <p ng-show="mandatoryleft.registeredObjectType.$invalid" class="small help-block">Select registered object type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm"  ng-class="{ 'has-error' : mandatoryleft.landingPage.$invalid}">
 	                    <label>Landing Page</label>
-	                    <input name="landingPage" type="text" class="form-control" placeholder="Enter a valid landing page" ng-model="form.landingPage" required/>
+	                    <input name="landingPage" type="text" class="form-control" placeholder="Enter a valid landing page" ng-model="resource.landingPage" required/>
 	                    <p ng-show="mandatoryleft.landingPage.$invalid" class="small help-block">Enter a valid landing page url.</p>
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.ispublic.$invalid}">
 	                    <label>isPublic</label>
-	                    <select  class="form-control" name="ispublic"  ng-model="form.isPublic" required>
+	                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" required>
 					      <option value="">---Please select---</option> 
 					      <option value="true">YES</option>
 					      <option value="false">NO</option>
@@ -47,17 +47,17 @@
 	                  </div>	
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
 	                    <label>Resource Title</label>
-	                    <input type="text" class="form-control" name="resourcetitle" placeholder="Title for resource" ng-model="form.resourceTitle" required/>
+	                    <input type="text" class="form-control" name="resourcetitle" placeholder="Title for resource" ng-model="resource.resourceTitle" required/>
 	                    <p ng-show="mandatoryleft.resourcetitle.$invalid" class="small help-block">Provide a title for the resource</p>
 	                  </div>	     
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetype.$invalid}">
 	                    <label>Resource Type</label>
-	                    <select  class="form-control" ng-model="form.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
+	                    <select  class="form-control" ng-model="resource.resourceTypeses[0].cvResourceType.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
 	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a resource type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.materialtype.$invalid}">
 	                    <label>Material Type</label>
-	                    <select  class="form-control" ng-model="form.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
+	                    <select  class="form-control" ng-model="resource.materialTypeses[0].cvMaterialTypes.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
 	                     <p ng-show="mandatoryleft.materialtype.$invalid" class="small help-block">Select a material type</p>                   
 	                  </div>
 	                                   

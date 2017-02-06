@@ -26,9 +26,13 @@ import org.csiro.igsn.exception.ExceptionWrapper;
 import org.csiro.igsn.exception.MintErrorCode;
 import org.csiro.igsn.exception.MintEventLog;
 import org.csiro.igsn.jaxb.bindings.registration.EventType;
+import org.csiro.igsn.jaxb.bindings.registration.JsonToSchemaConverterCSIRO;
 import org.csiro.igsn.jaxb.bindings.registration.ObjectFactory;
 import org.csiro.igsn.jaxb.bindings.registration.Resources;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
+import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.IsPublic;
+import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.ResourceIdentifier;
+import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.ResourceTypes;
 import org.csiro.igsn.service.MintService;
 import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.csiro.igsn.utilities.IGSNUtil;
@@ -46,6 +50,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @RestController
@@ -93,15 +98,10 @@ public class WebFormIGSNMintCtrl {
 			Principal user) {
 		
 		try{
-			JsonElement ele = new JsonParser().parse(resourcesjson);
-	        
-	        JsonArray entries = ele.getAsJsonArray();
-			
-			Resource resourceXML = this.objectFactory.createResourcesResource();
-			
-			
+			JsonElement resourceElement = new JsonParser().parse(resourcesjson);	        
+			JsonToSchemaConverterCSIRO jsonToSchemaConverterCSIRO = new JsonToSchemaConverterCSIRO();
 			Resources resourcesXML = this.objectFactory.createResources();
-			resourcesXML.getResource().add(resourceXML);
+			resourcesXML.getResource().add(jsonToSchemaConverterCSIRO.convert(resourceElement));
 			return this.mint(resourcesXML,false,user);
 		}catch(Exception e){
 			e.printStackTrace();

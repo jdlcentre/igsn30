@@ -15,7 +15,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.form.relatedResources=[];
   $scope.form.relatedResources[0] = {};
 
-  
+  $scope.update = true;
   
   $scope.addContributor = function(){
 	  $scope.form.contributors.push({}); 
@@ -37,7 +37,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  	
 	  
 	  $http.post('web/mintJson.do', 
-			  $scope.form
+			  $scope.resource
       ,{
     	  headers: {
     	        'Content-Type': 'application/json'
@@ -82,5 +82,33 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  });
   }
   getAllocatedPrefix();
+  
+  
+  $scope.changePrefix = function(){
+	  $scope.form.resourceIdentifier=$scope.form.prefix;
+  }
+  
+  
+  
+  var getResource = function(){
+	 $http.get('public/getResource.do', {
+		 	params: {
+		 		resourceIdentifier: 'CSTST1',		 		
+		 		}
+     }).success(function(data,status) {
+     	$scope.resource = data;      	     	
+	    }).error(function(response,status) {
+	    	if(status == 401){
+	    		$location.path("/login/" + $routeParams.igsn);
+	    	}else{
+	    		modalService.showModal({}, {    	            	           
+		    		 headerText: response.header ,
+			           bodyText: "FAILURE:" + response.message
+		    	 });
+	    	}
+	    	
+	    });	  
+ }
+  //getResource();
   
 }]);
