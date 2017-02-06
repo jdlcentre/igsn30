@@ -7,13 +7,15 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getIdentifierType = selectListService.getIdentifierType();
   $scope.getContributorType = selectListService.getContributorType();
   $scope.getRelationType = selectListService.getRelationType();
-  
+  $scope.registeredObjectType = selectListService.registeredObjectType();
   
   $scope.form={};  
   $scope.form.contributors=[];
   $scope.form.contributors[0] = {};
   $scope.form.relatedResources=[];
   $scope.form.relatedResources[0] = {};
+
+  
   
   $scope.addContributor = function(){
 	  $scope.form.contributors.push({}); 
@@ -32,7 +34,53 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   }
 	
   $scope.mintResource = function(){
-	   
+	  	
+	  
+	  $http.post('web/mintJson.do', 
+			  $scope.form
+      ,{
+    	  headers: {
+    	        'Content-Type': 'application/json'
+    	    }
+      }).success(function(data,status) {
+      	//On success, do something here.
+      }).error(function(response) {
+    	modalService.showModal({}, {    	            	           
+    		 headerText: response.header ,
+	           bodyText: "FAILURE:" + response.message
+    	 });
+      });	  
   }
+  
+  $scope.testIsWKT = function(wktString){
+	  if(!wktString){
+		  $scope.location.wkt.$invalid = false;
+		  return;
+	  }
+	  try{		  
+		  var wkt = new Wkt.Wkt();        	
+		  wkt.read(wktString);        			 
+		  $scope.location.wkt.$invalid = false;
+	  }catch(error){
+		  $scope.location.wkt.$invalid=true;
+	  }
+	  
+  }
+  
+  
+  
+  //getAllocatedPrefix.do
    
+  var getAllocatedPrefix = function(){
+      $http.get('web/getAllocatedPrefix.do', {}).success(function(response) {
+		 $scope.allocatedPrefixes = response;	  
+	  }).error(function(data) {
+		  modalService.showModal({}, {    	            	           
+	           headerText: "Retrieve prefix" ,
+	           bodyText: "FAILURE: Please contact your administrator"
+    	 });	
+	  });
+  }
+  getAllocatedPrefix();
+  
 }]);

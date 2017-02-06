@@ -42,6 +42,7 @@ public class PrefixEntityService {
 		em.close();		
 		return result;
 	}
+	
 
 	public boolean addPrefix(Principal user,String description,String prefix) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();		

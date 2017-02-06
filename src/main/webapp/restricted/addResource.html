@@ -7,37 +7,58 @@
 	            <h3 class="title-md hr-left text-theme">Metadata Information</h3>	      
 	            <div class="panel-primary text-theme content-box col-md-6" >
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Mandatory</h3>
+	                <h3 class="panel-title">Primary Info(*)</h3>
 	              </div>
 	              <div class="panel-body">
-	                <form>
+	                <form name="mandatoryleft">
 	                  <div class="form-group form-group-sm">
-	                    <label>Resource Identifier</label>
-	                    <input type="text" class="form-control" placeholder="Enter a unique identifier" ng-model="form.resourceIdentifier"/>
+	                      <label>Resource Identifier: {{form.prefix}}{{form.resourceIdentifier}}</label>
+	                      <div class="form-inline">
+		                      <div class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
+			                     <select  class="form-control" ng-model="form.prefix"  name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
+							  </div>
+							  <div class="form-group">
+			                      <div class="input-group" style="width:400px" ng-class="{ 'has-error' : mandatoryleft.resourceIdentifier.$invalid}">						            
+						            <input type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="form.resourceIdentifier" pattern="^(?!{{form.prefix}}.*$).*"/>						            
+						          </div>
+					          </div>
+				          </div>
+				          <p ng-show="mandatoryleft.prefix.$invalid" class="small help-block" style="color: #a94442;">Select prefix</p>	
+				          <p ng-show="mandatoryleft.resourceIdentifier.$invalid" class="small help-block" style="color: #c4d44a;">Warning:prefix duplicated</p>	                    	                    
 	                  </div>
-	                  <div class="form-group form-group-sm">
+	                   <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.registeredObjectType.$invalid}">
+	                    <label>Registered Object Type</label>
+	                    <select  class="form-control" ng-model="form.registeredObjectType"  name="registeredObjectType" ng-options="type as type for type in registeredObjectType" required></select>	 
+	                    <p ng-show="mandatoryleft.registeredObjectType.$invalid" class="small help-block">Select registered object type</p>                  
+	                  </div>
+	                  <div class="form-group form-group-sm"  ng-class="{ 'has-error' : mandatoryleft.landingPage.$invalid}">
 	                    <label>Landing Page</label>
-	                    <input type="password" class="form-control" placeholder="Enter a valid landing page" ng-model="form.landingPage"/>
+	                    <input name="landingPage" type="text" class="form-control" placeholder="Enter a valid landing page" ng-model="form.landingPage" required/>
+	                    <p ng-show="mandatoryleft.landingPage.$invalid" class="small help-block">Enter a valid landing page url.</p>
 	                  </div>
-	                  <div class="form-group form-group-sm">
+	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.ispublic.$invalid}">
 	                    <label>isPublic</label>
-	                    <select  class="form-control" name="singleSelect" id="singleSelect" ng-model="form.isPublic">
+	                    <select  class="form-control" name="ispublic"  ng-model="form.isPublic" required>
 					      <option value="">---Please select---</option> 
 					      <option value="true">YES</option>
 					      <option value="false">NO</option>
-					    </select>	                   
+					    </select>
+					    <p ng-show="mandatoryleft.ispublic.$invalid" class="small help-block">Select public access</p>	                   
 	                  </div>	
-	                  <div class="form-group form-group-sm">
+	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
 	                    <label>Resource Title</label>
-	                    <input type="text" class="form-control" placeholder="Title for resource" ng-model="form.resourceTitle"/>
+	                    <input type="text" class="form-control" name="resourcetitle" placeholder="Title for resource" ng-model="form.resourceTitle" required/>
+	                    <p ng-show="mandatoryleft.resourcetitle.$invalid" class="small help-block">Provide a title for the resource</p>
 	                  </div>	     
-	                  <div class="form-group form-group-sm">
+	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetype.$invalid}">
 	                    <label>Resource Type</label>
-	                    <select  class="form-control" ng-model="form.resourceType"  ng-options="type as type for type in getResourceType"></select>	                   
+	                    <select  class="form-control" ng-model="form.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
+	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a resource type</p>                  
 	                  </div>
-	                  <div class="form-group form-group-sm">
+	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.materialtype.$invalid}">
 	                    <label>Material Type</label>
-	                    <select  class="form-control" ng-model="form.materialType"  ng-options="type as type for type in getMaterialType"></select>	                   
+	                    <select  class="form-control" ng-model="form.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
+	                     <p ng-show="mandatoryleft.materialtype.$invalid" class="small help-block">Select a material type</p>                   
 	                  </div>
 	                                   
 	                </form>	               
@@ -45,10 +66,10 @@
 	            </div>
 	            <div class="panel-primary text-theme content-box col-md-6">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Mandatory</h3>
+	                <h3 class="panel-title">Curator</h3>
 	              </div>
 	              <div class="panel-body">
-	                <form>
+	                <form name="mandatoryright">
 	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
 					    <legend><div class="title-sm text-theme hr-left">Curation Details</div></legend>
 					    <div class="form-group form-group-sm">
@@ -65,9 +86,14 @@
 						    <label>Curation Location</label>
 		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="form.curationLocation"/>
 	                    </div>
+	                     <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryright.curatingInstitution.$invalid}">
+						    <label>Curating Institution(*)</label>
+		                    <input type="text" class="form-control" name="curatingInstitution" placeholder="Curating Institution" ng-model="form.curatingInstitution" required/>
+		                    <p ng-show="mandatoryright.curatingInstitution.$invalid" class="small help-block">Enter the curating institution</p>
+	                    </div>
 		                 <div class="form-group form-group-sm">
 						    <label>Curation Institution Uri</label>
-		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri"/>
+		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri"/>		                    
 	                    </div>		                 
 					  </fieldset>			                       
 	                </form>	
@@ -101,34 +127,37 @@
 	        <div class="tab-content tab-content-shop">
 	          <div class="tab-pane fade active in" id="addresource-location">		
 		          <div class="row">	  
-			          <div class="col-md-12">        
-			          	<fieldset class="form-group form-group-sm show-fieldset-borders">
-						    <legend><div class="title-sm text-theme hr-left">Location</div></legend>
-						    <div class="form-group form-group-sm">
-							    <label>Locality</label>
-			                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality"/>
-		                    </div>
-		                    <div class="form-group form-group-sm">
-							    <label>Locality uri</label>
-			                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri"/>
-		                    </div>
-		                    <div class="form-group form-group-sm">
-			                    <label>SRID</label>
-			                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
-			                 </div>
-			                 <div class="form-group form-group-sm">
-			                    <label>Vertical Datum</label>
-			                    <select  class="form-control" ng-model="form.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
-			                 </div>
-			                 <div class="form-group form-group-sm">
-							    <label>Geometry uri</label>
-			                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="form.geometryUri"/>
-		                    </div>
-		                    <div class="form-group form-group-sm">
-							    <label>location wkt</label>
-			                    <input type="text" class="form-control" placeholder="spatial well known text" ng-model="form.wkt" />
-		                    </div>
-						  </fieldset> 
+			          <div class="col-md-12"> 
+			            <form name="location">       
+				          	<fieldset class="form-group form-group-sm show-fieldset-borders">
+							    <legend><div class="title-sm text-theme hr-left">Location</div></legend>
+							    <div class="form-group form-group-sm">
+								    <label>Locality</label>
+				                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality"/>
+			                    </div>
+			                    <div class="form-group form-group-sm">
+								    <label>Locality uri</label>
+				                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri"/>
+			                    </div>
+			                    <div class="form-group form-group-sm">
+				                    <label>SRID</label>
+				                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+				                 </div>
+				                 <div class="form-group form-group-sm">
+				                    <label>Vertical Datum</label>
+				                    <select  class="form-control" ng-model="form.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+				                 </div>
+				                 <div class="form-group form-group-sm">
+								    <label>Geometry uri</label>
+				                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="form.geometryUri"/>
+			                    </div>
+			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
+								    <label>location wkt</label>
+				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(form.wkt)" placeholder="spatial well known text" ng-model="form.wkt"/>
+				                    <p ng-show="location.wkt.$invalid && !location.wkt.$pristine" class="small help-block">Invalid well known text</p>  
+			                    </div>
+							  </fieldset> 
+						  </form>
 						</div>               
 			      </div>            					      
 		      </div>	

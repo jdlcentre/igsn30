@@ -138,4 +138,13 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
         	          ];
       }
       
+      
+      this.registeredObjectType = function(){
+    	  return [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/SampleCollection",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/SamplingFeature"
+      	          ];
+      }
+      
 }]);

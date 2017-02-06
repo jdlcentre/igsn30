@@ -57,9 +57,13 @@ public class RegistrantCtrl {
 	
 
 	@RequestMapping("listPrefix.do")
-	public ResponseEntity<Object> listPrefix(Principal user) {
-		
-		return new ResponseEntity<Object>(this.prefixEntityService.listAllPrefix(),HttpStatus.OK);
+	public ResponseEntity<Object> listPrefix(Principal user) {		
+		return new ResponseEntity<Object>(this.prefixEntityService.listAllPrefix(),HttpStatus.OK);		
+	}
+	
+	@RequestMapping("getAllocatedPrefix.do")
+	public ResponseEntity<Object> getAllocatedPrefix(Principal user) {		
+		return new ResponseEntity<Object>(this.registrantEntityService.searchActiveRegistrantAndPrefix(user.getName()).getPrefixes(),HttpStatus.OK);
 		
 	}
 	
