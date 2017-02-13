@@ -104,40 +104,49 @@ public class JsonToSchemaConverterCSIRO {
 		
 		resourceXML.setAlternateIdentifiers(this.objectFactory.createResourcesResourceAlternateIdentifiers());
 		resourceXML.getAlternateIdentifiers().alternateIdentifier = new ArrayList<String>();
-		if(resourceJO.get("alternateIdentifierses")!=null){
-			JsonArray alternateIdentifierses = resourceJO.get("alternateIdentifierses").getAsJsonArray();
-			for(JsonElement alternateIdentifier : alternateIdentifierses) {		
-				resourceXML.getAlternateIdentifiers().getAlternateIdentifier().add(alternateIdentifier.getAsJsonObject().get("alternateIdentifier").getAsString());
+		
+		JsonArray alternateIdentifierses = resourceJO.get("alternateIdentifierses").getAsJsonArray();
+		for(JsonElement alternateIdentifier : alternateIdentifierses) {	
+			if(alternateIdentifier.getAsJsonObject().entrySet().size()==0){
+				continue;
 			}
+			resourceXML.getAlternateIdentifiers().getAlternateIdentifier().add(alternateIdentifier.getAsJsonObject().get("alternateIdentifier").getAsString());
 		}
 		
-		if(resourceJO.get("classificationses")!=null){
-			resourceXML.setClassifications(this.objectFactory.createResourcesResourceClassifications());
-			resourceXML.getClassifications().classification = new ArrayList<Resource.Classifications.Classification>();
-			JsonArray classificationses = resourceJO.get("classificationses").getAsJsonArray();
-			for(JsonElement classification : classificationses) {		
-				Resource.Classifications.Classification classificationXML = new Resource.Classifications.Classification();
-				classificationXML.setValue(classification.getAsJsonObject().get("classification").getAsString());
-				classificationXML.setClassificationURI(classification.getAsJsonObject().get("classificationUri").getAsString());
-				resourceXML.getClassifications().classification.add(classificationXML);
+		
+		
+		resourceXML.setClassifications(this.objectFactory.createResourcesResourceClassifications());
+		resourceXML.getClassifications().classification = new ArrayList<Resource.Classifications.Classification>();
+		JsonArray classificationses = resourceJO.get("classificationses").getAsJsonArray();
+		for(JsonElement classification : classificationses) {	
+			if(classification.getAsJsonObject().entrySet().size()==0){
+				continue;
 			}
+			Resource.Classifications.Classification classificationXML = new Resource.Classifications.Classification();
+			classificationXML.setValue(classification.getAsJsonObject().get("classification").getAsString());
+			classificationXML.setClassificationURI(classification.getAsJsonObject().get("classificationUri").getAsString());
+			resourceXML.getClassifications().classification.add(classificationXML);
 		}
+		
 		
 		resourceXML.setPurpose(resourceJO.get("purpose").getAsString());
 		
-		if(resourceJO.get("sampledFeatureses")!=null){
-			JsonArray sampledFeatureses = resourceJO.get("sampledFeatureses").getAsJsonArray();
-			Resource.SampledFeatures sampledFeatures = this.objectFactory.createResourcesResourceSampledFeatures();	
-			sampledFeatures.sampledFeature = new ArrayList<Resource.SampledFeatures.SampledFeature>();
-			for(JsonElement sampledFeature : sampledFeatureses) {		
-				JsonObject sampledFeatureObject = sampledFeature.getAsJsonObject();
-				Resource.SampledFeatures.SampledFeature sampledFeatureXML = new Resource.SampledFeatures.SampledFeature();
-				sampledFeatureXML.setValue(sampledFeatureObject.get("sampledFeature").getAsString());
-				sampledFeatureXML.setSampledFeatureURI(sampledFeatureObject.get("sampledFeatureUri").getAsString());
-				sampledFeatures.sampledFeature.add(sampledFeatureXML);
-			}		
-			resourceXML.setSampledFeatures(this.objectFactory.createResourcesResourceSampledFeatures(sampledFeatures));
-		}
+		
+		JsonArray sampledFeatureses = resourceJO.get("sampledFeatureses").getAsJsonArray();
+		Resource.SampledFeatures sampledFeatures = this.objectFactory.createResourcesResourceSampledFeatures();	
+		sampledFeatures.sampledFeature = new ArrayList<Resource.SampledFeatures.SampledFeature>();
+		for(JsonElement sampledFeature : sampledFeatureses) {	
+			if(sampledFeature.getAsJsonObject().entrySet().size()==0){
+				continue;
+			}
+			JsonObject sampledFeatureObject = sampledFeature.getAsJsonObject();
+			Resource.SampledFeatures.SampledFeature sampledFeatureXML = new Resource.SampledFeatures.SampledFeature();
+			sampledFeatureXML.setValue(sampledFeatureObject.get("sampledFeature").getAsString());
+			sampledFeatureXML.setSampledFeatureURI(sampledFeatureObject.get("sampledFeatureUri").getAsString());
+			sampledFeatures.sampledFeature.add(sampledFeatureXML);
+		}		
+		resourceXML.setSampledFeatures(this.objectFactory.createResourcesResourceSampledFeatures(sampledFeatures));
+		
 		
 		Resource.Date date = new Resource.Date();
 		date.setTimeInstant(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant").getAsString());
@@ -150,35 +159,41 @@ public class JsonToSchemaConverterCSIRO {
 		resourceXML.setCampaign(resourceJO.get("campaign").getAsString());
 		resourceXML.setComments(resourceJO.get("comments").getAsString());
 		
-		if(resourceJO.get("contributorses")!=null){
-			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
-			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
-			JsonArray contributorses = resourceJO.get("contributorses").getAsJsonArray();
-			for(JsonElement contributor : contributorses) {		
-				JsonObject contributorObject = contributor.getAsJsonObject();
-				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
-				contributorXML.setContributorName(contributorObject.get("contributorName").getAsString());
-				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
-				contributorXML.getContributorIdentifier().setValue(contributorObject.get("contributorIdentifier").getAsString());
-				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributorObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
-				contributorXML.setContributorType(contributorObject.get("contributorType").getAsString());
-				resourceXML.getContributors().contributor.add(contributorXML);
-			}	
+		
+		resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
+		resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
+		JsonArray contributorses = resourceJO.get("contributorses").getAsJsonArray();
+		for(JsonElement contributor : contributorses) {		
+			JsonObject contributorObject = contributor.getAsJsonObject();
+			if(contributorObject.entrySet().size()==0){
+				continue;
+			}
+			Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
+			contributorXML.setContributorName(contributorObject.get("contributorName").getAsString());
+			contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
+			contributorXML.getContributorIdentifier().setValue(contributorObject.get("contributorIdentifier").getAsString());
+			contributorXML.getContributorIdentifier().setContributorIdentifierType(contributorObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
+			contributorXML.setContributorType(contributorObject.get("contributorType").getAsString());
+			resourceXML.getContributors().contributor.add(contributorXML);
+		}	
+		
+		
+		
+		resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
+		resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
+		JsonArray relatedResourceses = resourceJO.get("relatedResourceses").getAsJsonArray();
+		for(JsonElement relatedResource : relatedResourceses) {		
+			JsonObject relatedResourceObject = relatedResource.getAsJsonObject();
+			if(relatedResourceObject.entrySet().size()==0){
+				continue;
+			}
+			Resource.RelatedResources.RelatedResource relatedResourceXML = new Resource.RelatedResources.RelatedResource();
+			relatedResourceXML.setValue(relatedResourceObject.get("relatedResource").getAsString());
+			relatedResourceXML.setRelationType(relatedResourceObject.get("relationType").getAsString());
+			relatedResourceXML.setRelatedResourceIdentifierType(relatedResourceObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
+			resourceXML.getRelatedResources().relatedResource.add(relatedResourceXML);
 		}
 		
-		if(resourceJO.get("relatedResourceses")!=null){
-			resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
-			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
-			JsonArray relatedResourceses = resourceJO.get("relatedResourceses").getAsJsonArray();
-			for(JsonElement relatedResource : relatedResourceses) {		
-				JsonObject relatedResourceObject = relatedResource.getAsJsonObject();
-				Resource.RelatedResources.RelatedResource relatedResourceXML = new Resource.RelatedResources.RelatedResource();
-				relatedResourceXML.setValue(relatedResourceObject.get("relatedResource").getAsString());
-				relatedResourceXML.setRelationType(relatedResourceObject.get("relationType").getAsString());
-				relatedResourceXML.setRelatedResourceIdentifierType(relatedResourceObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
-				resourceXML.getRelatedResources().relatedResource.add(relatedResourceXML);
-			}
-		}
 		
 		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
 		resourceXML.getLogDate().setEventType(EventType.fromValue(resourceJO.get("eventType").getAsString()));
