@@ -12,14 +12,14 @@
 	              <div class="panel-body">
 	                <form name="mandatoryleft">
 	                  <div class="form-group form-group-sm">
-	                      <label>Resource Identifier: {{form.prefix}}{{form.resourceIdentifier}}</label>
+	                      <label>Resource Identifier: {{resource.prefix}}{{resource.resourceIdentifier}}</label>
 	                      <div class="form-inline">
 		                      <div ng-hide="update" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
 			                     <select  class="form-control" ng-model="resource.prefix" ng-change="changePrefix(allocatedPrefix.prefix)" name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
 							  </div>
 							  <div class="form-group">
 			                      <div class="input-group" style="width:400px" ng-class="{ 'has-error' : mandatoryleft.resourceIdentifier.$invalid}">						            
-						            <input  ng-disabled="update" type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{form.prefix}}.*"/>						            
+						            <input  ng-disabled="update" type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{resource.prefix}}.*"/>						            
 						          </div>
 					          </div>
 				          </div>
@@ -38,11 +38,7 @@
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.ispublic.$invalid}">
 	                    <label>isPublic</label>
-	                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" required>
-					      <option value="">---Please select---</option> 
-					      <option value="true">YES</option>
-					      <option value="false">NO</option>
-					    </select>
+	                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" ng-options="o.v as o.n for o in [{ n: 'False', v: false }, { n: 'True', v: true }]" required></select>
 					    <p ng-show="mandatoryleft.ispublic.$invalid" class="small help-block">Select public access</p>	                   
 	                  </div>	
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
@@ -52,12 +48,12 @@
 	                  </div>	     
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetype.$invalid}">
 	                    <label>Resource Type</label>
-	                    <select  class="form-control" ng-model="resource.resourceTypeses[0].cvResourceType.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
+	                    <select  ng-repeat="types in resource.resourceTypeses" class="form-control" ng-model="types.cvResourceType.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
 	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a resource type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.materialtype.$invalid}">
 	                    <label>Material Type</label>
-	                    <select  class="form-control" ng-model="resource.materialTypeses[0].cvMaterialTypes.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
+	                    <select ng-repeat="types in resource.materialTypeses" class="form-control" ng-model="types.cvMaterialTypes.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
 	                     <p ng-show="mandatoryleft.materialtype.$invalid" class="small help-block">Select a material type</p>                   
 	                  </div>
 	                                   
@@ -74,26 +70,26 @@
 					    <legend><div class="title-sm text-theme hr-left">Curation Details</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Curator</label>
-		                    <input type="text" class="form-control" placeholder="Curator" ng-model="form.curator"/>
+		                    <input type="text" class="form-control" placeholder="Curator" ng-model="resource.curationDetailses[0].curator"/>
 	                    </div>
 	                    <div class="form-group form-group-sm">
 		                    <label>Curation Date</label>
 		                    <div class="input-group">
-		                     <input type="date" class="form-control" ng-model="form.curationDate" />
+		                     <input type="date" class="form-control" ng-model="resource.curationDetailses[0].curationDate" />
 						     </div>
 		                 </div>
 		                 <div class="form-group form-group-sm">
 						    <label>Curation Location</label>
-		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="form.curationLocation"/>
+		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="resource.curationDetailses[0].curationLocation"/>
 	                    </div>
 	                     <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryright.curatingInstitution.$invalid}">
 						    <label>Curating Institution(*)</label>
-		                    <input type="text" class="form-control" name="curatingInstitution" placeholder="Curating Institution" ng-model="form.curatingInstitution" required/>
+		                    <input type="text" class="form-control" name="curatingInstitution" placeholder="Curating Institution" ng-model="resource.curationDetailses[0].curatingInstitution" required/>
 		                    <p ng-show="mandatoryright.curatingInstitution.$invalid" class="small help-block">Enter the curating institution</p>
 	                    </div>
 		                 <div class="form-group form-group-sm">
 						    <label>Curation Institution Uri</label>
-		                    <input type="text" class="form-control" placeholder="http://" ng-model="form.curationInstitutionUri"/>		                    
+		                    <input type="text" class="form-control" placeholder="http://" ng-model="resource.curationDetailses[0].institutionUri"/>		                    
 	                    </div>		                 
 					  </fieldset>			                       
 	                </form>	
@@ -133,27 +129,27 @@
 							    <legend><div class="title-sm text-theme hr-left">Location</div></legend>
 							    <div class="form-group form-group-sm">
 								    <label>Locality</label>
-				                    <input type="text" class="form-control" placeholder="locality" ng-model="form.locality"/>
+				                    <input type="text" class="form-control" placeholder="locality" ng-model="resource.location.locality"/>
 			                    </div>
 			                    <div class="form-group form-group-sm">
 								    <label>Locality uri</label>
-				                    <input type="text" class="form-control" placeholder="http://" ng-model="form.localityUri"/>
+				                    <input type="text" class="form-control" placeholder="http://" ng-model="resource.location.localityUri"/>
 			                    </div>
 			                    <div class="form-group form-group-sm">
 				                    <label>SRID</label>
-				                    <select  class="form-control" ng-model="form.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+				                    <select  class="form-control" ng-model="resource.location.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
 				                 </div>
 				                 <div class="form-group form-group-sm">
 				                    <label>Vertical Datum</label>
-				                    <select  class="form-control" ng-model="form.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
+				                    <select  class="form-control" ng-model="resource.location.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
 				                 </div>
 				                 <div class="form-group form-group-sm">
 								    <label>Geometry uri</label>
-				                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="form.geometryUri"/>
+				                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="resource.location.geometryUri"/>
 			                    </div>
 			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
 								    <label>location wkt</label>
-				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(form.wkt)" placeholder="spatial well known text" ng-model="form.wkt"/>
+				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(resource.location.wkt)" placeholder="spatial well known text" ng-model="resource.location.wkt"/>
 				                    <p ng-show="location.wkt.$invalid && !location.wkt.$pristine" class="small help-block">Invalid well known text</p>  
 			                    </div>
 							  </fieldset> 
@@ -167,49 +163,49 @@
 			         	<form>		              	
 		                  <div class="form-group form-group-sm">
 		                    <label>Alternate Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Alternate identifier" ng-model="form.alternateIdentifier"/>
+		                    <input type="text" ng-repeat="altId in resource.alternateIdentifierses" class="form-control" placeholder="Alternate identifier" ng-model="altId.alternateIdentifier"/>
 		                  </div> 
 		                   <div class="form-group form-group-sm">
 		                    <label>Classification uri</label>
-		                     <div class="row">
+		                     <div class="row" ng-repeat ="classification in resource.classificationses">
 							  <div class="col-sm-6 col-xs-12">						   					      
-							      <input type="text" class="form-control" placeholder="http://" ng-model="form.classificationUri"/>		    
+							      <input type="text" class="form-control" placeholder="http://" ng-model="classification.classificationUri"/>		    
 							  </div>
 							  <div class="col-sm-6 col-xs-12">									  	  		   				     
-							      <input type="text" class="form-control" placeholder="classification" ng-model="form.classification"/>						    
+							      <input type="text" class="form-control" placeholder="classification" ng-model="classification.classification"/>						    
 							  </div>
 							</div>
 		                    
 		                  </div>  
 		                   <div class="form-group form-group-sm">
 		                    <label>purpose</label>
-		                    <input type="text" class="form-control" placeholder="purpose" ng-model="form.purpose"/>
+		                    <input type="text" class="form-control" placeholder="purpose" ng-model="resource.purpose"/>
 		                  </div>   
 		                   <div class="form-group form-group-sm">
 		                    <label>SampledFeatures</label>
-		                    <div class="row">
+		                    <div class="row" ng-repeat="sampledFeature in resource.sampledFeatureses">
 							  <div class="col-sm-6 col-xs-12">						   					      
-							      <input type="text" class="form-control" placeholder="http://" ng-model="form.sampledFeatureUri"/>						    
+							      <input type="text" class="form-control" placeholder="http://" ng-model="sampledFeature.sampledFeatureUri"/>						    
 							  </div>
 							  <div class="col-sm-6 col-xs-12">						   				      
-							      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="form.sampledFeature"/>						    
+							      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="sampledFeature.sampledFeature"/>						    
 							  </div>
 							</div>
 		                  </div>  
 						   <div class="form-group form-group-sm">
 		                    <label>Date</label>
 		                    <div class="input-group">
-		                     <input type="date" class="form-control"  ng-model="form.date"/>						          
+		                     <input type="date" class="form-control"  ng-model="resource.resourceDate.timeInstant"/>						          
 						     </div>
 		                  </div>
 						  <div class="form-group form-group-sm">
 		                    <label>Method</label>
 		                    <div class="row">
 							  <div class="col-sm-6 col-xs-12">						   					      
-							      <input type="text" class="form-control" placeholder="Method uri" ng-model="form.methodURI"/>				    
+							      <input type="text" class="form-control" placeholder="Method uri" ng-model="resource.method.methodUri"/>				    
 							  </div>
 							  <div class="col-sm-6 col-xs-12">		
-							  	  <input type="text" class="form-control" placeholder="Method" ng-model="form.method"/>				   				      
+							  	  <input type="text" class="form-control" placeholder="Method" ng-model="resource.method.method"/>				   				      
 							      						    
 							  </div>
 							</div>
@@ -217,11 +213,11 @@
 		                  </div>  
 		                  <div class="form-group form-group-sm">
 		                    <label>Campaign</label>
-		                    <input type="text" class="form-control" placeholder="Campaign" ng-model="form.campaign"/>
+		                    <input type="text" class="form-control" placeholder="Campaign" ng-model="resource.campaign"/>
 		                  </div> 
 						  <div class="form-group form-group-sm">
 		                    <label>Comments</label>
-		                    <input type="text" class="form-control" placeholder="Comments" ng-model="form.comments"/>
+		                    <input type="text" class="form-control" placeholder="Comments" ng-model="resource.comments"/>
 		                  </div>      
 		                </form>	 	
 					 </div>				                       
@@ -233,23 +229,23 @@
 	          <div class="tab-pane fade in tab-shop-item" id="addresource-contributors">
 	          	 <div class="row">	
 	          	 	<div class="col-md-12">          
-		          	  <fieldset class="form-group form-group-sm show-fieldset-borders" ng-repeat="contributor in form.contributors">
+		          	  <fieldset class="form-group form-group-sm show-fieldset-borders" ng-repeat="contributor in resource.contributorses">
 					    <legend><div class="title-sm text-theme hr-left">Contributors</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Contributor Name</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="form.contributors[$index].contributorName">
+		                    <input type="text" class="form-control" placeholder="Contributor Name" ng-model="contributor.contributorName">
 	                    </div>	                   
 	                    <div class="form-group form-group-sm">
 		                    <label>Contributor Type</label>
-		                    <select  class="form-control" ng-model="form.contributors[$index].contributorType"  ng-options="type as type for type in getContributorType"></select>	                   
+		                    <select  class="form-control" ng-model="contributor.contributorType"  ng-options="type as type for type in getContributorType"></select>	                   
 		                 </div>
 		                  <div class="form-group form-group-sm">
 						    <label>Contributor Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="form.contributors[$index].contributorIdentifier">
+		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="contributor.contributorIdentifier">
 	                    </div>
 	                    <div class="form-group form-group-sm">
 		                    <label>Contributor Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.contributors[$index].contributorIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                    <select  class="form-control" ng-model="contributor.cvIdentifierType.identifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
 		                 </div>	
 		                 <button class="btn btn-red btn-sm" type="button" ng-click="removeContributor($index)">Remove Contributor</button>
 					     <button class="btn btn-blue btn-sm" type="button" ng-click="addContributor()">Add More Contributor</button>
@@ -261,19 +257,19 @@
 	          <div class="tab-pane fade in tab-shop-item" id="addresource-related-resource">
 	          	 <div class="row">	
 	          	 	<div class="col-md-12">          
-		          	  <fieldset class="form-group form-group-sm show-fieldset-borders" ng-repeat="relatedResource in form.relatedResources">
+		          	  <fieldset class="form-group form-group-sm show-fieldset-borders" ng-repeat="relatedResource in resource.relatedResourceses">
 					    <legend><div class="title-sm text-theme hr-left">Related Resource</div></legend>
 					    <div class="form-group form-group-sm">
 						    <label>Related resource</label>
-		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="form.relatedResources[$index].relatedResource">
+		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="relatedResource.relatedResource">
 	                    </div>	                   
 	                    <div class="form-group form-group-sm">
 		                    <label>Related Identifier Type</label>
-		                    <select  class="form-control" ng-model="form.relatedResources[$index].relatedIdentifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
+		                    <select  class="form-control" ng-model="relatedResource.cvIdentifierType.identifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
 		                 </div>		                 
 	                    <div class="form-group form-group-sm">
 		                    <label>Relation Type</label>
-		                    <select  class="form-control" ng-model="form.relatedResources[$index].contributorIdentifierType"  ng-options="type as type for type in getRelationType"></select>	                   
+		                    <select  class="form-control" ng-model="relatedResource.relationType"  ng-options="type as type for type in getRelationType"></select>	                   
 		                 </div>	
 		                 <button class="btn btn-red btn-sm" type="button" ng-click="removeRelatedResource($index)">Remove Related Resource</button>
 					     <button class="btn btn-blue btn-sm" type="button" ng-click="addRelatedResource()">Add More Related Resource</button>

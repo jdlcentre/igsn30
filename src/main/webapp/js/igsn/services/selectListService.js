@@ -105,18 +105,19 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
       
       this.getContributorType = function(){
     	  return [
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ContactPerson",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Funder",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Other",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ProjectLeader",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ProjectManager",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ProjectMember",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/RelatedPerson",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Researcher",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ResearchGroup",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/RightsHolder",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Sponsor",
-				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Supervisor"
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/collaborator",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/contributor",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/custodian",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/funder",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/owner",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/pointOfContact",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/principalInvestigator",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/processor",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/rightsHolder",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/sponsor",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/stakeholder",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/user"
       	          ];
       };
       
@@ -132,6 +133,7 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDigitalRepresentationOf",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDocumentedBy",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsIdenticalTo",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsMemberOf",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSamplingFeatureOf",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSourceOf",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Participates"
@@ -146,5 +148,12 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
 				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/SamplingFeature"
       	          ];
       }
+      
+      this.getTrueFalse = function(){
+    	  return [
+				"true",
+				"false"
+    	          ];
+     }
       
 }]);
