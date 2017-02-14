@@ -157,7 +157,7 @@ public class IGSNMintCtrl {
 						if(test){
 							resourceEntityService.testInsertResource(r,registrant);
 						}else if(r.getLogDate().getEventType().equals(EventType.REGISTERED)){
-							resourceEntityService.insertResource(r,registrant);
+							resourceEntityService.insertResource(r,registrant,false);
 						}else if(r.getLogDate().getEventType().equals(EventType.DESTROYED)){
 							resourceEntityService.destroyResource(r);
 						}else if(r.getLogDate().getEventType().equals(EventType.DEPRECATED)){

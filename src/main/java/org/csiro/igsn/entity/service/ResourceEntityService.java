@@ -135,13 +135,16 @@ public class ResourceEntityService {
 	
 
 
-	public void insertResource(Resource resourceXml,Registrant registrant) throws Exception {
+	public void insertResource(Resource resourceXml,Registrant registrant,boolean isWebInsert) throws Exception {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();	
 		Resources resourcesEntity = new Resources();
 		try{
 			em.getTransaction().begin();
-			jaxbResourceToEntityConverter.convert(resourceXml,registrant,resourcesEntity);					
+			jaxbResourceToEntityConverter.convert(resourceXml,registrant,resourcesEntity);	
+			if(isWebInsert){
+				resourcesEntity.setInputMethod("form");
+			}
 			em.persist(resourcesEntity);
 			em.flush();
 			em.getTransaction().commit();

@@ -45,7 +45,9 @@ public class PublicCtrl {
 		
 		try {
 			Resources r = this.resourceEntityService.searchResourceByIdentifier(resourceIdentifier);
-			
+			if(r==null){
+				throw new NullPointerException("Resource not found");
+			}
 			
 			if(!r.getIsPublic() && user == null){
 				return new ResponseEntity<Object>(new ExceptionWrapper("Login","Unauthorized Access") ,HttpStatus.UNAUTHORIZED);
@@ -64,7 +66,7 @@ public class PublicCtrl {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to remove registrant",e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to retrieve resource",e.toString()),HttpStatus.BAD_REQUEST);
 		}
 		
 		

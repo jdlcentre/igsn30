@@ -7,7 +7,7 @@ app.config(['$routeProvider',
     	  redirectTo: '/addresource'
       
       }).
-      when('/addresource', {
+      when('/addresource/:igsn', {
         templateUrl: 'restricted/addResource.html'
      
       }).  

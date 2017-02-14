@@ -58,6 +58,7 @@ public class Resources implements java.io.Serializable {
 	private String landingPage;
 	private Boolean isPublic;
 	private String resourceTitle;
+	private String inputMethod;
 	private String purpose;
 	private String campaign;
 	private String comments;
@@ -121,7 +122,7 @@ public class Resources implements java.io.Serializable {
 
 	@SequenceGenerator(name="resources_resourceid_seq", schema="version30", sequenceName="resources_resourceid_seq",allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="resources_resourceid_seq")
-	@Column(name = "idwebuser", updatable=false)
+	@Column(name = "resourceid", updatable=false, insertable=false)
 	public Integer getResourceid() {
 		return resourceid;
 	}
@@ -337,5 +338,13 @@ public class Resources implements java.io.Serializable {
 		this.registrant = registrant;
 	}
 
+	@Column(name = "input_method")
+	public String getInputMethod() {
+		return this.inputMethod;
+	}
+
+	public void setInputMethod(String inputMethod) {
+		this.inputMethod = inputMethod;
+	}
 
 }

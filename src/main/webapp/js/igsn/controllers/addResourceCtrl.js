@@ -1,5 +1,5 @@
-allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','selectListService',
-                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,selectListService) {
+allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','selectListService','$routeParams',
+                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,selectListService,$routeParams) {
 	
   $scope.getResourceType = selectListService.getResourceType();
   $scope.getMaterialType = selectListService.getMaterialType();
@@ -11,7 +11,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getTrueFalse = selectListService.getTrueFalse();
   
   
-  $scope.update = false;
+  
   
   var reset = function(){
 	  $scope.resource={};  
@@ -25,15 +25,13 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  $scope.resource.resourceTypeses[0] ={};
 	  $scope.resource.curationDetailses=[];
 	  $scope.resource.curationDetailses[0]={};
-	  
-	  
 	  $scope.resource.classificationses=[];
 	  $scope.resource.classificationses[0]={};
 	  $scope.resource.alternateIdentifierses=[];
 	  $scope.resource.alternateIdentifierses[0] ={};
 	  $scope.resource.sampledFeatureses=[];
 	  $scope.resource.sampledFeatureses[0]={};
-	  
+	  $scope.resource.eventType="registered"
 	  
   }
   
@@ -55,9 +53,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  $scope.resource.relatedResources.splice(index,1);
   }
 	
-  $scope.mintResource = function(){
-	  	
-	  
+  $scope.mintResource = function(){	  
 	  $http.post('web/mintJson.do', 
 			  $scope.resource
       ,{
@@ -65,7 +61,26 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
     	        'Content-Type': 'application/json'
     	    }
       }).success(function(data,status) {
-      	//On success, do something here.
+      	
+      	 if(data[0].mintStatusCode != 200){
+      		modalService.showModal({}, {    	            	           
+       		 headerText: data[0].mintStatus ,
+   	         bodyText: "FAILURE:" + data[0].mintLog
+      		});
+      	 }else if(data[0].databaseStatusCode != 200){
+      		modalService.showModal({}, {    	            	           
+       		 headerText: data[0].databaseStatus ,
+   	         bodyText: "FAILURE:" + data[0].databaseLog + "<br>CAUSED:" + data[0].databaseExceptionCause
+      		});
+      	 }else{
+      		modalService.showModal({}, {    	            	           
+      		  headerText: "IGSN Minted" ,
+      	      bodyText: "IGSN HANDLE:<a href='"+data[0].handle+"'>" + data[0].handle + "</a>"
+         	});
+      	 }
+      	
+      	
+      	
       }).error(function(response,status) {
     	modalService.showModal({}, {    	            	           
     		 headerText: response.header ,
@@ -96,9 +111,6 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  
   }
   
-  
-  
-  //getAllocatedPrefix.do
    
   var getAllocatedPrefix = function(){
       $http.get('web/getAllocatedPrefix.do', {}).success(function(response) {
@@ -115,33 +127,36 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   
   $scope.changePrefix = function(){
 	  $scope.resource.resourceIdentifier=$scope.resource.prefix;
+	  document.getElementById("form-resource-identifier").focus();
   }
   
   
   
-  var getResource = function(){
+  var getResource = function(igsn){
 	 $http.get('public/getResource.do', {
-		 	params: {
-		 		resourceIdentifier: 'CSTST-Demo3',		 		
+		 	params: {		 		 	
+		 		resourceIdentifier: igsn,
 		 		}
      }).success(function(data,status) {
-     	$scope.resource = data;      	     	
-	    }).error(function(response,status) {
-	    	if(status == 401){
-	    		$location.path("/login/" + $routeParams.igsn);
-	    	}else{
-	    		modalService.showModal({}, {    	            	           
-		    		 headerText: response.header ,
-			           bodyText: "FAILURE:" + response.message
-		    	 });
-	    	}
-	    	
-	    });	  
+     	$scope.resource = data; 
+     	$scope.resource.eventType="updated"
+     }).error(function(response,status) {
+    	if(status == 401){
+    		$location.path("/login/" + $routeParams.igsn);
+    	}else{
+    		modalService.showModal({}, {    	            	           
+	    		 headerText: response.header ,
+		           bodyText: "FAILURE:" + response.message
+	    	 });
+    	}
+    	
+     });	  
    }
 	 
   
-  if($scope.update){
-	 getResource(); 
-  }
+//  if($routeParams.igsn){
+//	  $scope.resource.eventType="updated"
+//	  getResource($routeParams.igsn); 
+//  }
   
 }]);

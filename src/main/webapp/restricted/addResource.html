@@ -14,17 +14,17 @@
 	                  <div class="form-group form-group-sm">
 	                      <label>Resource Identifier: {{resource.prefix}}{{resource.resourceIdentifier}}</label>
 	                      <div class="form-inline">
-		                      <div ng-hide="update" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
+		                      <div ng-hide="resource.eventType=='updated'" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
 			                     <select  class="form-control" ng-model="resource.prefix" ng-change="changePrefix(allocatedPrefix.prefix)" name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
 							  </div>
 							  <div class="form-group">
 			                      <div class="input-group" style="width:400px" ng-class="{ 'has-error' : mandatoryleft.resourceIdentifier.$invalid}">						            
-						            <input  ng-disabled="update" type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{resource.prefix}}.*"/>						            
+						            <input id="form-resource-identifier" ng-disabled="resource.eventType=='updated'" type="text" class="form-control" placeholder="Leaving this blank will auto generate random Id"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{resource.prefix}}.*"/>						            
 						          </div>
 					          </div>
 				          </div>
-				          <p ng-show="mandatoryleft.prefix.$invalid && !update" class="small help-block" style="color: #a94442;">Select prefix</p>	
-				          <p ng-show="(mandatoryleft.resourceIdentifier.$invalid && !update)" class="small help-block" style="color: #c4d44a;">Warning:Resource Identifier has to start with selected prefix</p>	                    	                    
+				          <p ng-show="mandatoryleft.prefix.$invalid && resource.eventType!='updated'" class="small help-block" style="color: #a94442;">Select prefix</p>	
+				          <p ng-show="(mandatoryleft.resourceIdentifier.$invalid && resource.eventType!='updated')" class="small help-block" style="color: #c4d44a;">Warning:Resource Identifier has to start with selected prefix</p>	                    	                    
 	                  </div>
 	                   <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.registeredObjectType.$invalid}">
 	                    <label>Registered Object Type</label>

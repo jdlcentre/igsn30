@@ -83,10 +83,9 @@ public class JsonToSchemaConverterCSIRO {
 			resourceXML.getCurationDetails().curation.add(curationXML);
 		}
 		
-		
-		Location locationXML = this.objectFactory.createResourcesResourceLocation();
-		locationXML.setLocality(this.objectFactory.createResourcesResourceLocationLocality());	
-		if(resourceJO.get("location") !=null){
+		if(!resourceJO.get("location").isJsonNull()){
+			Location locationXML = this.objectFactory.createResourcesResourceLocation();
+			locationXML.setLocality(this.objectFactory.createResourcesResourceLocationLocality());	
 			JsonObject locationObject = resourceJO.get("location").getAsJsonObject();		
 			locationXML.getLocality().setLocalityURI(locationObject.get("localityUri").getAsString());
 			locationXML.getLocality().setValue(locationObject.get("locality").getAsString());
@@ -98,19 +97,20 @@ public class JsonToSchemaConverterCSIRO {
 			resourceXML.setLocation(this.objectFactory.createResourcesResourceLocation(locationXML));
 		}
 		
-		for(JsonElement materialType : materialTypeses) {
-			resourceXML.getMaterialTypes().materialType.add(materialType.getAsJsonObject().getAsJsonObject("cvMaterialTypes").get("materialType").getAsString());
-		}
 		
-		resourceXML.setAlternateIdentifiers(this.objectFactory.createResourcesResourceAlternateIdentifiers());
-		resourceXML.getAlternateIdentifiers().alternateIdentifier = new ArrayList<String>();
+				
+		ArrayList<String> alternateIdentifiers = new ArrayList<String>();		
 		
 		JsonArray alternateIdentifierses = resourceJO.get("alternateIdentifierses").getAsJsonArray();
 		for(JsonElement alternateIdentifier : alternateIdentifierses) {	
 			if(alternateIdentifier.getAsJsonObject().entrySet().size()==0){
 				continue;
 			}
-			resourceXML.getAlternateIdentifiers().getAlternateIdentifier().add(alternateIdentifier.getAsJsonObject().get("alternateIdentifier").getAsString());
+			alternateIdentifiers.add(alternateIdentifier.getAsJsonObject().get("alternateIdentifier").getAsString());			
+		}
+		if(!alternateIdentifiers.isEmpty()){
+			resourceXML.setAlternateIdentifiers(this.objectFactory.createResourcesResourceAlternateIdentifiers());
+			resourceXML.getAlternateIdentifiers().alternateIdentifier = alternateIdentifiers;
 		}
 		
 		
@@ -127,9 +127,13 @@ public class JsonToSchemaConverterCSIRO {
 			classificationXML.setClassificationURI(classification.getAsJsonObject().get("classificationUri").getAsString());
 			resourceXML.getClassifications().classification.add(classificationXML);
 		}
+		if(resourceXML.getClassifications().classification.isEmpty()){
+			resourceXML.setClassifications(null);
+		}
 		
-		
-		resourceXML.setPurpose(resourceJO.get("purpose").getAsString());
+		if(!resourceJO.get("purpose").isJsonNull()){
+			resourceXML.setPurpose(resourceJO.get("purpose").getAsString());
+		}
 		
 		
 		JsonArray sampledFeatureses = resourceJO.get("sampledFeatureses").getAsJsonArray();
@@ -144,20 +148,36 @@ public class JsonToSchemaConverterCSIRO {
 			sampledFeatureXML.setValue(sampledFeatureObject.get("sampledFeature").getAsString());
 			sampledFeatureXML.setSampledFeatureURI(sampledFeatureObject.get("sampledFeatureUri").getAsString());
 			sampledFeatures.sampledFeature.add(sampledFeatureXML);
-		}		
-		resourceXML.setSampledFeatures(this.objectFactory.createResourcesResourceSampledFeatures(sampledFeatures));
+		}	
+		if(!sampledFeatures.sampledFeature.isEmpty()){
+			resourceXML.setSampledFeatures(this.objectFactory.createResourcesResourceSampledFeatures(sampledFeatures));
+		}
 		
 		
-		Resource.Date date = new Resource.Date();
-		date.setTimeInstant(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant").getAsString());
-		resourceXML.setDate(this.objectFactory.createResourcesResourceDate(date));
+		if(!resourceJO.get("resourceDate").isJsonNull() && resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant")!=null){
+			Resource.Date date = new Resource.Date();
+			date.setTimeInstant(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant").getAsString());
+			resourceXML.setDate(this.objectFactory.createResourcesResourceDate(date));
+		}
 		
-		resourceXML.setMethod(this.objectFactory.createResourcesResourceMethod());
-		resourceXML.getMethod().setValue(resourceJO.get("method").getAsJsonObject().get("method").getAsString());
-		resourceXML.getMethod().setMethodURI(resourceJO.get("method").getAsJsonObject().get("methodUri").getAsString());
 		
-		resourceXML.setCampaign(resourceJO.get("campaign").getAsString());
-		resourceXML.setComments(resourceJO.get("comments").getAsString());
+		if(!resourceJO.get("method").isJsonNull()){
+			resourceXML.setMethod(this.objectFactory.createResourcesResourceMethod());
+			if(resourceJO.get("method").getAsJsonObject().get("method")!=null){
+				resourceXML.getMethod().setValue(resourceJO.get("method").getAsJsonObject().get("method").getAsString());
+			}
+			if(resourceJO.get("method").getAsJsonObject().get("methodUri")!=null){
+				resourceXML.getMethod().setMethodURI(resourceJO.get("method").getAsJsonObject().get("methodUri").getAsString());
+			}
+		}
+		
+		if(!resourceJO.get("campaign").isJsonNull()){
+			resourceXML.setCampaign(resourceJO.get("campaign").getAsString());
+		}
+		if(!resourceJO.get("comments").isJsonNull()){
+			resourceXML.setComments(resourceJO.get("comments").getAsString());
+		}
+		
 		
 		
 		resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
@@ -176,6 +196,9 @@ public class JsonToSchemaConverterCSIRO {
 			contributorXML.setContributorType(contributorObject.get("contributorType").getAsString());
 			resourceXML.getContributors().contributor.add(contributorXML);
 		}	
+		if(resourceXML.getContributors().contributor.isEmpty()){
+			resourceXML.setContributors(null);
+		}
 		
 		
 		
@@ -192,6 +215,9 @@ public class JsonToSchemaConverterCSIRO {
 			relatedResourceXML.setRelationType(relatedResourceObject.get("relationType").getAsString());
 			relatedResourceXML.setRelatedResourceIdentifierType(relatedResourceObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
 			resourceXML.getRelatedResources().relatedResource.add(relatedResourceXML);
+		}
+		if(resourceXML.getRelatedResources().relatedResource.isEmpty()){
+			resourceXML.setRelatedResources(null);
 		}
 		
 		

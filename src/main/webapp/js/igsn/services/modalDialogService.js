@@ -1,4 +1,4 @@
-app.service('modalService', ['$uibModal',function ($uibModal) {
+app.service('modalService', ['$uibModal','$sce',function ($uibModal,$sce) {
 
       var modalDefaults = {
           backdrop: true,
@@ -37,6 +37,7 @@ app.service('modalService', ['$uibModal',function ($uibModal) {
                   $scope.modalOptions.ok = function (result) {
                 	  $uibModalInstance.close(result);
                   };
+                  $scope.modalOptions.bodyText = $sce.trustAsHtml($scope.modalOptions.bodyText);
                   $scope.modalOptions.close = function (result) {
                 	  $uibModalInstance.dismiss('cancel');
                   };

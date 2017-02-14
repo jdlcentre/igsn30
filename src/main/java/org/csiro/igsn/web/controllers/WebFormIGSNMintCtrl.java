@@ -189,7 +189,7 @@ public class WebFormIGSNMintCtrl {
 						if(test){
 							resourceEntityService.testInsertResource(r,registrant);
 						}else if(r.getLogDate().getEventType().equals(EventType.REGISTERED)){
-							resourceEntityService.insertResource(r,registrant);
+							resourceEntityService.insertResource(r,registrant,true);
 						}else if(r.getLogDate().getEventType().equals(EventType.DESTROYED)){
 							resourceEntityService.destroyResource(r);
 						}else if(r.getLogDate().getEventType().equals(EventType.DEPRECATED)){
