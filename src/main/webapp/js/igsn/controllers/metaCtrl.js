@@ -3,7 +3,7 @@ allControllers.controller('metaCtrl', ['$rootScope','$scope','$http','currentAut
 	
 	angular.extend($scope, {
 	    defaults: {
-	        tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+	        //tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
 	        maxZoom: 14,
 	        path: {
 	            weight: 10,
