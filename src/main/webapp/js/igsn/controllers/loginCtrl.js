@@ -1,5 +1,5 @@
-allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','$routeParams',
-                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,$routeParams) {
+allControllers.controller('LoginCtrl', ['$scope','$timeout','$http','currentAuthService','$route','$templateCache','$location','modalService','$routeParams',
+                                                    function ($scope,$timeout,$http,currentAuthService,$route,$templateCache,$location,modalService,$routeParams) {
 	
 	$scope.isRedirect = false;
 	
@@ -30,7 +30,10 @@ allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$
 			  currentAuthService.setPermissions(data.userPermission);
 			  currentAuthService.setIsAllocator(data.isAllocator);
 			  if($routeParams.igsn){
-				  $location.path("/meta/" + $routeParams.igsn);
+				  $timeout(function(){ 
+					  $location.path("/" + $routeParams.path + "/" + $routeParams.igsn);
+					  window.location.href = $location.absUrl();
+					},0);				  
 			  }else if($location.path()=='/login'){	    		  
 	    		  $location.path("/");
 	    	  }else{

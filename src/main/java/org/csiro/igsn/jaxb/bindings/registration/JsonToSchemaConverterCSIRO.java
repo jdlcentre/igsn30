@@ -29,6 +29,13 @@ public class JsonToSchemaConverterCSIRO {
 	}
 	
 
+	private boolean isNull(JsonElement test){
+		if(test!=null && !test.isJsonNull()){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	public org.csiro.igsn.jaxb.bindings.registration.Resources.Resource convert(JsonElement resourceElement) {	
 		
@@ -74,16 +81,26 @@ public class JsonToSchemaConverterCSIRO {
 		JsonArray curationDetailses = resourceJO.get("curationDetailses").getAsJsonArray();
 		for(JsonElement curationDetail : curationDetailses) {
 			JsonObject curationDetailObject = curationDetail.getAsJsonObject();
-			curationXML.setCurator(curationDetailObject.get("curator").getAsString());
-			curationXML.setCurationDate(curationDetailObject.get("curationDate").getAsString().substring(0, 10));
-			curationXML.setCurationLocation(curationDetailObject.get("curationLocation").getAsString());
+			if(!isNull(curationDetailObject.get("curator"))){
+				curationXML.setCurator(curationDetailObject.get("curator").getAsString());
+			}
+			if(!isNull(curationDetailObject.get("curationDate"))){
+				curationXML.setCurationDate(curationDetailObject.get("curationDate").getAsString().substring(0, 10));
+			}
+			if(!isNull(curationDetailObject.get("curationLocation"))){
+				curationXML.setCurationLocation(curationDetailObject.get("curationLocation").getAsString());
+			}
+			
+			
 			curationXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
-			curationXML.getCuratingInstitution().setValue(curationDetailObject.get("curatingInstitution").getAsString());
+			if(!isNull(curationDetailObject.get("curatingInstitution"))){
+				curationXML.getCuratingInstitution().setValue(curationDetailObject.get("curatingInstitution").getAsString());
+			}			
 			curationXML.getCuratingInstitution().setInstitutionURI(curationDetailObject.get("institutionUri").getAsString());
 			resourceXML.getCurationDetails().curation.add(curationXML);
 		}
 		
-		if(!resourceJO.get("location").isJsonNull()){
+		if(!isNull(resourceJO.get("location"))){
 			Location locationXML = this.objectFactory.createResourcesResourceLocation();
 			locationXML.setLocality(this.objectFactory.createResourcesResourceLocationLocality());	
 			JsonObject locationObject = resourceJO.get("location").getAsJsonObject();		
@@ -122,7 +139,7 @@ public class JsonToSchemaConverterCSIRO {
 			if(classification.getAsJsonObject().entrySet().size()==0){
 				continue;
 			}
-			Resource.Classifications.Classification classificationXML = new Resource.Classifications.Classification();
+			Resource.Classifications.Classification classificationXML = new Resource.Classifications.Classification();			
 			classificationXML.setValue(classification.getAsJsonObject().get("classification").getAsString());
 			classificationXML.setClassificationURI(classification.getAsJsonObject().get("classificationUri").getAsString());
 			resourceXML.getClassifications().classification.add(classificationXML);
@@ -131,7 +148,7 @@ public class JsonToSchemaConverterCSIRO {
 			resourceXML.setClassifications(null);
 		}
 		
-		if(!resourceJO.get("purpose").isJsonNull()){
+		if(!isNull(resourceJO.get("purpose"))){
 			resourceXML.setPurpose(resourceJO.get("purpose").getAsString());
 		}
 		
@@ -145,8 +162,12 @@ public class JsonToSchemaConverterCSIRO {
 			}
 			JsonObject sampledFeatureObject = sampledFeature.getAsJsonObject();
 			Resource.SampledFeatures.SampledFeature sampledFeatureXML = new Resource.SampledFeatures.SampledFeature();
-			sampledFeatureXML.setValue(sampledFeatureObject.get("sampledFeature").getAsString());
-			sampledFeatureXML.setSampledFeatureURI(sampledFeatureObject.get("sampledFeatureUri").getAsString());
+			if(!isNull(sampledFeatureObject.get("sampledFeature"))){
+				sampledFeatureXML.setValue(sampledFeatureObject.get("sampledFeature").getAsString());
+			}
+			if(!isNull(sampledFeatureObject.get("sampledFeatureUri"))){
+				sampledFeatureXML.setSampledFeatureURI(sampledFeatureObject.get("sampledFeatureUri").getAsString());
+			}			
 			sampledFeatures.sampledFeature.add(sampledFeatureXML);
 		}	
 		if(!sampledFeatures.sampledFeature.isEmpty()){
@@ -154,14 +175,14 @@ public class JsonToSchemaConverterCSIRO {
 		}
 		
 		
-		if(!resourceJO.get("resourceDate").isJsonNull() && resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant")!=null){
+		if(!isNull(resourceJO.get("resourceDate")) && resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant")!=null){
 			Resource.Date date = new Resource.Date();
 			date.setTimeInstant(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant").getAsString());
 			resourceXML.setDate(this.objectFactory.createResourcesResourceDate(date));
 		}
 		
 		
-		if(!resourceJO.get("method").isJsonNull()){
+		if(!isNull(resourceJO.get("method"))){
 			resourceXML.setMethod(this.objectFactory.createResourcesResourceMethod());
 			if(resourceJO.get("method").getAsJsonObject().get("method")!=null){
 				resourceXML.getMethod().setValue(resourceJO.get("method").getAsJsonObject().get("method").getAsString());
@@ -171,10 +192,10 @@ public class JsonToSchemaConverterCSIRO {
 			}
 		}
 		
-		if(!resourceJO.get("campaign").isJsonNull()){
+		if(!isNull(resourceJO.get("campaign"))){
 			resourceXML.setCampaign(resourceJO.get("campaign").getAsString());
 		}
-		if(!resourceJO.get("comments").isJsonNull()){
+		if(!isNull(resourceJO.get("comments"))){
 			resourceXML.setComments(resourceJO.get("comments").getAsString());
 		}
 		

@@ -18,6 +18,14 @@ allControllers.controller('metaCtrl', ['$rootScope','$scope','$http','currentAut
 	    }
 	});
 	
+	$scope.edit = function(){
+		if(currentAuthService.getAuthenticated()){
+			$location.path("/addresource/" + $routeParams.igsn);
+		}else{
+			$location.path("/login/addresource/" + $routeParams.igsn);
+		}
+	}
+	
 	
 	$scope.resource={};
 	if($routeParams.igsn){
@@ -50,7 +58,7 @@ allControllers.controller('metaCtrl', ['$rootScope','$scope','$http','currentAut
              });        	        	
 	    }).error(function(response,status) {
 	    	if(status == 401){
-	    		$location.path("/login/" + $routeParams.igsn);
+	    		$location.path("/login/meta/" + $routeParams.igsn);
 	    	}else{
 	    		modalService.showModal({}, {    	            	           
 		    		 headerText: response.header ,

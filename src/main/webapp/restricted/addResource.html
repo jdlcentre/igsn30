@@ -33,12 +33,12 @@
 	                  </div>
 	                  <div class="form-group form-group-sm"  ng-class="{ 'has-error' : mandatoryleft.landingPage.$invalid}">
 	                    <label>Landing Page</label>
-	                    <input name="landingPage" type="text" class="form-control" placeholder="Enter a valid landing page" ng-model="resource.landingPage" required/>
-	                    <p ng-show="mandatoryleft.landingPage.$invalid" class="small help-block">Enter a valid landing page url.</p>
+	                    <input name="landingPage" type="text" class="form-control" placeholder="Enter a valid landing page" ng-model="resource.landingPage" required pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"/>
+	                    <p ng-show="mandatoryleft.landingPage.$invalid" class="small help-block">Enter a valid landing page url that starts with http:// or https://</p>
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.ispublic.$invalid}">
 	                    <label>isPublic</label>
-	                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" ng-options="o.v as o.n for o in [{ n: 'False', v: false }, { n: 'True', v: true }]" required></select>
+	                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" ng-options="o.v as o.n for o in [{ n: 'True', v: true }, { n: 'False', v: false }]" required></select>
 					    <p ng-show="mandatoryleft.ispublic.$invalid" class="small help-block">Select public access</p>	                   
 	                  </div>	
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
@@ -75,7 +75,7 @@
 	                    <div class="form-group form-group-sm">
 		                    <label>Curation Date</label>
 		                    <div class="input-group">
-		                     <input type="date" class="form-control" ng-model="resource.curationDetailses[0].curationDate" />
+		                     <input type="date" class="form-control" ng-model="resource.curationDetailses[0].curationDate" format-date/>
 						     </div>
 		                 </div>
 		                 <div class="form-group form-group-sm">
@@ -100,7 +100,7 @@
           </div>         
         </div>
         <div class="row">
-        	<button class="btn btn-blue  pull-right" type="button" ng-click="mintResource()">Mint IGSN</button>
+        	<button class="btn btn-blue  pull-right" type="button" ng-click="mintResource()">{{resource.eventType=='updated'? "Update Resource" : "Mint Resource"}}</button>
         </div> 
         <div class="row mt-20 mb-30">
 	      <div class="col-sm-12">
@@ -247,7 +247,7 @@
 		                    <label>Contributor Identifier Type</label>
 		                    <select  class="form-control" ng-model="contributor.cvIdentifierType.identifierType"  ng-options="type as type for type in getIdentifierType"></select>	                   
 		                 </div>	
-		                 <button class="btn btn-red btn-sm" type="button" ng-click="removeContributor($index)">Remove Contributor</button>
+		                 <button class="btn btn-red btn-sm" type="button" ng-hide="resource.contributorses.length ==1" ng-click="removeContributor($index)">Remove Contributor</button>
 					     <button class="btn btn-blue btn-sm" type="button" ng-click="addContributor()">Add More Contributor</button>
 					    </fieldset>  
 					    
@@ -271,7 +271,7 @@
 		                    <label>Relation Type</label>
 		                    <select  class="form-control" ng-model="relatedResource.relationType"  ng-options="type as type for type in getRelationType"></select>	                   
 		                 </div>	
-		                 <button class="btn btn-red btn-sm" type="button" ng-click="removeRelatedResource($index)">Remove Related Resource</button>
+		                 <button class="btn btn-red btn-sm" type="button" ng-hide="resource.relatedResourceses.length ==1" ng-click="removeRelatedResource($index)">Remove Related Resource</button>
 					     <button class="btn btn-blue btn-sm" type="button" ng-click="addRelatedResource()">Add More Related Resource</button>
 					  </fieldset> 
 					 </div>	                       

@@ -7,10 +7,14 @@ app.config(['$routeProvider',
     	  redirectTo: '/addresource'
       
       }).
-      when('/addresource/:igsn', {
+      when('/addresource', {
         templateUrl: 'restricted/addResource.html'
      
       }).  
+      when('/addresource/:igsn', {
+          templateUrl: 'restricted/addResource.html'
+       
+        }). 
       when('/registrant', {
           templateUrl: 'restricted/registrant.html',
           resolve:{
@@ -25,7 +29,7 @@ app.config(['$routeProvider',
       when('/meta/:igsn', {
           templateUrl: 'views/meta.html'        
       }).    
-      when('/login/:igsn', {
+      when('/login/:path/:igsn', {
           templateUrl: 'views/login.html'        
       }).      
       otherwise({
@@ -54,6 +58,17 @@ app.directive('capitalize', function() {
   };
 });
 
+
+app.directive("formatDate", function(){
+  return {
+   require: 'ngModel',
+    link: function(scope, elem, attr, modelCtrl) {
+      modelCtrl.$formatters.push(function(modelValue){
+        return new Date(modelValue);
+      })
+    }
+  }
+})
 
 app.directive('jqdatepicker', function () {
     return {

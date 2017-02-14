@@ -1,4 +1,4 @@
-app.service('modalService', ['$uibModal','$sce',function ($uibModal,$sce) {
+app.service('modalService', ['$uibModal','$sce','$location',function ($uibModal,$sce,$location) {
 
       var modalDefaults = {
           backdrop: true,
@@ -41,6 +41,14 @@ app.service('modalService', ['$uibModal','$sce',function ($uibModal,$sce) {
                   $scope.modalOptions.close = function (result) {
                 	  $uibModalInstance.dismiss('cancel');
                   };
+                  
+                  if($scope.modalOptions.redirect){
+                	  $scope.modalOptions.redirectFnc = function () {
+                    	  $location.path($scope.modalOptions.redirect);
+                    	  $uibModalInstance.close(result);
+                      };
+                  }
+                  
               }
           }
 

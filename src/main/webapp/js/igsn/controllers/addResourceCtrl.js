@@ -38,19 +38,23 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   reset();
   
   $scope.addContributor = function(){
-	  $scope.resource.contributors.push({}); 
+	  $scope.resource.contributorses.push({}); 
   }
   
   $scope.removeContributor = function(index){
-	  $scope.resource.contributors.splice(index,1);
+	  if($scope.resource.contributorses.length > 1){
+		  $scope.resource.contributorses.splice(index,1);
+	  }
   }
   
   $scope.addRelatedResource = function(){
-	  $scope.resource.relatedResources.push({}); 
+	  $scope.resource.relatedResourceses.push({}); 
   }
   
   $scope.removeRelatedResource = function(index){
-	  $scope.resource.relatedResources.splice(index,1);
+	  if($scope.resource.relatedResourceses.length > 1){
+		  $scope.resource.relatedResourceses.splice(index,1);
+	  }
   }
 	
   $scope.mintResource = function(){	  
@@ -75,8 +79,11 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
       	 }else{
       		modalService.showModal({}, {    	            	           
       		  headerText: "IGSN Minted" ,
-      	      bodyText: "IGSN HANDLE:<a href='"+data[0].handle+"'>" + data[0].handle + "</a>"
-         	});
+      	      bodyText: "IGSN HANDLE: <a href='"+data[0].handle+"'>" + data[0].handle + "</a>",
+      	      redirect: "/meta/"+data[0].sampleId
+         	}).then(function (result) {	            
+	              $location.path('/addresource');	            
+	         });;
       	 }
       	
       	
@@ -138,8 +145,18 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 		 		resourceIdentifier: igsn,
 		 		}
      }).success(function(data,status) {
-     	$scope.resource = data; 
-     	$scope.resource.eventType="updated"
+    	if(data.inputMethod != "form"){
+    		modalService.showModal({}, {    	            	           
+	    		 headerText: "Resource uneditiable" ,
+		         bodyText: "Only resource that have been entered by this web form and not altered by any other means can be edited."		        	   
+	    	 });
+    		$location.path("/addresource");
+    		
+    	}else{
+    		$scope.resource = data; 
+         	$scope.resource.eventType="updated"
+    	}     	 
+     	
      }).error(function(response,status) {
     	if(status == 401){
     		$location.path("/login/" + $routeParams.igsn);
@@ -147,16 +164,18 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
     		modalService.showModal({}, {    	            	           
 	    		 headerText: response.header ,
 		           bodyText: "FAILURE:" + response.message
-	    	 });
+	    	 }).then(function (result) {	            
+	              $location.path('/addresource');	            
+	         });
     	}
     	
      });	  
    }
 	 
   
-//  if($routeParams.igsn){
-//	  $scope.resource.eventType="updated"
-//	  getResource($routeParams.igsn); 
-//  }
+  if($routeParams.igsn){
+	  $scope.resource.eventType="updated"
+	  getResource($routeParams.igsn); 
+  }
   
 }]);

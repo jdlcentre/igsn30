@@ -162,13 +162,16 @@ public class ResourceEntityService {
 	
 	
 
-	public void destroyResource(Resource resource) throws Exception {
+	public void destroyResource(Resource resource,boolean isWebInsert) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();		
 		try{
 			em.getTransaction().begin();			
 			Resources r = this.searchResourceByIdentifier(resource.getResourceIdentifier().getValue());
 			if(r==null){
 				throw new Exception("Resource not found, unable to update resource. Change event type to registered");
+			}
+			if(isWebInsert){
+				r.setInputMethod("form");
 			}
 			r.getLogDate().setEventType((EventType.DESTROYED.value()));
 			em.merge(r);
@@ -187,13 +190,16 @@ public class ResourceEntityService {
 		
 	}
 	
-	public void deprecateResource(Resource resource) throws Exception {
+	public void deprecateResource(Resource resource, boolean isWebInsert) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();		
 		try{
 			em.getTransaction().begin();			
 			Resources r = this.searchResourceByIdentifier(resource.getResourceIdentifier().getValue());
 			if(r==null){
 				throw new Exception("Resource not found, unable to update resource. Change event type to registered");
+			}
+			if(isWebInsert){
+				r.setInputMethod("form");
 			}
 			r.getLogDate().setEventType((EventType.DEPRECATED.value()));
 			em.merge(r);
@@ -216,7 +222,7 @@ public class ResourceEntityService {
 	
 
 
-	public void updateResource(Resource resourceXML,Registrant registrant) throws Exception {
+	public void updateResource(Resource resourceXML,Registrant registrant,boolean isWebInsert) throws Exception {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		Resources resourcesEntity = this.searchResourceByIdentifier(resourceXML.getResourceIdentifier().getValue());
 		if(resourcesEntity==null){
@@ -225,7 +231,10 @@ public class ResourceEntityService {
 		try{
 			resourcesEntity = new Resources();
 			em.getTransaction().begin();
-			jaxbResourceToEntityConverter.convert(resourceXML,registrant,resourcesEntity);		
+			jaxbResourceToEntityConverter.convert(resourceXML,registrant,resourcesEntity);	
+			if(isWebInsert){
+				resourcesEntity.setInputMethod("form");
+			}
 			resourcesEntity.getLogDate().setEventType((EventType.UPDATED.value()));
 			em.merge(resourcesEntity);
 			em.flush();

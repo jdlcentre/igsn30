@@ -159,11 +159,11 @@ public class IGSNMintCtrl {
 						}else if(r.getLogDate().getEventType().equals(EventType.REGISTERED)){
 							resourceEntityService.insertResource(r,registrant,false);
 						}else if(r.getLogDate().getEventType().equals(EventType.DESTROYED)){
-							resourceEntityService.destroyResource(r);
+							resourceEntityService.destroyResource(r,false);
 						}else if(r.getLogDate().getEventType().equals(EventType.DEPRECATED)){
-							resourceEntityService.deprecateResource(r);
+							resourceEntityService.deprecateResource(r,false);
 						}else if(r.getLogDate().getEventType().equals(EventType.UPDATED)){
-							resourceEntityService.updateResource(r,registrant);
+							resourceEntityService.updateResource(r,registrant,false);
 						}
 						mintEventLog.setDatabaseLog(DatabaseErrorCode.UPDATE_SUCCESS, null);
 						mintEventLogs.add(mintEventLog);

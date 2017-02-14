@@ -191,11 +191,11 @@ public class WebFormIGSNMintCtrl {
 						}else if(r.getLogDate().getEventType().equals(EventType.REGISTERED)){
 							resourceEntityService.insertResource(r,registrant,true);
 						}else if(r.getLogDate().getEventType().equals(EventType.DESTROYED)){
-							resourceEntityService.destroyResource(r);
+							resourceEntityService.destroyResource(r,true);
 						}else if(r.getLogDate().getEventType().equals(EventType.DEPRECATED)){
-							resourceEntityService.deprecateResource(r);
+							resourceEntityService.deprecateResource(r,true);
 						}else if(r.getLogDate().getEventType().equals(EventType.UPDATED)){
-							resourceEntityService.updateResource(r,registrant);
+							resourceEntityService.updateResource(r,registrant,true);
 						}
 						mintEventLog.setDatabaseLog(DatabaseErrorCode.UPDATE_SUCCESS, null);
 						mintEventLogs.add(mintEventLog);
