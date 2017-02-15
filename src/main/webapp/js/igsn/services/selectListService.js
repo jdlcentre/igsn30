@@ -123,12 +123,11 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
       
       this.getRelationType = function(){
     	  return [
-  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Compiles",
-  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/hasDigitalRepresentation",
-  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasMetadata",
+  				
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasDigitalRepresentation",  			
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasReferenceResource",
-  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/hasSamplingFeature",
-  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsCompiledBy",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasSamplingFeature",
+  				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsAggregateOf",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDerivedFrom",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDigitalRepresentationOf",
   				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDocumentedBy",

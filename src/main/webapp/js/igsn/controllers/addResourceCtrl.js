@@ -9,7 +9,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getRelationType = selectListService.getRelationType();
   $scope.registeredObjectType = selectListService.registeredObjectType();
   $scope.getTrueFalse = selectListService.getTrueFalse();
-  
+  $scope.loading=false;
   
   
   var initDataStructure = function(){
@@ -97,6 +97,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 
 	
   $scope.mintResource = function(){	  
+	  $scope.loading=true;
 	  $http.post('web/mintJson.do', 
 			  $scope.resource
       ,{
@@ -124,7 +125,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	              $location.path('/addresource');	            
 	         });;
       	 }
-      	
+      	$scope.loading=false;
       	
       	
       }).error(function(response,status) {
@@ -132,6 +133,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
     		 headerText: response.header ,
 	           bodyText: "FAILURE:" + response.message
     	 });
+    	$scope.loading=false;
       });	  
   }
   

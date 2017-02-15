@@ -1,6 +1,7 @@
-
+   
    <div class="section section-lg section-bottom container" ng-controller="addResourceCtrl">
-      <div>                    
+   <div class="loading" ng-class="{'loader-show':loading, 'loader-hide':!loading}"></div>
+      <div>                   
         <div class="row">        
           <div class="col-md-12">
 	       	 <div class="row">
@@ -170,30 +171,40 @@
 		                    <label>Alternate Identifier</label>
 		                    <input type="text" ng-repeat="altId in resource.alternateIdentifierses" class="form-control" placeholder="Alternate identifier" ng-model="altId.alternateIdentifier"/>
 		                  </div> 
-		                   <div class="form-group form-group-sm">
-		                    <label>Classification</label>
+		                   <div class="form-group form-group-sm">		                   
 		                     <div class="row" ng-repeat ="classification in resource.classificationses">
-							  <div class="col-sm-6 col-xs-12">						   					      
-							      <input type="text" class="form-control" placeholder="http://" ng-model="classification.classificationUri"/>		    
+							  <div class="col-sm-6 col-xs-12">		
+							  	  <div class="input-group width-100">
+								  	  <label>Classification uri:</label>					   					      
+								      <input type="text" class="form-control"  placeholder="http://" ng-model="classification.classificationUri"/>
+							      </div>		    
 							  </div>
-							  <div class="col-sm-6 col-xs-12">									  	  		   				     
-							      <input type="text" class="form-control" placeholder="classification" ng-model="classification.classification"/>						    
+							  <div class="col-sm-6 col-xs-12">	
+							  	  <div class="input-group width-100">
+								  	  <label>Classification</label>					   					      
+								      <input type="text" class="form-control"  placeholder="classification" ng-model="classification.classification"/>
+							      </div>								  	  		   				     
+							      						    
 							  </div>
-							</div>
-		                    
+							</div>		                    
 		                  </div>  
 		                   <div class="form-group form-group-sm">
 		                    <label>purpose</label>
 		                    <input type="text" class="form-control" placeholder="purpose" ng-model="resource.purpose"/>
 		                  </div>   
-		                   <div class="form-group form-group-sm">
-		                    <label>SampledFeatures</label>
+		                   <div class="form-group form-group-sm">		                    
 		                    <div class="row" ng-repeat="sampledFeature in resource.sampledFeatureses">
-							  <div class="col-sm-6 col-xs-12">						   					      
-							      <input type="text" class="form-control" placeholder="http://" ng-model="sampledFeature.sampledFeatureUri"/>						    
+							  <div class="col-sm-6 col-xs-12">	
+							  	 <div class="input-group width-100">
+								  	  <label>Sampled Feature uri:</label>					   					      
+								      <input type="text" class="form-control" placeholder="http://" ng-model="sampledFeature.sampledFeatureUri"/>
+							      </div>						   					      							      						   
 							  </div>
-							  <div class="col-sm-6 col-xs-12">						   				      
-							      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="sampledFeature.sampledFeature"/>						    
+							  <div class="col-sm-6 col-xs-12">	
+							  	 <div class="input-group width-100">
+								  	  <label>Sampled Feature:</label>					   					      
+								      <input type="text" class="form-control" placeholder="Sampled Feature" ng-model="sampledFeature.sampledFeature"/>
+							      </div>					   				      							      						    
 							  </div>
 							</div>
 		                  </div>  
@@ -203,15 +214,19 @@
 		                     <input type="date" class="form-control"  ng-model="resource.resourceDate.timeInstant" format-date/>						          
 						     </div>
 		                  </div>
-						  <div class="form-group form-group-sm">
-		                    <label>Method</label>
+						  <div class="form-group form-group-sm">		                  
 		                    <div class="row">
-							  <div class="col-sm-6 col-xs-12">						   					      
-							      <input type="text" class="form-control" placeholder="Method uri" ng-model="resource.method.methodUri"/>				    
-							  </div>
 							  <div class="col-sm-6 col-xs-12">		
-							  	  <input type="text" class="form-control" placeholder="Method" ng-model="resource.method.method"/>				   				      
-							      						    
+							  	 <div class="input-group width-100">
+								  	  <label>Method uri:</label>					   					      
+								      <input type="text" class="form-control" placeholder="http://" ng-model="resource.method.methodUri"/>
+							      </div>				   					      							      				   
+							  </div>
+							  <div class="col-sm-6 col-xs-12">									  	  				   				      
+							      <div class="input-group width-100">
+								  	  <label>Method:</label>					   					      
+								      <input type="text" class="form-control" placeholder="Method" ng-model="resource.method.method"/>
+							      </div>						    
 							  </div>
 							</div>
 		                    
