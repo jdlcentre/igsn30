@@ -44,8 +44,10 @@ app.service('modalService', ['$uibModal','$sce','$location',function ($uibModal,
                   
                   if($scope.modalOptions.redirect){
                 	  $scope.modalOptions.redirectFnc = function () {
-                    	  $location.path($scope.modalOptions.redirect);
-                    	  $uibModalInstance.close(result);
+                		  $uibModalInstance.close();
+                    	  $location.path($scope.modalOptions.redirect);                    	                	 
+                    	  window.location.href = $location.absUrl();
+                    	  
                       };
                   }
                   

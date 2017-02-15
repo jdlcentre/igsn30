@@ -12,31 +12,69 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   
   
   
-  
-  var reset = function(){
-	  $scope.resource={};  
-	  $scope.resource.contributorses=[];
-	  $scope.resource.contributorses[0] = {};	  
-	  $scope.resource.relatedResourceses=[];
-	  $scope.resource.relatedResourceses[0] ={};
-	  $scope.resource.materialTypeses=[];
-	  $scope.resource.materialTypeses[0] ={};
-	  $scope.resource.resourceTypeses=[];
-	  $scope.resource.resourceTypeses[0] ={};
-	  $scope.resource.curationDetailses=[];
-	  $scope.resource.curationDetailses[0]={};
-	  $scope.resource.classificationses=[];
-	  $scope.resource.classificationses[0]={};
-	  $scope.resource.alternateIdentifierses=[];
-	  $scope.resource.alternateIdentifierses[0] ={};
-	  $scope.resource.sampledFeatureses=[];
-	  $scope.resource.sampledFeatureses[0]={};
-	  $scope.resource.eventType="registered"
-	  
+  var initDataStructure = function(){
+	  if($scope.resource==null){
+		  $scope.resource={};
+	  };    
+	  if( $scope.resource.contributorses==null){
+		  $scope.resource.contributorses=[];
+		
+	  };
+	  if($scope.resource.relatedResourceses==null){
+		  $scope.resource.relatedResourceses=[];
+		 
+	  };
+	  if($scope.resource.materialTypeses==null){
+		  $scope.resource.materialTypeses=[];
+		 
+	  };
+	  if($scope.resource.resourceTypeses==null){
+		  $scope.resource.resourceTypeses=[];
+	  };
+	  if($scope.resource.curationDetailses==null){
+		  $scope.resource.curationDetailses=[];
+	  };	  
+	  if($scope.resource.classificationses==null){
+		  $scope.resource.classificationses=[];
+	  };
+	  if($scope.resource.alternateIdentifierses==null){
+		  $scope.resource.alternateIdentifierses=[];
+	  }
+	  if($scope.resource.sampledFeatureses==null){
+		  $scope.resource.sampledFeatureses=[];
+	  };
+		  
+	
+	    
+	  if( $scope.resource.contributorses.length==0){
+		  $scope.resource.contributorses[0] = {}; 
+	  };
+	  if($scope.resource.relatedResourceses.length==0){
+		  $scope.resource.relatedResourceses[0] ={};
+	  };
+	  if($scope.resource.materialTypeses.length==0){
+		  $scope.resource.materialTypeses[0] ={};  
+	  };
+	  if($scope.resource.resourceTypeses.length==0){
+		  $scope.resource.resourceTypeses[0] ={};
+	  };
+	  if($scope.resource.curationDetailses.length==0){
+		  $scope.resource.curationDetailses[0]={};
+	  };	  
+	  if($scope.resource.classificationses.length==0){
+		  $scope.resource.classificationses[0]={};
+	  };
+	  if($scope.resource.alternateIdentifierses.length==0){
+		  $scope.resource.alternateIdentifierses[0] ={};
+	  }
+	  if($scope.resource.sampledFeatureses.length==0){
+		  $scope.resource.sampledFeatureses[0]={};  
+	  };
   }
   
-  reset();
-  
+  initDataStructure();
+  $scope.resource.eventType="registered"
+	  
   $scope.addContributor = function(){
 	  $scope.resource.contributorses.push({}); 
   }
@@ -56,6 +94,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 		  $scope.resource.relatedResourceses.splice(index,1);
 	  }
   }
+
 	
   $scope.mintResource = function(){	  
 	  $http.post('web/mintJson.do', 
@@ -104,12 +143,12 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  try{		  
 		  var wkt = new Wkt.Wkt();        	
 		  wkt.read(wktString);
-		  if(wkt.type.toUpperCase()!="POINT" || wkt.type.toUpperCase()!="POLYGON" || wkt.type.toUpperCase()!="LINESTRING" || 
-				  wkt.type.toUpperCase()!="CURVE" || wkt.type.toUpperCase()!="MULTIPOLYGON" || wkt.type.toUpperCase()!="TRIANGLE"
-					  || wkt.type.toUpperCase()!="MULTICURVE" || wkt.type.toUpperCase()!="CURVEPOLYGON"){
-			  $scope.location.wkt.$invalid = true;  
+		  if(wkt.type.toUpperCase() ==="POINT" || wkt.type.toUpperCase()==="POLYGON" || wkt.type.toUpperCase() ==="LINESTRING" || 
+				  wkt.type.toUpperCase()==="CURVE" || wkt.type.toUpperCase()==="MULTIPOLYGON" || wkt.type.toUpperCase()==="TRIANGLE"
+					  || wkt.type.toUpperCase()==="MULTICURVE" || wkt.type.toUpperCase()==="CURVEPOLYGON"){
+			  $scope.location.wkt.$invalid = false;  
 		  }else{
-			  $scope.location.wkt.$invalid = false;
+			  $scope.location.wkt.$invalid = true;
 		  }
 		  
 	  }catch(error){
@@ -154,7 +193,9 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
     		
     	}else{
     		$scope.resource = data; 
-         	$scope.resource.eventType="updated"
+         	$scope.resource.eventType="updated";
+         	initDataStructure();
+         	         		
     	}     	 
      	
      }).error(function(response,status) {
@@ -163,7 +204,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
     	}else{
     		modalService.showModal({}, {    	            	           
 	    		 headerText: response.header ,
-		           bodyText: "FAILURE:" + response.message
+		           bodyText: "CAUSE:" + response.message
 	    	 }).then(function (result) {	            
 	              $location.path('/addresource');	            
 	         });

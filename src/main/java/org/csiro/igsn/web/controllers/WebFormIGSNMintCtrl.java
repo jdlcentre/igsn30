@@ -64,6 +64,8 @@ public class WebFormIGSNMintCtrl {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	ControlledValueEntityService controlledValueEntityService;
 	RegistrantEntityService registerantEntityService;
+	JsonToSchemaConverterCSIRO jsonToSchemaConverterCSIRO;
+	
 	ObjectFactory objectFactory;
 	
 	@Value("#{configProperties['IGSN_CSIRO_XSD_URL']}")
@@ -75,13 +77,14 @@ public class WebFormIGSNMintCtrl {
 	
 	@Autowired
 	public WebFormIGSNMintCtrl(ResourceEntityService resourceEntityService,MintService mintService,PrefixEntityService prefixEntityService,
-			ControlledValueEntityService controlledValueEntityService,
+			ControlledValueEntityService controlledValueEntityService,JsonToSchemaConverterCSIRO jsonToSchemaConverterCSIRO,
 			RegistrantEntityService registerantEntityService){
 		this.resourceEntityService = resourceEntityService;
 		this.mintService = mintService;
 		this.prefixEntityService = prefixEntityService;
 		this.controlledValueEntityService = controlledValueEntityService;
 		this.registerantEntityService = registerantEntityService;
+		this.jsonToSchemaConverterCSIRO = jsonToSchemaConverterCSIRO;
 		this.objectFactory = new ObjectFactory();
 	}
 	
@@ -99,9 +102,9 @@ public class WebFormIGSNMintCtrl {
 		
 		try{
 			JsonElement resourceElement = new JsonParser().parse(resourcesjson);	        
-			JsonToSchemaConverterCSIRO jsonToSchemaConverterCSIRO = new JsonToSchemaConverterCSIRO();
+			
 			Resources resourcesXML = this.objectFactory.createResources();
-			resourcesXML.getResource().add(jsonToSchemaConverterCSIRO.convert(resourceElement));
+			resourcesXML.getResource().add(this.jsonToSchemaConverterCSIRO.convert(resourceElement));
 			return this.mint(resourcesXML,false,user);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -151,8 +154,7 @@ public class WebFormIGSNMintCtrl {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 			isXMLValid = false;
-			return new ResponseEntity<String>("XML validation failed : " + e.getLocalizedMessage(),
-					HttpStatus.BAD_REQUEST);			
+			return new ResponseEntity<Object>(new ExceptionWrapper("XML Validation failed",e.getLocalizedMessage()==null?e.getLinkedException().getLocalizedMessage():e.getLocalizedMessage()),HttpStatus.BAD_REQUEST);			
 		}
 		
 		// 3. VALIDATE SUBNAMESPACE BASED ON USER NAME

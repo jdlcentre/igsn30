@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.Location;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.csiro.igsn.entity.service.ResourceEntityService;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.*;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.IsPublic;
 import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.ResourceIdentifier;
 import org.csiro.igsn.utilities.IGSNDateUtil;
+import org.csiro.igsn.utilities.IGSNUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonArray;
@@ -19,13 +23,14 @@ import com.google.gson.JsonObject;
 public class JsonToSchemaConverterCSIRO {
 	
 	ObjectFactory objectFactory;
+	ResourceEntityService resourceEntityService;
 	
 	
 	
-	
-	
-	public JsonToSchemaConverterCSIRO(){
-		this.objectFactory = new ObjectFactory();		 
+	@Autowired
+	public JsonToSchemaConverterCSIRO(ResourceEntityService resourceEntityService){
+		this.objectFactory = new ObjectFactory();	
+		this.resourceEntityService = resourceEntityService;
 	}
 	
 
@@ -37,6 +42,11 @@ public class JsonToSchemaConverterCSIRO {
 		}
 	}
 
+	/**
+	 * Parse in JsonElement to be parsed into jaxb binding
+	 * @param resourceElement
+	 * @return
+	 */
 	public org.csiro.igsn.jaxb.bindings.registration.Resources.Resource convert(JsonElement resourceElement) {	
 		
 		JsonObject resourceJO = resourceElement.getAsJsonObject();
@@ -44,7 +54,15 @@ public class JsonToSchemaConverterCSIRO {
 		Resource resourceXML = this.objectFactory.createResourcesResource();
 		
 		ResourceIdentifier resourceIdentifier = this.objectFactory.createResourcesResourceResourceIdentifier();
-		resourceIdentifier.setValue(resourceJO.get("resourceIdentifier").getAsString());
+		if(!isNull(resourceJO.get("randomIds")) && EventType.fromValue(resourceJO.get("eventType").getAsString())==EventType.REGISTERED && resourceJO.get("randomIds").getAsBoolean()){
+			String randomId = "";
+			do{
+				randomId = resourceJO.get("resourceIdentifier").getAsString() + RandomStringUtils.randomAlphanumeric(9);				
+			}while((this.resourceEntityService.searchResourceByIdentifier(randomId)!=null));
+			resourceIdentifier.setValue(randomId);
+		}else{
+			resourceIdentifier.setValue(resourceJO.get("resourceIdentifier").getAsString());
+		}		
 		resourceXML.setResourceIdentifier(resourceIdentifier);
 		
 		resourceXML.setRegisteredObjectType(resourceJO.get("registeredObjectType").getAsString());
@@ -95,22 +113,44 @@ public class JsonToSchemaConverterCSIRO {
 			curationXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
 			if(!isNull(curationDetailObject.get("curatingInstitution"))){
 				curationXML.getCuratingInstitution().setValue(curationDetailObject.get("curatingInstitution").getAsString());
-			}			
-			curationXML.getCuratingInstitution().setInstitutionURI(curationDetailObject.get("institutionUri").getAsString());
+			}	
+			if(!isNull(curationDetailObject.get("institutionUri"))){
+				curationXML.getCuratingInstitution().setInstitutionURI(curationDetailObject.get("institutionUri").getAsString());
+			}
 			resourceXML.getCurationDetails().curation.add(curationXML);
 		}
 		
 		if(!isNull(resourceJO.get("location"))){
 			Location locationXML = this.objectFactory.createResourcesResourceLocation();
 			locationXML.setLocality(this.objectFactory.createResourcesResourceLocationLocality());	
-			JsonObject locationObject = resourceJO.get("location").getAsJsonObject();		
-			locationXML.getLocality().setLocalityURI(locationObject.get("localityUri").getAsString());
-			locationXML.getLocality().setValue(locationObject.get("locality").getAsString());
-			locationXML.setGeometry(this.objectFactory.createResourcesResourceLocationGeometry());
-			locationXML.getGeometry().setSrid(locationObject.get("srid").getAsString());
-			locationXML.getGeometry().setVerticalDatum(locationObject.get("verticalDatum").getAsString());
-			locationXML.getGeometry().setGeometryURI(locationObject.get("geometryUri").getAsString());
-			locationXML.getGeometry().setValue(locationObject.get("wkt").getAsString());	
+			JsonObject locationObject = resourceJO.get("location").getAsJsonObject();	
+			if(!isNull(locationObject.get("localityUri"))){
+				locationXML.getLocality().setLocalityURI(locationObject.get("localityUri").getAsString());
+			}
+			if(!isNull(locationObject.get("locality"))){
+				locationXML.getLocality().setValue(locationObject.get("locality").getAsString());
+			}
+			Resource.Location.Geometry geometry = this.objectFactory.createResourcesResourceLocationGeometry();
+			boolean hasGeometry = false;
+			if(!isNull(locationObject.get("srid"))){
+				geometry.setSrid(locationObject.get("srid").getAsString());
+				hasGeometry = true;
+			}
+			if(!isNull(locationObject.get("verticalDatum"))){
+				geometry.setVerticalDatum(locationObject.get("verticalDatum").getAsString());
+				hasGeometry = true;
+			}
+			if(!isNull(locationObject.get("geometryUri"))){
+				geometry.setGeometryURI(locationObject.get("geometryUri").getAsString());
+				hasGeometry = true;
+			}
+			if(!isNull(locationObject.get("wkt"))){
+				geometry.setValue(locationObject.get("wkt").getAsString());	
+				hasGeometry = true;
+			}
+			if(hasGeometry){
+				locationXML.setGeometry(geometry);
+			}
 			resourceXML.setLocation(this.objectFactory.createResourcesResourceLocation(locationXML));
 		}
 		
@@ -210,11 +250,23 @@ public class JsonToSchemaConverterCSIRO {
 				continue;
 			}
 			Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
-			contributorXML.setContributorName(contributorObject.get("contributorName").getAsString());
-			contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
-			contributorXML.getContributorIdentifier().setValue(contributorObject.get("contributorIdentifier").getAsString());
-			contributorXML.getContributorIdentifier().setContributorIdentifierType(contributorObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
-			contributorXML.setContributorType(contributorObject.get("contributorType").getAsString());
+			if(!isNull(contributorObject.get("contributorName"))){
+				contributorXML.setContributorName(contributorObject.get("contributorName").getAsString());
+			}
+			
+			if(!isNull(contributorObject.get("contributorIdentifier")) || !isNull(contributorObject.get("cvIdentifierType"))){
+				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
+				if(!isNull(contributorObject.get("contributorIdentifier"))){
+					contributorXML.getContributorIdentifier().setValue(contributorObject.get("contributorIdentifier").getAsString());
+				}
+				if(!isNull(contributorObject.get("cvIdentifierType"))){
+					contributorXML.getContributorIdentifier().setContributorIdentifierType(contributorObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
+				}
+				
+			}
+			if(!isNull(contributorObject.get("contributorType"))){
+				contributorXML.setContributorType(contributorObject.get("contributorType").getAsString());
+			}
 			resourceXML.getContributors().contributor.add(contributorXML);
 		}	
 		if(resourceXML.getContributors().contributor.isEmpty()){
@@ -232,9 +284,15 @@ public class JsonToSchemaConverterCSIRO {
 				continue;
 			}
 			Resource.RelatedResources.RelatedResource relatedResourceXML = new Resource.RelatedResources.RelatedResource();
-			relatedResourceXML.setValue(relatedResourceObject.get("relatedResource").getAsString());
-			relatedResourceXML.setRelationType(relatedResourceObject.get("relationType").getAsString());
-			relatedResourceXML.setRelatedResourceIdentifierType(relatedResourceObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
+			if(!isNull(relatedResourceObject.get("relatedResource"))){
+				relatedResourceXML.setValue(relatedResourceObject.get("relatedResource").getAsString());
+			}
+			if(!isNull(relatedResourceObject.get("relationType"))){
+				relatedResourceXML.setRelationType(relatedResourceObject.get("relationType").getAsString());
+			}
+			if(!isNull(relatedResourceObject.get("cvIdentifierType"))){
+				relatedResourceXML.setRelatedResourceIdentifierType(relatedResourceObject.get("cvIdentifierType").getAsJsonObject().get("identifierType").getAsString());
+			}
 			resourceXML.getRelatedResources().relatedResource.add(relatedResourceXML);
 		}
 		if(resourceXML.getRelatedResources().relatedResource.isEmpty()){

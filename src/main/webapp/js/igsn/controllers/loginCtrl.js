@@ -29,7 +29,7 @@ allControllers.controller('LoginCtrl', ['$scope','$timeout','$http','currentAuth
 			  currentAuthService.setName(data.name);
 			  currentAuthService.setPermissions(data.userPermission);
 			  currentAuthService.setIsAllocator(data.isAllocator);
-			  if($routeParams.igsn){
+			  if($routeParams.path && $routeParams.igsn){
 				  $timeout(function(){ 
 					  $location.path("/" + $routeParams.path + "/" + $routeParams.igsn);
 					  window.location.href = $location.absUrl();
