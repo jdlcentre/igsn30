@@ -357,7 +357,7 @@ public class OAIService {
 		HeaderType headerType = new HeaderType();		
 		
 		//GetRecord header
-		headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resources.getRegisteredObjectType());
+		headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resources.getResourceIdentifier());
 		headerType.setDatestamp(dateFormatterShort.format(resources.getModified()));
 		if(resources.getLogDate().getEventType().equals("Deprecated")){
 			headerType.setStatus(StatusType.DELETED);

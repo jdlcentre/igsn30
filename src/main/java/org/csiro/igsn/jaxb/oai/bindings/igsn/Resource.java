@@ -414,6 +414,15 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlRootElement(name = "resource")
 public class Resource {
 
+	@XmlAttribute(name="xmlns:xsi")
+	String xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance";  
+	
+//	@XmlAttribute(name="xmlns")
+//	String xmlns = "http://schema.igsn.org/description/1.0"; 
+    
+    @XmlAttribute(name="xsi:schemaLocation")
+	String xmlns_schemaLocation = "http://schema.igsn.org/description/1.0 https://raw.githubusercontent.com/IGSN/metadata/dev/description/resource.xsd";
+    
     @XmlElement(required = true)
     protected Resource.Identifier identifier;
     @XmlElement(required = true)

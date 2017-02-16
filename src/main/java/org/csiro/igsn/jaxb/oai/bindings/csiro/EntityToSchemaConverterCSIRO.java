@@ -25,7 +25,7 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 	ObjectFactory objectFactory;
 	final String METAPREFIX="cs_igsn";
 	final String NAMESPACE_FOR_BINDING="https://igsn.csiro.au/schemas/3.0";
-	final Class XML_ROOT_CLASS = org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource.class;
+	final Class XML_ROOT_CLASS = org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.class;
 	
 	@Value("#{configProperties['IGSN_CSIRO_XSD_URL']}")
 	private String SCHEMA_LOCATION_FOR_BINDING;		
