@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.igsn.jaxb.bindings.registration;
+package org.csiro.igsn.jaxb.oai.bindings.csiro;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -316,6 +316,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })
 @XmlRootElement(name = "resources")
 public class Resources {
+
+	@XmlAttribute(name="xmlns:xsi")
+	String xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance";  
+    
+    @XmlAttribute(name="xsi:schemaLocation")
+	String xmlns_schemaLocation = "https://igsn.csiro.au/schemas/3.0 https://igsn.csiro.au/schemas/3.0/igsn-csiro-v3.0.xsd";
 	
     @XmlElement(required = true)
     protected List<Resources.Resource> resource;

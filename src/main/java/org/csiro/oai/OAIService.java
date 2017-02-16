@@ -17,7 +17,7 @@ import javax.xml.datatype.DatatypeFactory;
 import org.apache.http.conn.UnsupportedSchemeException;
 import org.csiro.igsn.entity.postgres.Resources;
 import org.csiro.igsn.entity.service.ResourceEntityService;
-import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
 import org.csiro.oai.binding.DeletedRecordType;
 import org.csiro.oai.binding.DescriptionType;
 import org.csiro.oai.binding.GetRecordType;

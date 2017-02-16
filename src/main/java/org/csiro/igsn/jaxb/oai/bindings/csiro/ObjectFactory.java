@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.igsn.jaxb.bindings.csiro;
+package org.csiro.igsn.jaxb.oai.bindings.csiro;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

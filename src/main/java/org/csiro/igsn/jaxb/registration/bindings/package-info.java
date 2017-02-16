@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "https://igsn.csiro.au/schemas/3.0", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.csiro.igsn.jaxb.bindings.registration;
+package org.csiro.igsn.jaxb.registration.bindings;

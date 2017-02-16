@@ -24,7 +24,7 @@ import javax.persistence.PersistenceException;
 import org.csiro.igsn.entity.postgres.Allocator;
 import org.csiro.igsn.entity.postgres.Prefix;
 import org.csiro.igsn.entity.postgres.Registrant;
-import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource;
 import org.csiro.igsn.utilities.IGSNUtil;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;

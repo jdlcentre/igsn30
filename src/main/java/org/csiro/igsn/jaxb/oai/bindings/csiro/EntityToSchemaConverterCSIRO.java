@@ -1,4 +1,4 @@
-package org.csiro.igsn.jaxb.bindings.csiro;
+package org.csiro.igsn.jaxb.oai.bindings.csiro;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +11,10 @@ import org.csiro.igsn.entity.postgres.RelatedResources;
 import org.csiro.igsn.entity.postgres.ResourceTypes;
 import org.csiro.igsn.entity.postgres.Resources;
 import org.csiro.igsn.entity.postgres.SampledFeatures;
-import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
-import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource;
-import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.Classifications.Classification;
-import org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.Location;
+import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource;
+import org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource.Location;
+import org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource.Classifications.Classification;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 	ObjectFactory objectFactory;
 	final String METAPREFIX="cs_igsn";
 	final String NAMESPACE_FOR_BINDING="https://igsn.csiro.au/schemas/3.0";
-	final Class XML_ROOT_CLASS = org.csiro.igsn.jaxb.bindings.csiro.Resources.Resource.class;
+	final Class XML_ROOT_CLASS = org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource.class;
 	
 	@Value("#{configProperties['IGSN_CSIRO_XSD_URL']}")
 	private String SCHEMA_LOCATION_FOR_BINDING;		
@@ -72,7 +72,7 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 	}
 
 	@Override
-	public org.csiro.igsn.jaxb.bindings.csiro.Resources convert(Resources resource) {		
+	public org.csiro.igsn.jaxb.oai.bindings.csiro.Resources convert(Resources resource) {		
 		Resource resourceXML = this.objectFactory.createResourcesResource();
 		
 		resourceXML.setRegisteredObjectType(resource.getRegisteredObjectType());
@@ -217,7 +217,7 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 		resourceXML.getLogDate().setEventType(EventType.fromValue(resource.getLogDate().getEventType()));
 		resourceXML.getLogDate().setValue(resource.getLogDate().getLogDate());
 		
-		org.csiro.igsn.jaxb.bindings.csiro.Resources resourcesXMLRoot = objectFactory.createResources();	
+		org.csiro.igsn.jaxb.oai.bindings.csiro.Resources resourcesXMLRoot = objectFactory.createResources();	
 		resourcesXMLRoot.getResource().add(resourceXML);
 		return resourcesXMLRoot;
 	}

@@ -1,4 +1,4 @@
-package org.csiro.igsn.jaxb.bindings;
+package org.csiro.igsn.jaxb.oai.bindings;
 
 
 import org.csiro.igsn.entity.postgres.Resources;

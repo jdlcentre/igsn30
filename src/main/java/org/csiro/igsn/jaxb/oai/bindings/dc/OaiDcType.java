@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.igsn.jaxb.bindings.dc;
+package org.csiro.igsn.jaxb.oai.bindings.dc;
 
 import java.util.ArrayList;
 import java.util.List;

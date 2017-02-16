@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.igsn.jaxb.bindings.registration;
+package org.csiro.igsn.jaxb.registration.bindings;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

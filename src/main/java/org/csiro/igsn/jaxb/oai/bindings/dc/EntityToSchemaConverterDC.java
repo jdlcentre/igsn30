@@ -1,4 +1,4 @@
-package org.csiro.igsn.jaxb.bindings.dc;
+package org.csiro.igsn.jaxb.oai.bindings.dc;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.csiro.igsn.entity.postgres.CurationDetails;
 import org.csiro.igsn.entity.postgres.MaterialTypes;
 import org.csiro.igsn.entity.postgres.ResourceTypes;
 import org.csiro.igsn.entity.postgres.Resources;
-import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

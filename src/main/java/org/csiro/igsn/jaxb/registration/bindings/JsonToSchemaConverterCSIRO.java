@@ -1,14 +1,14 @@
-package org.csiro.igsn.jaxb.bindings.registration;
+package org.csiro.igsn.jaxb.registration.bindings;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.Location;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.csiro.igsn.entity.service.ResourceEntityService;
-import org.csiro.igsn.jaxb.bindings.registration.Resources.*;
-import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.IsPublic;
-import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource.ResourceIdentifier;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.*;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.IsPublic;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Location;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.ResourceIdentifier;
 import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.csiro.igsn.utilities.IGSNUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class JsonToSchemaConverterCSIRO {
 	 * @param resourceElement
 	 * @return
 	 */
-	public org.csiro.igsn.jaxb.bindings.registration.Resources.Resource convert(JsonElement resourceElement) {	
+	public org.csiro.igsn.jaxb.registration.bindings.Resources.Resource convert(JsonElement resourceElement) {	
 		
 		JsonObject resourceJO = resourceElement.getAsJsonObject();
 		

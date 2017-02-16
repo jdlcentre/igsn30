@@ -3,7 +3,7 @@ package org.csiro.igsn.api.controllers;
 import java.security.Principal;
 import java.util.List;
 import org.csiro.igsn.entity.service.ResourceEntityService;
-import org.csiro.igsn.jaxb.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,7 +52,7 @@ public class MetaDataCtrl {
 			try {
 				JAXBConverterInterface converter = getSupportedConverter(schema);
 				if(converter==null){
-					converter = new org.csiro.igsn.jaxb.bindings.csiro.EntityToSchemaConverterCSIRO();
+					converter = new org.csiro.igsn.jaxb.oai.bindings.csiro.EntityToSchemaConverterCSIRO();
 				}
 				response = resourceEntityService.getResourceMetadataByIdentifier(resourceIdentifier,converter);
 			} catch (Exception e) {

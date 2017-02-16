@@ -3,7 +3,7 @@ package org.csiro.igsn.utilities;
 import java.util.Set;
 
 import org.csiro.igsn.entity.postgres.Prefix;
-import org.csiro.igsn.jaxb.bindings.registration.Resources.Resource;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource;
 
 public class IGSNUtil {
 	

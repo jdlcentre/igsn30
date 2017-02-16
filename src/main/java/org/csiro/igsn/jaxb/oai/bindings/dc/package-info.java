@@ -14,4 +14,4 @@
                    namespaceURI="http://purl.org/dc/elements/1.1/")
       }
     )
-package org.csiro.igsn.jaxb.bindings.dc;
+package org.csiro.igsn.jaxb.oai.bindings.dc;
