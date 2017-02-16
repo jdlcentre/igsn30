@@ -66,7 +66,7 @@ public class OAIPMHCtrl {
 				marshalToWrtier(oaiService.getBadArgument(VerbType.GET_RECORD),response.getWriter(),OAIPMHtype.class);
 				return;
 			}
-			Resources resources = resourceEntityService.searchResourceByIdentifier(identifier.replace(OAI_IDENTIFIER_PREFIX, ""));			
+			Resources resources = resourceEntityService.searchResourceByIdentifierPublic(identifier.replace(OAI_IDENTIFIER_PREFIX, ""));			
 			marshalToWrtier(oaiService.getRecordOAI(resources, metadataPrefix),response.getWriter(),OAIPMHtype.class,oaiService.getSuitableConverter(metadataPrefix).getXMLRootClass());
 		}else if(verb.equals(VerbType.LIST_RECORDS.value())){
 			

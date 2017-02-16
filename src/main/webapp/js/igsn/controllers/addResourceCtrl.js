@@ -11,6 +11,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getTrueFalse = selectListService.getTrueFalse();
   $scope.loading=false;
   
+
   
   var initDataStructure = function(){
 	  if($scope.resource==null){

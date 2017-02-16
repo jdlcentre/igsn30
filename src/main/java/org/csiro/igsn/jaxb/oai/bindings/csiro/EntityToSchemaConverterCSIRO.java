@@ -14,6 +14,7 @@ import org.csiro.igsn.entity.postgres.SampledFeatures;
 import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
 import org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource;
 import org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource.Location;
+import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.csiro.igsn.jaxb.oai.bindings.csiro.Resources.Resource.Classifications.Classification;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -83,7 +84,10 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 		resourceXML.setLandingPage(resource.getLandingPage());
 		
 		resourceXML.setIsPublic(this.objectFactory.createResourcesResourceIsPublic());
-		resourceXML.getIsPublic().setValue(resource.getIsPublic());
+		resourceXML.getIsPublic().setValue(resource.getIsPublic());		
+		if(resource.getEmbargoEnd()!=null){
+			resourceXML.getIsPublic().setEmbargoEnd(IGSNDateUtil.getISODateFormatterHtml().format(resource.getEmbargoEnd()));
+		}
 		
 		resourceXML.setResourceTitle(resource.getResourceTitle());
 		

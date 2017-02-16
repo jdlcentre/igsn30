@@ -72,7 +72,9 @@ public class JsonToSchemaConverterCSIRO {
 		IsPublic isPublic = this.objectFactory.createResourcesResourceIsPublic();
 		isPublic.setValue(resourceJO.get("isPublic").getAsBoolean());
 		resourceXML.setIsPublic(isPublic);			
-		
+		if(!isNull(resourceJO.get("embargoEnd"))){
+			resourceXML.getIsPublic().setEmbargoEnd(resourceJO.get("embargoEnd").getAsString());
+		}		
 		resourceXML.setResourceTitle(resourceJO.get("resourceTitle").getAsString());
 		
 		

@@ -42,6 +42,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 		    		+ "where upper(r.resourceIdentifier) = upper(:resourceIdentifier)"
 	),
 	@NamedQuery(
+			name="Resources.searchByIdentifierPublic",
+		    query="SELECT r FROM Resources r left join fetch r.location left join fetch r.logDate left join fetch r.method left join fetch r.resourceDate "
+		    		+ "left join fetch r.contributorses c left join fetch c.cvIdentifierType left join fetch r.relatedResourceses rr left join fetch rr.cvIdentifierType left join fetch r.alternateIdentifierses "
+		    		+ "left join fetch r.classificationses "
+		    		+ "left join fetch r.resourceTypeses rt left join fetch rt.cvResourceType "
+		    		+ "left join fetch r.sampledFeatureses left join fetch r.curationDetailses left join fetch r.materialTypeses mt left join fetch mt.cvMaterialTypes "		    		
+		    		+ "where r.isPublic = true and upper(r.resourceIdentifier) = upper(:resourceIdentifier)"
+	),	
+	@NamedQuery(
 			name="Resources.searchpublic",
 		    query="SELECT r FROM Resources r where r.isPublic = true and r.resourceIdentifier = :resourceIdentifier"
 	)
@@ -63,6 +72,7 @@ public class Resources implements java.io.Serializable {
 	private String campaign;
 	private String comments;
 	private Date modified;
+	private Date embargoEnd;
 	private Set<Contributors> contributorses = new HashSet<Contributors>(0);
 	private Set<RelatedResources> relatedResourceses = new HashSet<RelatedResources>(
 			0);
@@ -325,6 +335,16 @@ public class Resources implements java.io.Serializable {
 
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "embargo_end", length = 29)
+	public Date getEmbargoEnd() {
+		return this.embargoEnd;
+	}
+
+	public void setEmbargoEnd(Date embargoEnd) {
+		this.embargoEnd = embargoEnd;
 	}
 	
 	@OneToOne(fetch = FetchType.LAZY)

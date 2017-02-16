@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.csiro.igsn.entity.service.ControlledValueEntityService;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource;
+import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.csiro.igsn.utilities.SpatialUtilities;
 
 import com.vividsolutions.jts.io.ParseException;
@@ -78,6 +79,11 @@ public class JAXBResourceToEntityConverter {
 		resourceEntity.setLandingPage(resourceXML.getLandingPage());
 		resourceEntity.setIsPublic(Boolean.valueOf(resourceXML.getIsPublic().isValue()));
 		resourceEntity.setResourceTitle(resourceXML.getResourceTitle());
+		
+		if(resourceXML.getIsPublic().getEmbargoEnd()!=null && !resourceXML.getIsPublic().getEmbargoEnd().isEmpty()){
+			resourceEntity.setEmbargoEnd(IGSNDateUtil.getISODateFormatterHtml().parse(resourceXML.getIsPublic().getEmbargoEnd()));
+		}
+		
 		
 		//VT: resourceType
 		Set<ResourceTypes> resourceTypes = new HashSet<ResourceTypes>();

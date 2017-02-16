@@ -20,8 +20,20 @@
 	                    <div class="form-control well"><label><u><i class="fa fa-external-link"></i> <a ng-href="http://hdl.handle.net/10273/{{resource.landingPage}}">http://hdl.handle.net/10273/{{resource.resourceIdentifier}}</a></u></label></div>                   
 	                  </div>
 	                  <div class="form-group form-group-sm">
-	                    <label>Public Data</label>
-	                    <div class="form-control well"><label>{{resource.isPublic}}</label></div>                 
+	                  	<div class="row">
+						  <div class="col-sm-6 col-xs-12">		
+						  	 <div class="input-group width-100">
+						  	     <label>Public Data</label>
+			                    <div class="form-control well"><label>{{resource.isPublic}}</label></div>
+						      </div>				   					      							      				   
+						  </div>
+						  <div class="col-sm-6 col-xs-12" ng-show="resource.embargoEnd">									  	  				   				      
+						      <div class="input-group width-100">
+							  	  <label>Embargo end date</label>
+			                  	  <div class="form-control well"><label>{{resource.embargoEnd | date:'yyyy-MM-dd'}}</label></div>							  
+						      </div>						    
+						  </div>
+						</div>    
 	                  </div>	
 	                  <div class="form-group form-group-sm">
 	                    <label>Resource Title</label>	                   

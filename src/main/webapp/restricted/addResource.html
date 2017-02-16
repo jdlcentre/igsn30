@@ -51,14 +51,11 @@
 						  </div>
 						  <div class="col-sm-6 col-xs-12" ng-show="resource.isPublic == false">									  	  				   				      
 						      <div class="input-group width-100">
-							  	  <label>Embargo end date</label>
-			                  	  <input type="date" class="form-control" ng-model="resource.embargoEndDate" format-date/>							  
+							  	  <label>Embargo end date{{resource.embargoEnd}}</label>
+			                  	  <input type="date" class="form-control" ng-model="resource.embargoEnd" format-date/>							  
 						      </div>						    
 						  </div>
-						</div>
-							
-							
-	                    	                   
+						</div>                   
 	                  </div>	
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
 	                    <label>Resource Title</label>
@@ -92,10 +89,13 @@
 		                    <input type="text" class="form-control" placeholder="Curator" ng-model="resource.curationDetailses[0].curator"/>
 	                    </div>
 	                    <div class="form-group form-group-sm">
-		                    <label>Curation Date</label>
-		                    <div class="input-group">
-		                     <input type="date" class="form-control" ng-model="resource.curationDetailses[0].curationDate" format-date/>
-						     </div>
+		                    <label>Curation Date{{resource.curationDetailses[0].curationDate}}</label>			     
+						     <div class="input-group">
+						     <span class="input-group-btn">
+                               <button type="button" class="btn btn-default btn-sm" ng-click="form.curationDate.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                             </span>
+                             <input type="text" format-date class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="form.curationDate.opened"  ng-model="resource.curationDetailses[0].curationDate" close-text="Close" alt-input-formats="altInputFormats" />                                  
+                             </div>						     
 		                 </div>
 		                 <div class="form-group form-group-sm">
 						    <label>Curation Location</label>
@@ -224,7 +224,7 @@
 							</div>
 		                  </div>  
 						   <div class="form-group form-group-sm">
-		                    <label>Date</label>
+		                    <label>Date{{resource.resourceDate.timeInstant}}</label>
 		                    <div class="input-group">
 		                     <input type="date" class="form-control"  ng-model="resource.resourceDate.timeInstant" format-date/>						          
 						     </div>

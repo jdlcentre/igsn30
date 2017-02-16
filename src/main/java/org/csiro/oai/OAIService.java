@@ -332,6 +332,14 @@ public class OAIService {
 		
 	}
 	
+	private boolean isDeleted(String eventType){
+		if(eventType.toLowerCase().equals("deprecated") || eventType.toLowerCase().equals("destroyed")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	public JAXBElement<OAIPMHtype> getRecordOAI(Resources resources, String metadataPrefix) throws DatatypeConfigurationException, JAXBException, UnsupportedSchemeException{
 		
 		if(resources==null){
@@ -359,7 +367,7 @@ public class OAIService {
 		//GetRecord header
 		headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resources.getResourceIdentifier());
 		headerType.setDatestamp(dateFormatterShort.format(resources.getModified()));
-		if(resources.getLogDate().getEventType().equals("Deprecated")){
+		if(isDeleted(resources.getLogDate().getEventType())){
 			headerType.setStatus(StatusType.DELETED);
 		}				
 		recordType.setHeader(headerType);	
@@ -369,7 +377,11 @@ public class OAIService {
 		if(converter==null){
 			return this.getCannotDisseminateFormat(VerbType.GET_RECORD);
 		}
-		recordType.setMetadata(getMetaData(converter,resources));
+		
+		if(!isDeleted(resources.getLogDate().getEventType())){
+			recordType.setMetadata(getMetaData(converter,resources));
+		}
+		
 		
 		getRecordType.setRecord(recordType);						
 		oaiType.setGetRecord(getRecordType);		
@@ -422,7 +434,7 @@ public class OAIService {
 			//GetRecord header
 			headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resource.getResourceIdentifier());
 			headerType.setDatestamp(dateFormatterShort.format(resource.getModified()));
-			if(resource.getLogDate()!=null && (resource.getLogDate().getEventType().equals("Deprecated") || resource.getLogDate().getEventType().equals("Destroyed"))){
+			if(resource.getLogDate()!=null && isDeleted(resource.getLogDate().getEventType())){
 				headerType.setStatus(StatusType.DELETED);
 			}				
 															
@@ -482,14 +494,12 @@ public class OAIService {
 			//GetRecord header
 			headerType.setIdentifier(OAI_IDENTIFIER_PREFIX + resource.getResourceIdentifier());
 			headerType.setDatestamp(dateFormatterShort.format(resource.getModified()));
-			if(resource.getLogDate().getEventType().equals("Deprecated")||resource.getLogDate().getEventType().equals("Destroyed")){
+			if(isDeleted(resource.getLogDate().getEventType())){
 				headerType.setStatus(StatusType.DELETED);
-			}				
+			}else{
+				recordType.setMetadata(getMetaData(converter,resource));
+			}
 			recordType.setHeader(headerType);	
-			
-			
-			recordType.setMetadata(getMetaData(converter,resource));
-			
 			listRecordsType.getRecord().add(recordType);	
 		}
 		

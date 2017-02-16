@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -70,8 +71,17 @@ public class ResourceEntityService {
 		return result;
 	}
 	
+	public void checkEmbargo(){
+		EntityManager em = JPAEntityManager.createEntityManager(); 
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery("update version30.resources set is_public=true,modified=now() where is_public=false and embargo_end is not null and embargo_end < now()");
+		q.executeUpdate();
+		em.getTransaction().commit();
+		em.close();
+	}
+	
 	public List<Resources> searchSampleByDate(Date fromDate, Date until, Integer pageNumber){
-		
+		checkEmbargo();
 		final Integer pageSize = getPagingSize();
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
@@ -174,6 +184,7 @@ public class ResourceEntityService {
 				r.setInputMethod("form");
 			}
 			r.getLogDate().setEventType((EventType.DESTROYED.value()));
+			r.setModified(new Date());
 			em.merge(r);
 			em.flush();
 			em.getTransaction().commit();		    
@@ -202,6 +213,7 @@ public class ResourceEntityService {
 				r.setInputMethod("form");
 			}
 			r.getLogDate().setEventType((EventType.DEPRECATED.value()));
+			r.setModified(new Date());
 			em.merge(r);
 			em.flush();
 			em.getTransaction().commit();		    
@@ -293,6 +305,7 @@ public class ResourceEntityService {
 	
 
 	public Resources searchResourceByIdentifier(String resourceIdentifier){
+		checkEmbargo();
 		EntityManager em = JPAEntityManager.createEntityManager();
 		try{			
 			Resources result = em.createNamedQuery("Resources.searchByIdentifier",Resources.class)
@@ -307,6 +320,25 @@ public class ResourceEntityService {
 			em.close();	
 		}
 	}
+	
+	public Resources searchResourceByIdentifierPublic(String resourceIdentifier){
+		checkEmbargo();
+		EntityManager em = JPAEntityManager.createEntityManager();
+		try{			
+			Resources result = em.createNamedQuery("Resources.searchByIdentifierPublic",Resources.class)
+		    .setParameter("resourceIdentifier", resourceIdentifier)
+		    .getSingleResult();			 		
+			 return result;
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw e;
+		}finally{
+			em.close();	
+		}
+	}
+	
+	
 	
 	
 	
