@@ -110,7 +110,7 @@ public class WebFormIGSNMintCtrl {
 			return this.mint(resourcesXML,false,user);
 		}catch(Exception e){
 			e.printStackTrace();
-			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to mint resource",e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to mint resource",e.getMessage()==null?"There are error in the form. Correct them before submitting":e.getMessage()),HttpStatus.BAD_REQUEST);
 		}
 		
 		

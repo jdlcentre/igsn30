@@ -23,7 +23,7 @@
 						            <input id="form-resource-identifier" ng-disabled="mode!='register' || resource.randomIds" type="text" class="form-control" placeholder="Tick Auto-gen to randomly generate ids"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{resource.prefix}}.*"/>						            
 						          </div>
 						          <div class="checkbox" ng-hide="mode !='register'">
-							        <label><input type="checkbox"  ng-model="resource.randomIds" ng-change="changePrefix()"> Auto-gen</label>
+							        <label><input type="checkbox"  ng-model="resource.randomIds" ng-change="changePrefix()"> <small><b>Use default</b></small></label>
 							      </div>
 					          </div>
 				          </div>
@@ -43,7 +43,7 @@
 						            <input name="landingPage" ng-disabled="resource.defaultLandingPage" type="text" class="form-control" placeholder="Enter a valid landing page"  ng-model="resource.landingPage" required pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.?[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"/>						            
 						          </div>
 						          <div class="checkbox">
-							        <label><input type="checkbox"  ng-model="resource.defaultLandingPage" ng-click="clearLandingPage()"> Use default</label>
+							        <label><input type="checkbox"  ng-model="resource.defaultLandingPage" ng-click="clearLandingPage()"> <small><b>Use default</b></small></label>
 							      </div>							       
 					          </div>
 				          </div>
