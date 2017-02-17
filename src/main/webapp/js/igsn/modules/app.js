@@ -66,8 +66,6 @@ app.directive("formatDate", function(){
       modelCtrl.$formatters.push(function(modelValue){
     	  if(modelValue!=null){
     		  return new Date(modelValue);
-    	  }else{
-    		  return null;
     	  }
       })
     }

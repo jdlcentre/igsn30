@@ -81,7 +81,7 @@ public class JAXBResourceToEntityConverter {
 		resourceEntity.setResourceTitle(resourceXML.getResourceTitle());
 		
 		if(resourceXML.getIsPublic().getEmbargoEnd()!=null && !resourceXML.getIsPublic().getEmbargoEnd().isEmpty()){
-			resourceEntity.setEmbargoEnd(IGSNDateUtil.getISODateFormatterHtml().parse(resourceXML.getIsPublic().getEmbargoEnd()));
+			resourceEntity.setEmbargoEnd(IGSNDateUtil.getISODateFormatterShort().parse(resourceXML.getIsPublic().getEmbargoEnd()));
 		}
 		
 		

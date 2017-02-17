@@ -86,7 +86,7 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 		resourceXML.setIsPublic(this.objectFactory.createResourcesResourceIsPublic());
 		resourceXML.getIsPublic().setValue(resource.getIsPublic());		
 		if(resource.getEmbargoEnd()!=null){
-			resourceXML.getIsPublic().setEmbargoEnd(IGSNDateUtil.getISODateFormatterHtml().format(resource.getEmbargoEnd()));
+			resourceXML.getIsPublic().setEmbargoEnd(IGSNDateUtil.getISODateFormatterShort().format(resource.getEmbargoEnd()));
 		}
 		
 		resourceXML.setResourceTitle(resource.getResourceTitle());

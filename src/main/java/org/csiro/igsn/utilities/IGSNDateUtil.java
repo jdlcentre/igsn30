@@ -8,8 +8,8 @@ public class IGSNDateUtil {
 		return new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ssXXX");
 	}
 	
-	public static SimpleDateFormat getISODateFormatterHtml(){
-		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS");
+	public static SimpleDateFormat getISODateFormatterShort(){
+		return new SimpleDateFormat("yyyy-MM-dd");
 		
 	}
 
