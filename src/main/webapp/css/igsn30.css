@@ -27,6 +27,10 @@ fieldset.show-fieldset-borders{
 	width:100%;
 }
 
+.width-200px{
+	width:200px;
+}
+
 /* Absolute Center Spinner */
 
 .loader-show{

@@ -79,9 +79,13 @@ public class JAXBResourceToEntityConverter {
 		resourceEntity.setLandingPage(resourceXML.getLandingPage());
 		resourceEntity.setIsPublic(Boolean.valueOf(resourceXML.getIsPublic().isValue()));
 		resourceEntity.setResourceTitle(resourceXML.getResourceTitle());
-		
+				
 		if(resourceXML.getIsPublic().getEmbargoEnd()!=null && !resourceXML.getIsPublic().getEmbargoEnd().isEmpty()){
-			resourceEntity.setEmbargoEnd(IGSNDateUtil.getISODateFormatterShort().parse(resourceXML.getIsPublic().getEmbargoEnd()));
+			if(resourceXML.getIsPublic().getEmbargoEnd().length() == 10){
+				resourceEntity.setEmbargoEnd(IGSNDateUtil.getISODateFormatterShort().parse(resourceXML.getIsPublic().getEmbargoEnd().substring(0,10)));
+			}else{
+				throw new ParseException("The embargo end date is expected to be in the yyyy-mm-dd format.");
+			}
 		}
 		
 		

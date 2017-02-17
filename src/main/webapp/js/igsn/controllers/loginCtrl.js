@@ -33,6 +33,9 @@ allControllers.controller('LoginCtrl', ['$scope','$timeout','$http','currentAuth
 				  $timeout(function(){ 
 					  $location.path("/" + $routeParams.path + "/" + $routeParams.igsn);
 					  window.location.href = $location.absUrl();
+					  var currentPageTemplate = $route.current.templateUrl;
+			    	  $templateCache.remove(currentPageTemplate);
+			    	  $route.reload();
 					},0);				  
 			  }else if($location.path()=='/login'){	    		  
 	    		  $location.path("/");

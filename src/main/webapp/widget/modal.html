@@ -7,6 +7,8 @@
 <div class="modal-footer">
   <button ng-show="modalOptions.redirect" type="button" class="btn" 
           data-ng-click="modalOptions.redirectFnc();">View Metadata</button>
+  <button ng-show="modalOptions.addAnother" class="btn btn-info" 
+          data-ng-click="modalOptions.addAnotherFnc();">Add Another</button>        
   <button class="btn btn-primary" 
           data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}</button>
 </div>

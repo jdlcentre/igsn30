@@ -1,5 +1,5 @@
-allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','selectListService','$routeParams',
-                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,selectListService,$routeParams) {
+allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService','selectListService','$routeParams','$filter',
+                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService,selectListService,$routeParams,$filter) {
 	
   $scope.getResourceType = selectListService.getResourceType();
   $scope.getMaterialType = selectListService.getMaterialType();
@@ -10,7 +10,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.registeredObjectType = selectListService.registeredObjectType();
   $scope.getTrueFalse = selectListService.getTrueFalse();
   $scope.loading=false;
-  
+ 
 
   
   var initDataStructure = function(){
@@ -44,7 +44,10 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  if($scope.resource.sampledFeatureses==null){
 		  $scope.resource.sampledFeatureses=[];
 	  };
-		  
+	  if($scope.resource.logDate==null){
+		  $scope.resource.logDate={};
+		  $scope.resource.logDate.eventType="registered";
+	  }	  
 	
 	    
 	  if( $scope.resource.contributorses.length==0){
@@ -71,10 +74,12 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  if($scope.resource.sampledFeatureses.length==0){
 		  $scope.resource.sampledFeatureses[0]={};  
 	  };
+	  
+	  
   }
   
   initDataStructure();
-  $scope.resource.eventType="registered"
+  $scope.mode='register'
 	  
   $scope.addContributor = function(){
 	  $scope.resource.contributorses.push({}); 
@@ -96,9 +101,26 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  }
   }
 
+  $scope.clearLandingPage = function(){
+	  $scope.resource.landingPage="";
+  }
 	
   $scope.mintResource = function(){	  
 	  $scope.loading=true;
+	  if($scope.resource.curationDetailses[0].curationDate){
+		  $scope.resource.curationDetailses[0].curationDate=$filter('date')($scope.resource.curationDetailses[0].curationDate, 'yyyy-MM-dd HH:mm:ss')
+	  }
+	  if($scope.resource.embargoEnd){
+		  $scope.resource.embargoEnd=$filter('date')($scope.resource.embargoEnd, 'yyyy-MM-dd HH:mm:ss')
+	  }
+	  try{
+		  if($scope.resource.resourceDate.timeInstant){
+			  $scope.resource.resourceDate.timeInstant=$filter('date')($scope.resource.resourceDate.timeInstant, 'yyyy-MM-dd HH:mm:ss')
+		  }
+	  }catch(err){
+		  //VT:do nothing, if there is no time instant, ignore it.}
+	  }
+	  
 	  $http.post('web/mintJson.do', 
 			  $scope.resource
       ,{
@@ -121,10 +143,12 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
       		modalService.showModal({}, {    	            	           
       		  headerText: "IGSN Minted" ,
       	      bodyText: "IGSN HANDLE: <a href='"+data[0].handle+"'>" + data[0].handle + "</a>",
-      	      redirect: "/meta/"+data[0].sampleId
-         	}).then(function (result) {	            
-	              $location.path('/addresource');	            
-	         });;
+      	      redirect: "/meta/"+data[0].sampleId,
+      	      addAnother:"/addresource"
+         	})
+         	if($scope.resource.logDate.eventType == "destroyed" || $scope.resource.logDate.eventType == "deprecated"){
+         		$scope.mode="unavailable";
+	   		}
       	 }
       	$scope.loading=false;
       	
@@ -196,7 +220,12 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
     		
     	}else{
     		$scope.resource = data; 
-         	$scope.resource.eventType="updated";
+    		if(data.logDate.eventType != "destroyed" && data.logDate.eventType != "deprecated"){
+    			 $scope.mode="update";    			
+    			 $scope.resource.logDate.eventType="updated";
+    		}else{
+    			$scope.mode="unavailable";
+    		}
          	initDataStructure();
          	         		
     	}     	 
@@ -209,7 +238,8 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	    		 headerText: response.header ,
 		           bodyText: "CAUSE:" + response.message
 	    	 }).then(function (result) {	            
-	              $location.path('/addresource');	            
+	              $location.path('/addresource');	
+	              window.location.href = $location.absUrl();
 	         });
     	}
     	
@@ -217,8 +247,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
    }
 	 
   
-  if($routeParams.igsn){
-	  $scope.resource.eventType="updated"
+  if($routeParams.igsn){	  
 	  getResource($routeParams.igsn); 
   }
   

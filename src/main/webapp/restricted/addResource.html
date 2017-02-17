@@ -15,31 +15,40 @@
 	                  <div class="form-group form-group-sm">
 	                      <label>Resource Identifier: {{resource.prefix}}{{resource.resourceIdentifier}}</label>
 	                      <div class="form-inline">
-		                      <div ng-hide="resource.eventType=='updated'" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
+		                      <div ng-show="mode=='register'" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
 			                     <select  class="form-control" ng-model="resource.prefix" ng-change="changePrefix()" name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
 							  </div>
 							  <div class="form-group form-group-sm">
 			                      <div class="input-group" style="width:270px" ng-class="{ 'has-error' : mandatoryleft.resourceIdentifier.$invalid}">				                      				            
-						            <input id="form-resource-identifier" ng-disabled="resource.eventType=='updated' || resource.randomIds" type="text" class="form-control" placeholder="Tick Auto-gen to randomly generate ids"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{resource.prefix}}.*"/>						            
+						            <input id="form-resource-identifier" ng-disabled="mode!='register' || resource.randomIds" type="text" class="form-control" placeholder="Tick Auto-gen to randomly generate ids"  capitalize name="resourceIdentifier" ng-model="resource.resourceIdentifier" pattern="^{{resource.prefix}}.*"/>						            
 						          </div>
-						          <div class="checkbox" ng-hide="resource.eventType=='updated'">
+						          <div class="checkbox" ng-hide="mode !='register'">
 							        <label><input type="checkbox"  ng-model="resource.randomIds" ng-change="changePrefix()"> Auto-gen</label>
 							      </div>
 					          </div>
 				          </div>
-				          <p ng-show="mandatoryleft.prefix.$invalid && resource.eventType!='updated'" class="small help-block" style="color: #a94442;">Select prefix</p>	
-				          <p ng-show="(mandatoryleft.resourceIdentifier.$invalid && resource.eventType!='updated')" class="small help-block" style="color: #c4d44a;">Warning:Resource Identifier has to start with selected prefix</p>	                    	                    
+				          <p ng-show="mandatoryleft.prefix.$invalid && mode=='register'" class="small help-block" style="color: #a94442;">Select prefix</p>	
+				          <p ng-show="(mandatoryleft.resourceIdentifier.$invalid && mode=='register')" class="small help-block" style="color: #c4d44a;">Warning:Resource Identifier has to start with selected prefix</p>	                    	                    
 	                  </div>
 	                   <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.registeredObjectType.$invalid}">
 	                    <label>Registered Object Type</label>
 	                    <select  class="form-control" ng-model="resource.registeredObjectType"  name="registeredObjectType" ng-options="type as type for type in registeredObjectType" required></select>	 
 	                    <p ng-show="mandatoryleft.registeredObjectType.$invalid" class="small help-block">Select registered object type</p>                  
 	                  </div>
-	                  <div class="form-group form-group-sm"  ng-class="{ 'has-error' : mandatoryleft.landingPage.$invalid}">
-	                    <label>Landing Page</label>
-	                    <input name="landingPage" type="text" class="form-control" placeholder="Enter a valid landing page"  ng-model="resource.landingPage" required pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"/>
-	                    <p ng-show="mandatoryleft.landingPage.$invalid" class="small help-block">Enter a valid landing page url that starts with http:// or https://</p>
-	                  </div>
+	                  <div class="form-group form-group-sm">
+	                      <label>Landing Page</label>
+	                      <div class="form-inline">		                      
+							  <div class="form-group form-group-sm">
+			                      <div class="input-group" style="width:300px" ng-class="{ 'has-error' : mandatoryleft.landingPage.$invalid && !resource.defaultLandingPage}">				                      				            
+						            <input name="landingPage" ng-disabled="resource.defaultLandingPage" type="text" class="form-control" placeholder="Enter a valid landing page"  ng-model="resource.landingPage" required pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.?[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"/>						            
+						          </div>
+						          <div class="checkbox">
+							        <label><input type="checkbox"  ng-model="resource.defaultLandingPage" ng-click="clearLandingPage()"> Use default</label>
+							      </div>							       
+					          </div>
+				          </div>
+				          <p ng-show="mandatoryleft.landingPage.$invalid && !resource.defaultLandingPage" class="small help-block" style="color: #a94442;">Enter a valid landing page url that starts with http:// or https://</p>	                    	                    
+	                  </div>	                  
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.ispublic.$invalid}">
 	                    <div class="row">
 						  <div class="col-sm-6 col-xs-12">		
@@ -51,9 +60,9 @@
 						  </div>
 						  <div class="col-sm-6 col-xs-12" ng-show="resource.isPublic == false">									  	  				   				      
 						      <div class="input-group width-100">
-							  	  <label>Embargo end date{{resource.embargoEnd}}</label>			                  	  
+							  	  <label>Embargo end date</label>			                  	  
 			                  	  <div class="input-group">						     
-		                             <input type="text" format-date class="form-control" uib-datepicker-popup="yyyy-MM-ddT00:00:00Z" is-open="form.embargo.opened" ng-model="resource.embargoEnd" close-text="Close" alt-input-formats="altInputFormats" />
+		                             <input type="text" format-date class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="form.embargo.opened" ng-model="resource.embargoEnd" close-text="Close" alt-input-formats="altInputFormats" />
 		                             <span class="input-group-btn">
 		                               <button type="button" class="btn btn-default btn-sm" ng-click="form.embargo.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
 		                             </span>                                  
@@ -94,14 +103,14 @@
 		                    <input type="text" class="form-control" placeholder="Curator" ng-model="resource.curationDetailses[0].curator"/>
 	                    </div>
 	                    <div class="form-group form-group-sm">
-		                    <label>Curation Date{{resource.curationDetailses[0].curationDate}}</label>			     
-						     <div class="input-group">						     
-	                             <input type="text" format-date class="form-control" uib-datepicker-popup  is-open="form.curationDate.opened" ng-model="resource.curationDetailses[0].curationDate" close-text="Close"/>
+		                    <label>Curation Date</label>			     
+						     <div class="input-group width-200px" ng-class="{ 'has-error' : mandatoryright.curatingDate.$invalid  }">						     
+	                             <input type="text" format-date class="form-control" name="curatingDate" uib-datepicker-popup="yyyy-MM-dd"  is-open="form.curationDate.opened" ng-model="resource.curationDetailses[0].curationDate" close-text="Close"/>
 	                             <span class="input-group-btn">
 	                               <button type="button" class="btn btn-default btn-sm" ng-click="form.curationDate.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
-	                             </span>                                  
+	                             </span>  	                                                           
                              </div>	
-                                 
+                             <p ng-show="mandatoryright.curatingDate.$invalid" class="small help-block" style="color: #a94442;">Enter a valid date in the YYYY-MM-DD format</p>   
 		                 </div>
 		                 <div class="form-group form-group-sm">
 						    <label>Curation Location</label>
@@ -124,9 +133,20 @@
 	          </div>
           </div>         
         </div>
+       
         <div class="row">
-        	<button class="btn btn-blue  pull-right" type="button" ng-click="mintResource()">{{resource.eventType=='updated'? "Update Resource" : "Mint Resource"}}</button>
+        	<div class="pull-right" ng-show="mode=='update' || mode=='register'">          		
+        		<label ng-show="mode=='update'" class="radio-inline"><input type="radio" name="optradio" ng-model="resource.logDate.eventType" value="deprecated">Deprecate</label>
+				<label ng-show="mode=='update'" class="radio-inline"><input type="radio" name="optradio" ng-model="resource.logDate.eventType" value="destroyed" >Destroy</label>
+				<label ng-show="mode=='update'" class="radio-inline mr-8"><input type="radio" name="optradio" ng-model="resource.logDate.eventType" value="updated">Update</label>
+		        <button class="btn btn-blue  pull-right" type="button" ng-click="mintResource()">{{mode=='update'? "Update Resource" : "Mint Resource"}}</button>		       
+			</div>
+			<div class="pull-right" ng-show="mode=='unavailable'"> 
+				<label class="mr-12">Resource is {{resource.logDate.eventType}}</label>         		
+		        <button class="btn btn-blue  pull-right" type="button" ng-click="resource.logDate.eventType='updated';mode='update'">Reactivate</button>		       
+			</div>        
         </div> 
+       
         <div class="row mt-20 mb-30">
 	      <div class="col-sm-12">
 	        <!-- Nav tabs -->
@@ -175,7 +195,7 @@
 				                     <p ng-show="resource.location.wkt.length > 0 && resource.location.srid==null" class="small help-block">Select SRID for location</p>                   
 				                 </div>
 			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
-								    <label>location wkt{{location.wkt.$invalid}}</label>
+								    <label>location wkt</label>
 				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(resource.location.wkt)" placeholder="Well known text, eg POINT(lon lat)"  ng-model="resource.location.wkt"/>
 				                    <p ng-show="location.wkt.$invalid && !location.wkt.$pristine" class="small help-block">Invalid well known text</p>  
 			                    </div>
@@ -187,7 +207,7 @@
 	          <div class="tab-pane fade  in tab-shop-item" id="addresource-misc">
 	          	 <div class="row mt-20">
 	          	 	<div class="col-md-12">	          
-			         	<form>		              	
+			         	<form name="otherInformation">		              	
 		                  <div class="form-group form-group-sm">
 		                    <label>Alternate Identifier</label>
 		                    <input type="text" ng-repeat="altId in resource.alternateIdentifierses" class="form-control" placeholder="Alternate identifier" ng-model="altId.alternateIdentifier"/>
@@ -229,11 +249,15 @@
 							  </div>
 							</div>
 		                  </div>  
-						   <div class="form-group form-group-sm">
-		                    <label>Date{{resource.resourceDate.timeInstant}}</label>
-		                    <div class="input-group">
-		                     <input type="date" class="form-control"  ng-model="resource.resourceDate.timeInstant" format-date/>						          
-						     </div>
+						  <div class="form-group form-group-sm">
+						     <label>Date</label>			     
+						     <div class="input-group width-200px" ng-class="{ 'has-error' : otherInformation.resourceDate.$invalid}">					     
+	                             <input type="text" format-date class="form-control" name="resourceDate" uib-datepicker-popup="yyyy-MM-dd"  is-open="form.resourceDate.opened" ng-model="resource.resourceDate.timeInstant" close-text="Close"/>
+	                             <span class="input-group-btn">
+	                               <button type="button" class="btn btn-default btn-sm" ng-click="form.resourceDate.opened=true;"><i class="glyphicon glyphicon-calendar"></i></button>
+	                             </span>                                  
+                             </div>	
+                              <p ng-show="otherInformation.resourceDate.$invalid" class="small help-block" style="color: #a94442;">Enter a valid date in the YYYY-MM-DD format</p>
 		                  </div>
 						  <div class="form-group form-group-sm">		                  
 		                    <div class="row">

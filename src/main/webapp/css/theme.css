@@ -629,6 +629,10 @@ a:focus {
 .mr-8 {
   margin-right: 8px;
 }
+
+.mr-12 {
+  margin-right: 12px;
+}
 /* FORM  ================================================== */
 .form-control {
   -webkit-box-shadow: none;

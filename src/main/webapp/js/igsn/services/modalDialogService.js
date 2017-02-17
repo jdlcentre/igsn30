@@ -35,7 +35,7 @@ app.service('modalService', ['$uibModal','$sce','$location',function ($uibModal,
               tempModalDefaults.controller = function ($scope, $uibModalInstance) {
                   $scope.modalOptions = tempModalOptions;
                   $scope.modalOptions.ok = function (result) {
-                	  $uibModalInstance.close(result);
+                	  $uibModalInstance.close("OK");
                   };
                   $scope.modalOptions.bodyText = $sce.trustAsHtml($scope.modalOptions.bodyText);
                   $scope.modalOptions.close = function (result) {
@@ -49,6 +49,14 @@ app.service('modalService', ['$uibModal','$sce','$location',function ($uibModal,
                     	  window.location.href = $location.absUrl();
                     	  
                       };
+                  }
+                  
+                  if($scope.modalOptions.addAnother){
+                	  $scope.modalOptions.addAnotherFnc = function(){
+                		  $uibModalInstance.close();
+                    	  $location.path($scope.modalOptions.addAnother);                    	                	 
+                    	  window.location.href = $location.absUrl();
+                	  }
                   }
                   
               }

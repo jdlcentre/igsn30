@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -98,13 +99,14 @@ public class WebFormIGSNMintCtrl {
 	 */
 	@RequestMapping(value = "/mintJson", method = { RequestMethod.POST, RequestMethod.HEAD } )
 	public  ResponseEntity<?> mint(@RequestBody(required = true) String resourcesjson,
+			 HttpServletRequest request,
 			Principal user) {
 		
 		try{
 			JsonElement resourceElement = new JsonParser().parse(resourcesjson);	        
-			
+			String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" +request.getServerPort() + request.getContextPath(); 
 			Resources resourcesXML = this.objectFactory.createResources();
-			resourcesXML.getResource().add(this.jsonToSchemaConverterCSIRO.convert(resourceElement));
+			resourcesXML.getResource().add(this.jsonToSchemaConverterCSIRO.convert(resourceElement,baseUrl));
 			return this.mint(resourcesXML,false,user);
 		}catch(Exception e){
 			e.printStackTrace();

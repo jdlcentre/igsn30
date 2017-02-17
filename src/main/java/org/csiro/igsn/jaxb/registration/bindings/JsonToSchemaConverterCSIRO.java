@@ -10,7 +10,6 @@ import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.IsPublic;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Location;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.ResourceIdentifier;
 import org.csiro.igsn.utilities.IGSNDateUtil;
-import org.csiro.igsn.utilities.IGSNUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,17 +46,18 @@ public class JsonToSchemaConverterCSIRO {
 	 * @param resourceElement
 	 * @return
 	 */
-	public org.csiro.igsn.jaxb.registration.bindings.Resources.Resource convert(JsonElement resourceElement) {	
+	public org.csiro.igsn.jaxb.registration.bindings.Resources.Resource convert(JsonElement resourceElement,String baseUrl) {	
 		
 		JsonObject resourceJO = resourceElement.getAsJsonObject();
 		
 		Resource resourceXML = this.objectFactory.createResourcesResource();
 		
 		ResourceIdentifier resourceIdentifier = this.objectFactory.createResourcesResourceResourceIdentifier();
-		if(!isNull(resourceJO.get("randomIds")) && EventType.fromValue(resourceJO.get("eventType").getAsString())==EventType.REGISTERED && resourceJO.get("randomIds").getAsBoolean()){
+		if(!isNull(resourceJO.get("randomIds")) && EventType.fromValue(resourceJO.get("logDate").getAsJsonObject()
+				.get("eventType").getAsString())==EventType.REGISTERED && resourceJO.get("randomIds").getAsBoolean()){
 			String randomId = "";
 			do{
-				randomId = resourceJO.get("resourceIdentifier").getAsString() + RandomStringUtils.randomAlphanumeric(9);				
+				randomId = resourceJO.get("resourceIdentifier").getAsString() + RandomStringUtils.randomAlphanumeric(9).toUpperCase();				
 			}while((this.resourceEntityService.searchResourceByIdentifier(randomId)!=null));
 			resourceIdentifier.setValue(randomId);
 		}else{
@@ -67,12 +67,18 @@ public class JsonToSchemaConverterCSIRO {
 		
 		resourceXML.setRegisteredObjectType(resourceJO.get("registeredObjectType").getAsString());
 		
-		resourceXML.setLandingPage(resourceJO.get("landingPage").getAsString());
+		if(resourceJO.get("defaultLandingPage").getAsBoolean()){			
+			resourceXML.setLandingPage(baseUrl + "/#/meta/" + resourceIdentifier.getValue());
+		}else{
+			resourceXML.setLandingPage(resourceJO.get("landingPage").getAsString());
+		}
 		
 		IsPublic isPublic = this.objectFactory.createResourcesResourceIsPublic();
 		isPublic.setValue(resourceJO.get("isPublic").getAsBoolean());
 		resourceXML.setIsPublic(isPublic);			
 		if(!isNull(resourceJO.get("embargoEnd"))){
+			//VT: Extremely poor way to format the date however only the web form would be using this converter therefore we 
+			//are guaranteed that the date format length will be longer than 10.
 			resourceXML.getIsPublic().setEmbargoEnd(resourceJO.get("embargoEnd").getAsString().substring(0, 10));
 		}		
 		resourceXML.setResourceTitle(resourceJO.get("resourceTitle").getAsString());
@@ -217,9 +223,9 @@ public class JsonToSchemaConverterCSIRO {
 		}
 		
 		
-		if(!isNull(resourceJO.get("resourceDate")) && resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant")!=null){
+		if(!isNull(resourceJO.get("resourceDate")) && !isNull(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant"))){
 			Resource.Date date = new Resource.Date();
-			date.setTimeInstant(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant").getAsString());
+			date.setTimeInstant(resourceJO.get("resourceDate").getAsJsonObject().get("timeInstant").getAsString().substring(0,10));
 			resourceXML.setDate(this.objectFactory.createResourcesResourceDate(date));
 		}
 		
@@ -303,7 +309,7 @@ public class JsonToSchemaConverterCSIRO {
 		
 		
 		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
-		resourceXML.getLogDate().setEventType(EventType.fromValue(resourceJO.get("eventType").getAsString()));
+		resourceXML.getLogDate().setEventType(EventType.fromValue(resourceJO.get("logDate").getAsJsonObject().get("eventType").getAsString()));
 		resourceXML.getLogDate().setValue(IGSNDateUtil.getISODateFormatter().format(new Date()));
 		
 		return resourceXML;
