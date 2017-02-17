@@ -48,8 +48,7 @@ public class IGSNMintCtrl {
 	final Logger log = Logger.getLogger(IGSNMintCtrl.class);
 	ResourceEntityService resourceEntityService;
 	MintService mintService;
-	PrefixEntityService prefixEntityService;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	PrefixEntityService prefixEntityService;	
 	ControlledValueEntityService controlledValueEntityService;
 	RegistrantEntityService registerantEntityService;
 

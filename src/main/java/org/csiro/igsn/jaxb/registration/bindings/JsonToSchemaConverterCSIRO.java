@@ -67,7 +67,7 @@ public class JsonToSchemaConverterCSIRO {
 		
 		resourceXML.setRegisteredObjectType(resourceJO.get("registeredObjectType").getAsString());
 		
-		if(resourceJO.get("defaultLandingPage").getAsBoolean()){			
+		if(!isNull(resourceJO.get("defaultLandingPage")) && resourceJO.get("defaultLandingPage").getAsBoolean()){			
 			resourceXML.setLandingPage(baseUrl + "/#/meta/" + resourceIdentifier.getValue());
 		}else{
 			resourceXML.setLandingPage(resourceJO.get("landingPage").getAsString());
