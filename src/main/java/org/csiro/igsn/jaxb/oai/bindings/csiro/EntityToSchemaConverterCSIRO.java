@@ -151,7 +151,7 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 			resourceXML.setLocation(this.objectFactory.createResourcesResourceLocation(locationXML));
 		}
 				
-		if(resource.getResourceDate()!=null){
+		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
 			Resource.Date date = new Resource.Date();
 			if(resource.getResourceDate().getTimeInstant()!=null && !resource.getResourceDate().getTimeInstant().isEmpty()){
 				date.setTimeInstant(resource.getResourceDate().getTimeInstant());
