@@ -168,22 +168,22 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		
 		
 		
-		
+	
 	
 		
-		
-//		resourceXML.setCurationDetails(this.objectFactory.createResourcesResourceCurationDetails());
-//		resourceXML.getCurationDetails().curation = new ArrayList<Resource.CurationDetails.Curation>();
-//		for(CurationDetails curationDetails:resource.getCurationDetailses()){
-//			Resource.CurationDetails.Curation curationDetailXML = new Resource.CurationDetails.Curation();
-//			curationDetailXML.setCurator(curationDetails.getCurator());
-//			curationDetailXML.setCurationDate(curationDetails.getCurationDate());
-//			curationDetailXML.setCurationLocation(curationDetails.getCurationLocation());
-//			curationDetailXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
-//			curationDetailXML.getCuratingInstitution().setInstitutionURI(curationDetails.getInstitutionUri());
-//			curationDetailXML.getCuratingInstitution().setValue(curationDetails.getCuratingInstitution());
-//			resourceXML.getCurationDetails().curation.add(curationDetailXML);
-//		}
+		if(resource.getCurationDetailses()!=null && !resource.getCurationDetailses().isEmpty()){
+			resourceXML.setContributors(this.objectFactory.createResourceContributors());		
+			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
+			for(CurationDetails curationDetails:resource.getCurationDetailses()){
+				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
+				contributorXML.setType(ContributorType.HOSTING_INSTITUTION);
+				contributorXML.setName(curationDetails.getCurator());
+				contributorXML.setIdentifier(this.objectFactory.createResourceContributorsContributorIdentifier());
+				contributorXML.getIdentifier().setType(IdentifierType.URI);
+				contributorXML.getIdentifier().setValue(curationDetails.getInstitutionUri());
+				resourceXML.getContributors().contributor.add(contributorXML);
+			}
+		}
 //		
 //		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
 //			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
