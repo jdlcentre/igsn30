@@ -184,20 +184,31 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 				resourceXML.getContributors().contributor.add(contributorXML);
 			}
 		}
-//		
-//		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
-//			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
-//			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
-//			for(Contributors contributor:resource.getContributorses()){
-//				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
-//				contributorXML.setContributorType(contributor.getContributorType());
-//				contributorXML.setContributorName(contributor.getContributorName());
-//				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
-//				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
-//				contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
-//				resourceXML.getContributors().contributor.add(contributorXML);
-//			}
-//		}
+		
+		
+		
+		
+		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
+			resourceXML.setCollectors(this.objectFactory.createResourceCollectors());
+			resourceXML.getCollectors().collector = new ArrayList<Resource.Collectors.Collector>();
+			for(Contributors contributor:resource.getContributorses()){
+				if(contributor.getContributorType().equalsIgnoreCase("http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator")){
+					//VT: add to collectors in top level
+				}else{
+					//VT: add to contributors.
+					//VT: contributor may already be initiallized by curator.. take note.
+				}
+				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
+				contributorXML.setContributorType(contributor.getContributorType());
+				contributorXML.setContributorName(contributor.getContributorName());
+				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
+				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
+				contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
+				resourceXML.getContributors().contributor.add(contributorXML);
+			}
+		}
+		
+		
 //		
 //		if(resource.getRelatedResourceses()!=null && !resource.getRelatedResourceses().isEmpty()){
 //			resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
