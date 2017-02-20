@@ -149,73 +149,75 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			locationXML.setToponym(toponym);
 			resourceXML.setLocations(locationXML);
 		}
-				
-		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
-			Resource.Date date = new Resource.Date();
-			if(resource.getResourceDate().getTimeInstant()!=null && !resource.getResourceDate().getTimeInstant().isEmpty()){
-				date.setTimeInstant(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimeInstant()));
-			}else{
-				Resource.Date.TimePeriod timeperiod = new Resource.Date.TimePeriod();
-				timeperiod.setStart(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodStart()));
-				timeperiod.setEnd(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodEnd()));
-				date.setTimePeriod(timeperiod);
-			}			
-			resourceXML.setDate(date);
-		}
 		
+		
+				
+//		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
+//			Resource.Date date = new Resource.Date();
+//			if(resource.getResourceDate().getTimeInstant()!=null && !resource.getResourceDate().getTimeInstant().isEmpty()){
+//				date.setTimeInstant(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimeInstant()));
+//			}else{
+//				Resource.Date.TimePeriod timeperiod = new Resource.Date.TimePeriod();
+//				timeperiod.setStart(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodStart()));
+//				timeperiod.setEnd(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodEnd()));
+//				date.setTimePeriod(timeperiod);
+//			}			
+//			resourceXML.setDate(date);
+//		}
+//		
 		
 		
 		
 	
 		
 		
-		resourceXML.setCurationDetails(this.objectFactory.createResourcesResourceCurationDetails());
-		resourceXML.getCurationDetails().curation = new ArrayList<Resource.CurationDetails.Curation>();
-		for(CurationDetails curationDetails:resource.getCurationDetailses()){
-			Resource.CurationDetails.Curation curationDetailXML = new Resource.CurationDetails.Curation();
-			curationDetailXML.setCurator(curationDetails.getCurator());
-			curationDetailXML.setCurationDate(curationDetails.getCurationDate());
-			curationDetailXML.setCurationLocation(curationDetails.getCurationLocation());
-			curationDetailXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
-			curationDetailXML.getCuratingInstitution().setInstitutionURI(curationDetails.getInstitutionUri());
-			curationDetailXML.getCuratingInstitution().setValue(curationDetails.getCuratingInstitution());
-			resourceXML.getCurationDetails().curation.add(curationDetailXML);
-		}
-		
-		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
-			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
-			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
-			for(Contributors contributor:resource.getContributorses()){
-				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
-				contributorXML.setContributorType(contributor.getContributorType());
-				contributorXML.setContributorName(contributor.getContributorName());
-				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
-				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
-				contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
-				resourceXML.getContributors().contributor.add(contributorXML);
-			}
-		}
-		
-		if(resource.getRelatedResourceses()!=null && !resource.getRelatedResourceses().isEmpty()){
-			resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
-			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
-			for(RelatedResources relatedResources:resource.getRelatedResourceses()){
-				Resource.RelatedResources.RelatedResource relatedResourcesXML = new Resource.RelatedResources.RelatedResource();
-				relatedResourcesXML.setRelatedResourceIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType());
-				relatedResourcesXML.setRelationType(relatedResources.getRelationType());
-				relatedResourcesXML.setValue(relatedResources.getRelatedResource());
-				resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
-			}
-		}
-		
-		
-		
-		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
-		resourceXML.getLogDate().setEventType(EventType.fromValue(resource.getLogDate().getEventType()));
-		resourceXML.getLogDate().setValue(resource.getLogDate().getLogDate());
-		
-		
-		return resourcesXML;
+//		resourceXML.setCurationDetails(this.objectFactory.createResourcesResourceCurationDetails());
+//		resourceXML.getCurationDetails().curation = new ArrayList<Resource.CurationDetails.Curation>();
+//		for(CurationDetails curationDetails:resource.getCurationDetailses()){
+//			Resource.CurationDetails.Curation curationDetailXML = new Resource.CurationDetails.Curation();
+//			curationDetailXML.setCurator(curationDetails.getCurator());
+//			curationDetailXML.setCurationDate(curationDetails.getCurationDate());
+//			curationDetailXML.setCurationLocation(curationDetails.getCurationLocation());
+//			curationDetailXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
+//			curationDetailXML.getCuratingInstitution().setInstitutionURI(curationDetails.getInstitutionUri());
+//			curationDetailXML.getCuratingInstitution().setValue(curationDetails.getCuratingInstitution());
+//			resourceXML.getCurationDetails().curation.add(curationDetailXML);
+//		}
+//		
+//		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
+//			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());
+//			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
+//			for(Contributors contributor:resource.getContributorses()){
+//				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
+//				contributorXML.setContributorType(contributor.getContributorType());
+//				contributorXML.setContributorName(contributor.getContributorName());
+//				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
+//				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
+//				contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
+//				resourceXML.getContributors().contributor.add(contributorXML);
+//			}
+//		}
+//		
+//		if(resource.getRelatedResourceses()!=null && !resource.getRelatedResourceses().isEmpty()){
+//			resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
+//			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
+//			for(RelatedResources relatedResources:resource.getRelatedResourceses()){
+//				Resource.RelatedResources.RelatedResource relatedResourcesXML = new Resource.RelatedResources.RelatedResource();
+//				relatedResourcesXML.setRelatedResourceIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType());
+//				relatedResourcesXML.setRelationType(relatedResources.getRelationType());
+//				relatedResourcesXML.setValue(relatedResources.getRelatedResource());
+//				resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
+//			}
+//		}
+//		
+//		
+//		
+//		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
+//		resourceXML.getLogDate().setEventType(EventType.fromValue(resource.getLogDate().getEventType()));
+//		resourceXML.getLogDate().setValue(resource.getLogDate().getLogDate());
+//		
+//		
+		return resourceXML;
 	}
 
 
@@ -234,7 +236,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/sediment": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SEDIMENT;
 			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/snow": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SNOW;
 			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/soil": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SOIL;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/tissue": return MaterialType..HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_TISSUE;			
+			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/tissue": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_TISSUE;			
 			default: return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_UNKNOWN;
 		}
 		
