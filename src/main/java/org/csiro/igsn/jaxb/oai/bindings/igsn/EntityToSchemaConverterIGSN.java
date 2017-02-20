@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 
 import org.csiro.igsn.entity.postgres.AlternateIdentifiers;
@@ -74,7 +75,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 	}
 
 	@Override
-	public org.csiro.igsn.jaxb.oai.bindings.igsn.Resource convert(Resources resource) {		
+	public org.csiro.igsn.jaxb.oai.bindings.igsn.Resource convert(Resources resource) throws NumberFormatException, DatatypeConfigurationException {		
 		Resource resourceXML = this.objectFactory.createResource();
 		
 		resourceXML.setRegistedObjectType(resource.getRegisteredObjectType());
@@ -152,19 +153,19 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		
 		
 				
-//		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
-//			Resource.Date date = new Resource.Date();
-//			if(resource.getResourceDate().getTimeInstant()!=null && !resource.getResourceDate().getTimeInstant().isEmpty()){
-//				date.setTimeInstant(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimeInstant()));
-//			}else{
-//				Resource.Date.TimePeriod timeperiod = new Resource.Date.TimePeriod();
-//				timeperiod.setStart(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodStart()));
-//				timeperiod.setEnd(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodEnd()));
-//				date.setTimePeriod(timeperiod);
-//			}			
-//			resourceXML.setDate(date);
-//		}
-//		
+		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
+			Resource.Date date = new Resource.Date();
+			if(resource.getResourceDate().getTimeInstant()!=null && !resource.getResourceDate().getTimeInstant().isEmpty()){
+				date.setTimeInstant(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimeInstant()));
+			}else{
+				Resource.Date.TimePeriod timeperiod = new Resource.Date.TimePeriod();
+				timeperiod.setStart(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodStart()));
+				timeperiod.setEnd(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimePeriodEnd()));
+				date.setTimePeriod(timeperiod);
+			}			
+			resourceXML.setDate(date);
+		}
+		
 		
 		
 		

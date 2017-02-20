@@ -57,7 +57,7 @@ public class OAIPMHCtrl {
 			@RequestParam(required = false, value ="from") String from,
 			@RequestParam(required = false, value ="until") String until,
 			@RequestParam(required = false, value ="resumptionToken") String resumptionToken,
-			@RequestParam(required = false, value ="set") String set) throws DatatypeConfigurationException, JAXBException, IOException, ParseException {
+			@RequestParam(required = false, value ="set") String set) throws Exception {
 		
 		response.setContentType("text/xml");
 		

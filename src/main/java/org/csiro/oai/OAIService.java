@@ -2,24 +2,18 @@ package org.csiro.oai;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UnknownFormatConversionException;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-
 import org.apache.http.conn.UnsupportedSchemeException;
 import org.csiro.igsn.entity.postgres.Resources;
 import org.csiro.igsn.entity.service.ResourceEntityService;
 import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
 import org.csiro.oai.binding.DeletedRecordType;
-import org.csiro.oai.binding.DescriptionType;
 import org.csiro.oai.binding.GetRecordType;
 import org.csiro.oai.binding.GranularityType;
 import org.csiro.oai.binding.HeaderType;
@@ -340,7 +334,7 @@ public class OAIService {
 		}
 	}
 	
-	public JAXBElement<OAIPMHtype> getRecordOAI(Resources resources, String metadataPrefix) throws DatatypeConfigurationException, JAXBException, UnsupportedSchemeException{
+	public JAXBElement<OAIPMHtype> getRecordOAI(Resources resources, String metadataPrefix) throws Exception{
 		
 		if(resources==null){
 			return this.getIdDoesNotExist(VerbType.GET_RECORD);
@@ -450,7 +444,7 @@ public class OAIService {
 	}
 	
 	
-	public JAXBElement<OAIPMHtype> getListRecords(List<Resources> resources, String metadataPrefix, String from, String until, Long totalCount, TokenResumption tokenResumption) throws DatatypeConfigurationException, JAXBException, UnsupportedSchemeException{
+	public JAXBElement<OAIPMHtype> getListRecords(List<Resources> resources, String metadataPrefix, String from, String until, Long totalCount, TokenResumption tokenResumption) throws Exception{
 		
 		if(resources.isEmpty()){
 			return this.getNoRecordMatch(VerbType.LIST_RECORDS);
@@ -566,7 +560,7 @@ public class OAIService {
 	}
 
 
-	public MetadataType getMetaData(JAXBConverterInterface converter,Resources resource) throws JAXBException{
+	public MetadataType getMetaData(JAXBConverterInterface converter,Resources resource) throws Exception{
 
 		MetadataType metaDataType = new MetadataType();
 		metaDataType.setAny(converter.convert(resource));

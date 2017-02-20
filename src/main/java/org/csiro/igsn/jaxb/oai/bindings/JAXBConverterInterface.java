@@ -1,6 +1,8 @@
 package org.csiro.igsn.jaxb.oai.bindings;
 
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.csiro.igsn.entity.postgres.Resources;
 
 
@@ -15,7 +17,7 @@ public interface JAXBConverterInterface {
 	
 	public String getSchemaLocation();
 	
-	public Object convert(Resources resource);
+	public Object convert(Resources resource) throws Exception;
 	
 	public Class getXMLRootClass();
 
