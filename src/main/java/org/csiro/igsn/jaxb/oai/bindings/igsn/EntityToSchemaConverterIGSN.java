@@ -194,8 +194,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 					collectorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
 					resourceXML.getCollectors().collector.add(collectorXML);
 					
-				}else{
-					//VT: finish mappable contributors to contributors
+				}else{					
 					if(mapContributorType(contributor.getContributorType())!=null){					
 						if(resourceXML.getContributors()==null){
 							resourceXML.setContributors(this.objectFactory.createResourceContributors());		
@@ -239,7 +238,8 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/pointOfContact": return ContributorType.CONTACT_PERSON;
 			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/funder": return ContributorType.FUNDER;
 			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/rightsHolder": return ContributorType.RIGHTS_HOLDER;
-			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/sponsor": return ContributorType.SPONSOR;			
+			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/sponsor": return ContributorType.SPONSOR;	
+			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator" : return null;
 			default: return ContributorType.OTHER;
 		}
 	}
@@ -266,8 +266,13 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 
 
 	private IdentifierType mapIdentifierType(String fromValue) {
-		String trimedFromValue = fromValue.substring(fromValue.lastIndexOf("/"),fromValue.length());		
-		return IdentifierType.fromValue(trimedFromValue);
+		String trimedFromValue = fromValue.substring(fromValue.lastIndexOf("/"),fromValue.length());	
+		if(trimedFromValue.equalsIgnoreCase("url") || trimedFromValue.equalsIgnoreCase("urn")){
+			return IdentifierType.URI;
+		}else{
+			return IdentifierType.fromValue(trimedFromValue);
+		}
+		
 	}
 
 
