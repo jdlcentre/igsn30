@@ -79,7 +79,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 	public org.csiro.igsn.jaxb.oai.bindings.igsn.Resource convert(Resources resource) throws NumberFormatException, DatatypeConfigurationException {		
 		Resource resourceXML = this.objectFactory.createResource();
 		
-		resourceXML.setRegistedObjectType(resource.getRegisteredObjectType());
+		resourceXML.setRegistedObjectType(mapRegisteredObjectType(resource.getRegisteredObjectType()));
 		
 		resourceXML.setIdentifier(this.objectFactory.createResourceIdentifier());
 		resourceXML.getIdentifier().setValue(resource.getResourceIdentifier());
@@ -87,10 +87,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		
 		
 		
-//		resourceXML.setLandingPage(resource.getLandingPage());
-//		if(resource.getEmbargoEnd()!=null){
-//			resourceXML.getIsPublic().setEmbargoEnd(IGSNDateUtil.getISODateFormatterShort().format(resource.getEmbargoEnd()));
-//		}
+
 		
 		if(resource.getIsPublic()){
 			resourceXML.setIsMetadataPublic(AccessType.PUBLIC);
@@ -199,7 +196,18 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 					
 				}else{
 					//VT: finish mappable contributors to contributors
-					if(contributor.getContributorType().equalsIgnoreCase("")){					
+					if(mapContributorType(contributor.getContributorType())!=null){					
+						if(resourceXML.getContributors()==null){
+							resourceXML.setContributors(this.objectFactory.createResourceContributors());		
+							resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
+						}
+						Resource.Contributors.Contributor contributorXML = this.objectFactory.createResourceContributorsContributor();
+						contributorXML.setType(mapContributorType(contributor.getContributorType()));
+						contributorXML.setName(contributor.getContributorName());
+						contributorXML.setIdentifier(this.objectFactory.createResourceContributorsContributorIdentifier());
+						contributorXML.getIdentifier().setType(mapIdentifierType(contributor.getCvIdentifierType().getIdentifierType()));
+						contributorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
+						resourceXML.getContributors().contributor.add(contributorXML);
 						
 					}
 				}
@@ -223,6 +231,27 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		}
 	
 		return resourceXML;
+	}
+
+
+	private ContributorType mapContributorType(String contributorType) {
+		switch(contributorType){
+			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/pointOfContact": return ContributorType.CONTACT_PERSON;
+			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/funder": return ContributorType.FUNDER;
+			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/rightsHolder": return ContributorType.RIGHTS_HOLDER;
+			case "http://registry.it.csiro.au/def/isotc211/CI_RoleCode/sponsor": return ContributorType.SPONSOR;			
+			default: return ContributorType.OTHER;
+		}
+	}
+
+
+	private String mapRegisteredObjectType(String registeredObjectType) {
+		switch(registeredObjectType){
+		case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample": return "http://schema.igsn.org/vocab/PhysicalSample";
+		case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/SampleCollection" : return "http://schema.igsn.org/vocab/SampleCollection";			
+		case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/SamplingFeature" : return "http://schema.igsn.org/vocab/SamplingFeature";				
+		default: return null;
+	}
 	}
 
 
