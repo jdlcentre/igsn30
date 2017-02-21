@@ -104,7 +104,7 @@
                 </property>         
             </activation>        
             <build>
-                <finalName>csiro</finalName>                
+                <finalName>IGSN-Registry30</finalName>                
                 <plugins>                                 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

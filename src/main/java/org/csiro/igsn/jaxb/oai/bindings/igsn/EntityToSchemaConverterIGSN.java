@@ -33,7 +33,14 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 	final String SCHEMA_LOCATION_FOR_BINDING="https://raw.githubusercontent.com/IGSN/metadata/dev/description/resource.xsd";
 	final Class XML_ROOT_CLASS = org.csiro.igsn.jaxb.oai.bindings.igsn.Resource.class;
 	
-
+	@Value("#{configProperties['REGISTRANT_AFFILIATION_NAME']}")
+	private String REGISTRANT_AFFILIATION_NAME;	
+	
+	@Value("#{configProperties['REGISTRANT_AFFILIATION_URI']}")
+	private String REGISTRANT_AFFILIATION_URI;
+	
+	@Value("#{configProperties['REGISTRANT_NAME']}")
+	private String REGISTRANT_NAME;
 	
 	
 	public EntityToSchemaConverterIGSN(){
@@ -110,7 +117,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		resourceXML.setResourceTypes(this.objectFactory.createResourceResourceTypes());
 		
 		for(ResourceTypes resourceTypes:resource.getResourceTypeses()){
-			if(resourceXML.getResourceTypes().getResourceType().isEmpty()){
+			if(resourceXML.getResourceTypes().getResourceType() == null || resourceXML.getResourceTypes().getResourceType().isEmpty()){
 				resourceXML.getResourceTypes().setResourceType(mapResourceType(resourceTypes.getCvResourceType().getResourceType()));
 			}else{
 				if(resourceXML.getResourceTypes().alternateResourceTypes == null){
@@ -228,7 +235,16 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 				}
 			}
 		}
-	
+		
+		resourceXML.setRegistrant(this.objectFactory.createResourceRegistrant());
+		resourceXML.getRegistrant().setName(this.REGISTRANT_NAME);
+		resourceXML.getRegistrant().setAffiliation(this.objectFactory.createResourceRegistrantAffiliation());
+		resourceXML.getRegistrant().getAffiliation().setIdentifier(this.objectFactory.createResourceRegistrantAffiliationIdentifier());
+		resourceXML.getRegistrant().getAffiliation().getIdentifier().setType(IdentifierType.URI);
+		resourceXML.getRegistrant().getAffiliation().getIdentifier().setValue(this.REGISTRANT_AFFILIATION_URI);
+		resourceXML.getRegistrant().getAffiliation().setName(this.REGISTRANT_AFFILIATION_NAME);
+		
+		
 		return resourceXML;
 	}
 

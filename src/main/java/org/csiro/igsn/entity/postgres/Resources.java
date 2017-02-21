@@ -161,7 +161,7 @@ public class Resources implements java.io.Serializable {
 		this.location = location;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL},orphanRemoval=true)
 	@JoinColumn(name = "log_date_id")
 	public LogDate getLogDate() {
 		return this.logDate;
@@ -171,7 +171,7 @@ public class Resources implements java.io.Serializable {
 		this.logDate = logDate;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL},orphanRemoval=true)
 	@JoinColumn(name = "method_id")
 	public Method getMethod() {
 		return this.method;
@@ -181,7 +181,7 @@ public class Resources implements java.io.Serializable {
 		this.method = method;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER,cascade={CascadeType.ALL},orphanRemoval=true)
 	@JoinColumn(name = "date")
 	public ResourceDate getResourceDate() {
 		return this.resourceDate;
