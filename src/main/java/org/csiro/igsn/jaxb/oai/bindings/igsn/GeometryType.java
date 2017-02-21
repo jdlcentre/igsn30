@@ -60,15 +60,6 @@ public enum GeometryType {
 
     public static GeometryType fromValue(String v) {
         for (GeometryType c: GeometryType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
-    }
-    
-    public static GeometryType fromValueIgnoreCase(String v) {
-        for (GeometryType c: GeometryType.values()) {
             if (c.value.equalsIgnoreCase(v)) {
                 return c;
             }
@@ -76,6 +67,7 @@ public enum GeometryType {
         throw new IllegalArgumentException(v);
     }
     
+   
     
 
 }

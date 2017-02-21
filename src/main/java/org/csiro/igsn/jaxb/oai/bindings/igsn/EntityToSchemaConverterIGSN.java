@@ -17,6 +17,7 @@ import org.csiro.igsn.entity.postgres.ResourceTypes;
 import org.csiro.igsn.entity.postgres.Resources;
 import org.csiro.igsn.entity.postgres.SampledFeatures;
 import org.csiro.igsn.jaxb.oai.bindings.JAXBConverterInterface;
+import org.csiro.igsn.jaxb.oai.bindings.igsn.Resource.Collectors.Collector;
 import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.postgis.Geometry;
 import org.springframework.beans.factory.annotation.Value;
@@ -131,7 +132,6 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			resourceXML.getMaterials().material.add(mapMaterialType(materialType.getCvMaterialTypes().getMaterialType()));
 		}
 		
-
 		
 		if(resource.getLocation()!=null){
 			
@@ -139,7 +139,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			Resource.Locations.Geometry geometryXML = this.objectFactory.createResourceLocationsGeometry();
 			geometryXML.setSridType("4326");
 			String wkt = resource.getLocation().getWkt();
-			geometryXML.setType(GeometryType.fromValueIgnoreCase(wkt.substring(0,wkt.indexOf('(')).trim()));
+			geometryXML.setType(GeometryType.fromValue(wkt.substring(0,wkt.indexOf('(')).trim()));
 			geometryXML.setValue(wkt);
 			locationXML.setGeometry(geometryXML);
 			Resource.Locations.Toponym toponym = this.objectFactory.createResourceLocationsToponym();
@@ -150,7 +150,6 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			locationXML.setToponym(toponym);
 			resourceXML.setLocations(locationXML);
 		}
-		
 		
 				
 		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
@@ -166,10 +165,6 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 			resourceXML.setDate(date);
 		}
 		
-		
-		
-	
-	
 		
 		if(resource.getCurationDetailses()!=null && !resource.getCurationDetailses().isEmpty()){
 			resourceXML.setContributors(this.objectFactory.createResourceContributors());		
@@ -188,48 +183,62 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		
 		
 		
-		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){
-			resourceXML.setCollectors(this.objectFactory.createResourceCollectors());
-			resourceXML.getCollectors().collector = new ArrayList<Resource.Collectors.Collector>();
+		if(resource.getContributorses()!=null && !resource.getContributorses().isEmpty()){			
 			for(Contributors contributor:resource.getContributorses()){
-				if(contributor.getContributorType().equalsIgnoreCase("http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator")){
-					//VT: add to collectors in top level
+				if(contributor.getContributorType().equalsIgnoreCase("http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator")){					
+					if(resourceXML.getCollectors()==null){
+						resourceXML.setCollectors(this.objectFactory.createResourceCollectors());
+						resourceXML.getCollectors().collector = new ArrayList<Resource.Collectors.Collector>();
+					}
+					Collector collectorXML = this.objectFactory.createResourceCollectorsCollector();
+					collectorXML.setName(contributor.getContributorName());
+					collectorXML.setIdentifier(this.objectFactory.createResourceCollectorsCollectorIdentifier());					
+					collectorXML.getIdentifier().setType(mapIdentifierType(contributor.getCvIdentifierType().getIdentifierType()));
+					collectorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
+					resourceXML.getCollectors().collector.add(collectorXML);
+					
 				}else{
-					//VT: add to contributors.
-					//VT: contributor may already be initiallized by curator.. take note.
+					//VT: finish mappable contributors to contributors
+					if(contributor.getContributorType().equalsIgnoreCase("")){					
+						
+					}
 				}
-				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
-				contributorXML.setContributorType(contributor.getContributorType());
-				contributorXML.setContributorName(contributor.getContributorName());
-				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
-				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
-				contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
-				resourceXML.getContributors().contributor.add(contributorXML);
+				
 			}
 		}
 		
-		
-//		
-//		if(resource.getRelatedResourceses()!=null && !resource.getRelatedResourceses().isEmpty()){
-//			resourceXML.setRelatedResources(this.objectFactory.createResourcesResourceRelatedResources());
-//			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
-//			for(RelatedResources relatedResources:resource.getRelatedResourceses()){
-//				Resource.RelatedResources.RelatedResource relatedResourcesXML = new Resource.RelatedResources.RelatedResource();
-//				relatedResourcesXML.setRelatedResourceIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType());
-//				relatedResourcesXML.setRelationType(relatedResources.getRelationType());
-//				relatedResourcesXML.setValue(relatedResources.getRelatedResource());
-//				resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
-//			}
-//		}
-//		
-//		
-//		
-//		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
-//		resourceXML.getLogDate().setEventType(EventType.fromValue(resource.getLogDate().getEventType()));
-//		resourceXML.getLogDate().setValue(resource.getLogDate().getLogDate());
-//		
-//		
+		if(resource.getRelatedResourceses()!=null && !resource.getRelatedResourceses().isEmpty()){
+			resourceXML.setRelatedResources(this.objectFactory.createResourceRelatedResources());
+			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
+			for(RelatedResources relatedResources:resource.getRelatedResourceses()){
+				//VT: only if its mappable we map it.
+				if(mapRelationType(relatedResources.getRelationType())!=null){
+					Resource.RelatedResources.RelatedResource relatedResourcesXML = new Resource.RelatedResources.RelatedResource();
+					relatedResourcesXML.setType(mapIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType()));
+					relatedResourcesXML.setRelationType(mapRelationType(relatedResources.getRelationType()));
+					relatedResourcesXML.setValue(relatedResources.getRelatedResource());
+					resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
+				}
+			}
+		}
+	
 		return resourceXML;
+	}
+
+
+	private RelationType mapRelationType(String relationType) {
+		String trimedrelationType= relationType.substring(relationType.lastIndexOf("/"),relationType.length());	
+		try{
+			return RelationType.fromValue(trimedrelationType);
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+
+	private IdentifierType mapIdentifierType(String fromValue) {
+		String trimedFromValue = fromValue.substring(fromValue.lastIndexOf("/"),fromValue.length());		
+		return IdentifierType.fromValue(trimedFromValue);
 	}
 
 
