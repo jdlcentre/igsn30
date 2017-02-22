@@ -45,12 +45,14 @@ public class MultiHttpSecurityConfig {
 	    	.httpBasic()
 		    .and()
 				.authorizeRequests()
-					.antMatchers("/subnamespace/**").authenticated()
-					.antMatchers("/metadata/**").authenticated()
-					.antMatchers("/igsn/**").authenticated()				
+					.antMatchers("/api/subnamespace/**").authenticated()
+					.antMatchers("/api/metadata/**").authenticated()
+					.antMatchers("/api/igsn/**").authenticated()				
 			.and()
 				.csrf().disable();
 			
+			
+				
 		}
 		
 		
