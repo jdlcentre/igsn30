@@ -66,7 +66,7 @@ public class OAIPMHCtrl {
 				marshalToWrtier(oaiService.getBadArgument(VerbType.GET_RECORD),response.getWriter(),OAIPMHtype.class);
 				return;
 			}
-			Resources resources = resourceEntityService.searchResourceByIdentifierPublic(identifier.replace(OAI_IDENTIFIER_PREFIX, ""));			
+			Resources resources = resourceEntityService.searchResourceByIdentifierPublic(identifier.replaceAll("(?i)"+OAI_IDENTIFIER_PREFIX, ""));			
 			marshalToWrtier(oaiService.getRecordOAI(resources, metadataPrefix),response.getWriter(),OAIPMHtype.class,oaiService.getSuitableConverter(metadataPrefix).getXMLRootClass());
 		}else if(verb.equals(VerbType.LIST_RECORDS.value())){
 			
@@ -131,7 +131,7 @@ public class OAIPMHCtrl {
 				marshalToWrtier(oaiService.getListMetadataFormat(null,identifier),response.getWriter(),OAIPMHtype.class);
 				return;
 			}
-			Resources sample = resourceEntityService.searchResourceByIdentifier(identifier.replace(OAI_IDENTIFIER_PREFIX, ""));
+			Resources sample = resourceEntityService.searchResourceByIdentifier(identifier.replaceAll("(?i)"+OAI_IDENTIFIER_PREFIX, ""));
 			marshalToWrtier(oaiService.getListMetadataFormat(sample,identifier),response.getWriter(),OAIPMHtype.class);
 		}else if(verb.equals(VerbType.IDENTIFY.value())){			
 			marshalToWrtier(oaiService.getIdentify(),response.getWriter(),OAIPMHtype.class);

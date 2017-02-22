@@ -138,25 +138,35 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		
 		
 		if(resource.getLocation()!=null){
-			
+
 			Resource.Locations locationXML = this.objectFactory.createResourceLocations();
-			Resource.Locations.Geometry geometryXML = this.objectFactory.createResourceLocationsGeometry();
-			geometryXML.setSridType("4326");
-			String wkt = resource.getLocation().getWkt();
-			geometryXML.setType(GeometryType.fromValue(wkt.substring(0,wkt.indexOf('(')).trim()));
-			geometryXML.setValue(wkt);
-			locationXML.setGeometry(geometryXML);
-			Resource.Locations.Toponym toponym = this.objectFactory.createResourceLocationsToponym();
-			toponym.setName(resource.getLocation().getLocality());			
-			toponym.setIdentifier(this.objectFactory.createResourceLocationsToponymIdentifier());
-			toponym.getIdentifier().setValue(resource.getLocation().getLocalityUri());
-			toponym.getIdentifier().setType(IdentifierType.URI);
+			if(mapGeometryType(resource.getLocation().getWkt())!=null){
+				Resource.Locations.Geometry geometryXML = this.objectFactory.createResourceLocationsGeometry();
+				geometryXML.setSridType("4326");			
+				geometryXML.setType(mapGeometryType(resource.getLocation().getWkt()));
+				geometryXML.setValue(resource.getLocation().getWkt());
+				locationXML.setGeometry(geometryXML);
+			}
+			
+			Resource.Locations.Toponym toponym = null;
+			if((resource.getLocation().getLocality()!=null && !resource.getLocation().getLocality().isEmpty()) 
+					|| (resource.getLocation().getLocalityUri()!=null && !resource.getLocation().getLocalityUri().isEmpty())){
+				toponym = this.objectFactory.createResourceLocationsToponym();
+				
+				if(resource.getLocation().getLocality()!=null && !resource.getLocation().getLocality().isEmpty()){
+					toponym.setName(resource.getLocation().getLocality());
+				}
+				if(resource.getLocation().getLocalityUri()!=null && !resource.getLocation().getLocalityUri().isEmpty()){
+					toponym.setIdentifier(this.objectFactory.createResourceLocationsToponymIdentifier());
+					toponym.getIdentifier().setValue(resource.getLocation().getLocalityUri());
+					toponym.getIdentifier().setType(IdentifierType.URI);
+				}
+			}			
 			locationXML.setToponym(toponym);
 			resourceXML.setLocations(locationXML);
 		}
-		
 				
-		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){
+		if(resource.getResourceDate()!=null && !(resource.getResourceDate().getTimeInstant()==null && resource.getResourceDate().getTimePeriodStart()==null)){				
 			Resource.Date date = new Resource.Date();
 			if(resource.getResourceDate().getTimeInstant()!=null && !resource.getResourceDate().getTimeInstant().isEmpty()){
 				date.setTimeInstant(IGSNDateUtil.parseForGregorianCalendar(resource.getResourceDate().getTimeInstant()));
@@ -170,16 +180,19 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		}
 		
 		
+		
 		if(resource.getCurationDetailses()!=null && !resource.getCurationDetailses().isEmpty()){
 			resourceXML.setContributors(this.objectFactory.createResourceContributors());		
 			resourceXML.getContributors().contributor = new ArrayList<Resource.Contributors.Contributor>();
 			for(CurationDetails curationDetails:resource.getCurationDetailses()){
 				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
 				contributorXML.setType(ContributorType.HOSTING_INSTITUTION);
-				contributorXML.setName(curationDetails.getCurator());
-				contributorXML.setIdentifier(this.objectFactory.createResourceContributorsContributorIdentifier());
-				contributorXML.getIdentifier().setType(IdentifierType.URI);
-				contributorXML.getIdentifier().setValue(curationDetails.getInstitutionUri());
+				contributorXML.setName(curationDetails.getCuratingInstitution() + (curationDetails.getCurator()==null || curationDetails.getCurator().isEmpty()?"":":"+curationDetails.getCurator()));
+				if(curationDetails.getInstitutionUri()!=null && !curationDetails.getInstitutionUri().isEmpty()){
+					contributorXML.setIdentifier(this.objectFactory.createResourceContributorsContributorIdentifier());
+					contributorXML.getIdentifier().setType(IdentifierType.URI);
+					contributorXML.getIdentifier().setValue(curationDetails.getInstitutionUri());
+				}
 				resourceXML.getContributors().contributor.add(contributorXML);
 			}
 		}
@@ -210,9 +223,14 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 						Resource.Contributors.Contributor contributorXML = this.objectFactory.createResourceContributorsContributor();
 						contributorXML.setType(mapContributorType(contributor.getContributorType()));
 						contributorXML.setName(contributor.getContributorName());
-						contributorXML.setIdentifier(this.objectFactory.createResourceContributorsContributorIdentifier());
-						contributorXML.getIdentifier().setType(mapIdentifierType(contributor.getCvIdentifierType().getIdentifierType()));
-						contributorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
+						
+						if(contributor.getCvIdentifierType()!=null){
+							contributorXML.setIdentifier(this.objectFactory.createResourceContributorsContributorIdentifier());
+							contributorXML.getIdentifier().setType(mapIdentifierType(contributor.getCvIdentifierType().getIdentifierType()));
+							contributorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
+						}
+						
+						
 						resourceXML.getContributors().contributor.add(contributorXML);
 						
 					}
@@ -234,6 +252,9 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 					resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
 				}
 			}
+			if(resourceXML.getRelatedResources().relatedResource.isEmpty()){
+				resourceXML.setRelatedResources(null);
+			}
 		}
 		
 		resourceXML.setRegistrant(this.objectFactory.createResourceRegistrant());
@@ -246,6 +267,19 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		
 		
 		return resourceXML;
+	}
+
+
+	private GeometryType mapGeometryType(String trim) {
+		try{
+			if(trim.contains("(")){
+				trim = trim.substring(0,trim.indexOf('(')).trim();
+			}
+			return GeometryType.fromValue(trim);
+		}catch(Exception e){
+			return null;
+		}
+		
 	}
 
 
@@ -272,7 +306,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 
 
 	private RelationType mapRelationType(String relationType) {
-		String trimedrelationType= relationType.substring(relationType.lastIndexOf("/"),relationType.length());	
+		String trimedrelationType= relationType.substring(relationType.lastIndexOf("/")+1,relationType.length());	
 		try{
 			return RelationType.fromValue(trimedrelationType);
 		}catch(Exception e){
@@ -282,7 +316,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 
 
 	private IdentifierType mapIdentifierType(String fromValue) {
-		String trimedFromValue = fromValue.substring(fromValue.lastIndexOf("/"),fromValue.length());	
+		String trimedFromValue = fromValue.substring(fromValue.lastIndexOf("/") + 1,fromValue.length());	
 		if(trimedFromValue.equalsIgnoreCase("url") || trimedFromValue.equalsIgnoreCase("urn")){
 			return IdentifierType.URI;
 		}else{
