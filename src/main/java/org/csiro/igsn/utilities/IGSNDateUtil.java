@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -27,7 +28,7 @@ public class IGSNDateUtil {
 
 	public static XMLGregorianCalendar parseForGregorianCalendar(String w3cDate) throws NumberFormatException, DatatypeConfigurationException {
 		String year = "";
-		String month="01", day = "01";
+		String month="00", day = "01";
 		String  hour="00", minute = "00";
 		if (w3cDate.length() >= 4) {
 			year = w3cDate.substring(0, 4);
@@ -45,10 +46,12 @@ public class IGSNDateUtil {
 		}
 		if (w3cDate.length() >= 15) {
 			minute = w3cDate.substring(13 - 15);
-		}			
-		return DatatypeFactory.newInstance().newXMLGregorianCalendar(
-				new GregorianCalendar(Integer.parseInt(year),Integer.parseInt(month),
-						Integer.parseInt(day),Integer.parseInt(hour),Integer.parseInt(minute),0));
+		}
+		
+		GregorianCalendar gc = new GregorianCalendar(Integer.parseInt(year),Integer.parseInt(month),
+				Integer.parseInt(day),Integer.parseInt(hour),Integer.parseInt(minute),0);
+		
+		return DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
 
 	}
 
