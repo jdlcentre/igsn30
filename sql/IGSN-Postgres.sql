@@ -3,8 +3,9 @@
 --
 
 -- Dumped from database version 9.3.5
--- Dumped by pg_dump version 9.4.0
--- Started on 2017-01-09 13:04:41
+-- Dumped by pg_dump version 9.5.5
+
+-- Started on 2017-02-24 09:50:31
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,9 +13,10 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
--- TOC entry 10 (class 2615 OID 73271)
+-- TOC entry 15 (class 2615 OID 73271)
 -- Name: version30; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -23,13 +25,52 @@ CREATE SCHEMA version30;
 
 SET search_path = version30, pg_catalog;
 
-SET default_tablespace = '';
+--
+-- TOC entry 320 (class 1259 OID 73599)
+-- Name: allocator_allocatorid_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE allocator_allocatorid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 
 SET default_with_oids = false;
 
 --
--- TOC entry 282 (class 1259 OID 73284)
--- Name: alternate_identifiers; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 315 (class 1259 OID 73578)
+-- Name: allocator; Type: TABLE; Schema: version30; Owner: -
+--
+
+CREATE TABLE allocator (
+    allocatorid integer DEFAULT nextval('allocator_allocatorid_seq'::regclass) NOT NULL,
+    comments text,
+    contactemail character varying(255) NOT NULL,
+    contactname character varying(80) NOT NULL,
+    created timestamp without time zone,
+    username character varying(50) NOT NULL,
+    password character varying(50),
+    isactive boolean
+);
+
+
+--
+-- TOC entry 316 (class 1259 OID 73584)
+-- Name: allocator_prefixes; Type: TABLE; Schema: version30; Owner: -
+--
+
+CREATE TABLE allocator_prefixes (
+    allocator integer NOT NULL,
+    prefixes integer NOT NULL
+);
+
+
+--
+-- TOC entry 287 (class 1259 OID 73284)
+-- Name: alternate_identifiers; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE alternate_identifiers (
@@ -40,8 +81,21 @@ CREATE TABLE alternate_identifiers (
 
 
 --
--- TOC entry 285 (class 1259 OID 73334)
--- Name: classifications; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 302 (class 1259 OID 73544)
+-- Name: alternate_identifiers_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE alternate_identifiers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 290 (class 1259 OID 73334)
+-- Name: classifications; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE classifications (
@@ -53,22 +107,47 @@ CREATE TABLE classifications (
 
 
 --
--- TOC entry 288 (class 1259 OID 73373)
--- Name: collectors; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 303 (class 1259 OID 73546)
+-- Name: classifications_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
 --
 
-CREATE TABLE collectors (
-    collector_id integer NOT NULL,
-    collector_name character varying,
-    collector_identifier character varying,
-    resource_identifier character varying,
-    collector_identifier_type integer
-);
+CREATE SEQUENCE classifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
 --
--- TOC entry 290 (class 1259 OID 73399)
--- Name: contributors; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 304 (class 1259 OID 73548)
+-- Name: collector_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE collector_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 305 (class 1259 OID 73551)
+-- Name: contributor_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE contributor_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 294 (class 1259 OID 73399)
+-- Name: contributors; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE contributors (
@@ -82,24 +161,37 @@ CREATE TABLE contributors (
 
 
 --
--- TOC entry 289 (class 1259 OID 73386)
--- Name: curation_details; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 293 (class 1259 OID 73386)
+-- Name: curation_details; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE curation_details (
     curation_id integer NOT NULL,
     curator character varying,
-    curation_date timestamp without time zone,
     curation_location character varying,
     institution_uri character varying,
     resource_identifier character varying,
-    curating_institution character varying
+    curating_institution character varying,
+    curation_date character varying
 );
 
 
 --
--- TOC entry 296 (class 1259 OID 73483)
--- Name: cv_identifier_type; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 306 (class 1259 OID 73553)
+-- Name: curation_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE curation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 300 (class 1259 OID 73483)
+-- Name: cv_identifier_type; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE cv_identifier_type (
@@ -109,8 +201,8 @@ CREATE TABLE cv_identifier_type (
 
 
 --
--- TOC entry 294 (class 1259 OID 73470)
--- Name: cv_material_types; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 298 (class 1259 OID 73470)
+-- Name: cv_material_types; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE cv_material_types (
@@ -120,8 +212,8 @@ CREATE TABLE cv_material_types (
 
 
 --
--- TOC entry 295 (class 1259 OID 73475)
--- Name: cv_resource_type; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 299 (class 1259 OID 73475)
+-- Name: cv_resource_type; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE cv_resource_type (
@@ -131,8 +223,8 @@ CREATE TABLE cv_resource_type (
 
 
 --
--- TOC entry 287 (class 1259 OID 73360)
--- Name: location; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 292 (class 1259 OID 73360)
+-- Name: location; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE location (
@@ -141,25 +233,52 @@ CREATE TABLE location (
     locality_uri character varying,
     srid character varying,
     vertical_datum character varying,
-    geometry_uri character varying
+    geometry_uri character varying,
+    geometry public.geometry(Geometry,4326)
 );
 
 
 --
--- TOC entry 292 (class 1259 OID 73425)
--- Name: log_date; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 307 (class 1259 OID 73555)
+-- Name: location_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE location_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 296 (class 1259 OID 73425)
+-- Name: log_date; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE log_date (
     log_date_id integer NOT NULL,
     event_type character varying,
-    log_date timestamp without time zone
+    log_date character varying
 );
 
 
 --
--- TOC entry 284 (class 1259 OID 73321)
--- Name: material_types; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 308 (class 1259 OID 73557)
+-- Name: log_date_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE log_date_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 289 (class 1259 OID 73321)
+-- Name: material_types; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE material_types (
@@ -170,8 +289,21 @@ CREATE TABLE material_types (
 
 
 --
--- TOC entry 293 (class 1259 OID 73442)
--- Name: method; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 309 (class 1259 OID 73559)
+-- Name: material_types_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE material_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 297 (class 1259 OID 73442)
+-- Name: method; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE method (
@@ -182,8 +314,103 @@ CREATE TABLE method (
 
 
 --
--- TOC entry 291 (class 1259 OID 73412)
--- Name: related_resources; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 310 (class 1259 OID 73561)
+-- Name: method_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE method_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 322 (class 1259 OID 73606)
+-- Name: prefix_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE prefix_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 317 (class 1259 OID 73587)
+-- Name: prefix; Type: TABLE; Schema: version30; Owner: -
+--
+
+CREATE TABLE prefix (
+    id integer DEFAULT nextval('prefix_id_seq'::regclass) NOT NULL,
+    prefix character varying(15) NOT NULL,
+    created timestamp without time zone DEFAULT now(),
+    version integer,
+    description character varying
+);
+
+
+--
+-- TOC entry 321 (class 1259 OID 73603)
+-- Name: registrant_registrantid_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE registrant_registrantid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 318 (class 1259 OID 73590)
+-- Name: registrant; Type: TABLE; Schema: version30; Owner: -
+--
+
+CREATE TABLE registrant (
+    registrantid integer DEFAULT nextval('registrant_registrantid_seq'::regclass) NOT NULL,
+    registrantname character varying(255) NOT NULL,
+    registrantemail character varying(255) NOT NULL,
+    created timestamp without time zone,
+    username character varying(50) NOT NULL,
+    password character varying(50) NOT NULL,
+    updated timestamp without time zone,
+    allocator integer NOT NULL,
+    isactive boolean
+);
+
+
+--
+-- TOC entry 319 (class 1259 OID 73596)
+-- Name: registrant_prefixes; Type: TABLE; Schema: version30; Owner: -
+--
+
+CREATE TABLE registrant_prefixes (
+    registrant integer NOT NULL,
+    prefixes integer NOT NULL
+);
+
+
+--
+-- TOC entry 311 (class 1259 OID 73563)
+-- Name: related_resource_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE related_resource_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 295 (class 1259 OID 73412)
+-- Name: related_resources; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE related_resources (
@@ -196,22 +423,47 @@ CREATE TABLE related_resources (
 
 
 --
--- TOC entry 297 (class 1259 OID 73521)
--- Name: resource_date; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 301 (class 1259 OID 73521)
+-- Name: resource_date; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE resource_date (
     resource_date_id integer NOT NULL,
-    time_instant timestamp without time zone,
-    time_period_start timestamp without time zone,
-    time_period_end timestamp without time zone,
-    resource_identifier character varying
+    time_instant character varying,
+    time_period_end character varying,
+    time_period_start character varying
 );
 
 
 --
--- TOC entry 283 (class 1259 OID 73308)
--- Name: resource_types; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 312 (class 1259 OID 73565)
+-- Name: resource_date_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE resource_date_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 313 (class 1259 OID 73567)
+-- Name: resource_type_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE resource_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 288 (class 1259 OID 73308)
+-- Name: resource_types; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE resource_types (
@@ -222,8 +474,8 @@ CREATE TABLE resource_types (
 
 
 --
--- TOC entry 281 (class 1259 OID 73276)
--- Name: resources; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 286 (class 1259 OID 73276)
+-- Name: resources; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE resources (
@@ -234,17 +486,46 @@ CREATE TABLE resources (
     resource_title character varying,
     purpose character varying,
     location_id integer,
-    date timestamp without time zone,
     campaign character varying,
     comments character varying,
     log_date_id integer,
-    method_id integer
+    method_id integer,
+    date integer,
+    created timestamp without time zone DEFAULT now(),
+    modified timestamp without time zone DEFAULT now(),
+    registrantid integer,
+    registrant integer,
+    resourceid bigint NOT NULL,
+    input_method character varying(15),
+    embargo_end timestamp without time zone
 );
 
 
 --
--- TOC entry 286 (class 1259 OID 73347)
--- Name: sampled_features; Type: TABLE; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 323 (class 1259 OID 73671)
+-- Name: resources_resourceid_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE resources_resourceid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3829 (class 0 OID 0)
+-- Dependencies: 323
+-- Name: resources_resourceid_seq; Type: SEQUENCE OWNED BY; Schema: version30; Owner: -
+--
+
+ALTER SEQUENCE resources_resourceid_seq OWNED BY resources.resourceid;
+
+
+--
+-- TOC entry 291 (class 1259 OID 73347)
+-- Name: sampled_features; Type: TABLE; Schema: version30; Owner: -
 --
 
 CREATE TABLE sampled_features (
@@ -256,8 +537,29 @@ CREATE TABLE sampled_features (
 
 
 --
--- TOC entry 3588 (class 2606 OID 73291)
--- Name: pk_alternate_identifiers; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 314 (class 1259 OID 73569)
+-- Name: sampled_features_id_seq; Type: SEQUENCE; Schema: version30; Owner: -
+--
+
+CREATE SEQUENCE sampled_features_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3636 (class 2604 OID 73673)
+-- Name: resourceid; Type: DEFAULT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY resources ALTER COLUMN resourceid SET DEFAULT nextval('resources_resourceid_seq'::regclass);
+
+
+--
+-- TOC entry 3647 (class 2606 OID 73291)
+-- Name: pk_alternate_identifiers; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY alternate_identifiers
@@ -265,8 +567,8 @@ ALTER TABLE ONLY alternate_identifiers
 
 
 --
--- TOC entry 3594 (class 2606 OID 73341)
--- Name: pk_classifications; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3653 (class 2606 OID 73341)
+-- Name: pk_classifications; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY classifications
@@ -274,17 +576,8 @@ ALTER TABLE ONLY classifications
 
 
 --
--- TOC entry 3600 (class 2606 OID 73380)
--- Name: pk_collectors; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY collectors
-    ADD CONSTRAINT pk_collectors PRIMARY KEY (collector_id);
-
-
---
--- TOC entry 3604 (class 2606 OID 73406)
--- Name: pk_contributors; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3661 (class 2606 OID 73406)
+-- Name: pk_contributors; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY contributors
@@ -292,8 +585,8 @@ ALTER TABLE ONLY contributors
 
 
 --
--- TOC entry 3602 (class 2606 OID 73393)
--- Name: pk_curation_details; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3659 (class 2606 OID 73393)
+-- Name: pk_curation_details; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY curation_details
@@ -301,8 +594,8 @@ ALTER TABLE ONLY curation_details
 
 
 --
--- TOC entry 3616 (class 2606 OID 73490)
--- Name: pk_cv_identifier_type; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3673 (class 2606 OID 73490)
+-- Name: pk_cv_identifier_type; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY cv_identifier_type
@@ -310,8 +603,8 @@ ALTER TABLE ONLY cv_identifier_type
 
 
 --
--- TOC entry 3612 (class 2606 OID 73474)
--- Name: pk_cv_material_type; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3669 (class 2606 OID 73474)
+-- Name: pk_cv_material_type; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY cv_material_types
@@ -319,8 +612,8 @@ ALTER TABLE ONLY cv_material_types
 
 
 --
--- TOC entry 3614 (class 2606 OID 73482)
--- Name: pk_cv_resource_type; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3671 (class 2606 OID 73482)
+-- Name: pk_cv_resource_type; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY cv_resource_type
@@ -328,8 +621,8 @@ ALTER TABLE ONLY cv_resource_type
 
 
 --
--- TOC entry 3598 (class 2606 OID 73367)
--- Name: pk_location; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3657 (class 2606 OID 73367)
+-- Name: pk_location; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY location
@@ -337,8 +630,8 @@ ALTER TABLE ONLY location
 
 
 --
--- TOC entry 3608 (class 2606 OID 73429)
--- Name: pk_log_date; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3665 (class 2606 OID 73429)
+-- Name: pk_log_date; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY log_date
@@ -346,8 +639,8 @@ ALTER TABLE ONLY log_date
 
 
 --
--- TOC entry 3592 (class 2606 OID 73328)
--- Name: pk_material_types; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3651 (class 2606 OID 73328)
+-- Name: pk_material_types; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY material_types
@@ -355,8 +648,8 @@ ALTER TABLE ONLY material_types
 
 
 --
--- TOC entry 3610 (class 2606 OID 73449)
--- Name: pk_method; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3667 (class 2606 OID 73449)
+-- Name: pk_method; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY method
@@ -364,8 +657,8 @@ ALTER TABLE ONLY method
 
 
 --
--- TOC entry 3606 (class 2606 OID 73436)
--- Name: pk_related_resource; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3663 (class 2606 OID 73436)
+-- Name: pk_related_resource; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY related_resources
@@ -373,8 +666,8 @@ ALTER TABLE ONLY related_resources
 
 
 --
--- TOC entry 3585 (class 2606 OID 73283)
--- Name: pk_resource; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3644 (class 2606 OID 73283)
+-- Name: pk_resource; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY resources
@@ -382,8 +675,8 @@ ALTER TABLE ONLY resources
 
 
 --
--- TOC entry 3618 (class 2606 OID 73525)
--- Name: pk_resource_date; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3675 (class 2606 OID 73525)
+-- Name: pk_resource_date; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY resource_date
@@ -391,8 +684,8 @@ ALTER TABLE ONLY resource_date
 
 
 --
--- TOC entry 3590 (class 2606 OID 73315)
--- Name: pk_resources; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3649 (class 2606 OID 73315)
+-- Name: pk_resources; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY resource_types
@@ -400,8 +693,8 @@ ALTER TABLE ONLY resource_types
 
 
 --
--- TOC entry 3596 (class 2606 OID 73354)
--- Name: pk_sampled_features; Type: CONSTRAINT; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3655 (class 2606 OID 73354)
+-- Name: pk_sampled_features; Type: CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY sampled_features
@@ -409,15 +702,123 @@ ALTER TABLE ONLY sampled_features
 
 
 --
--- TOC entry 3586 (class 1259 OID 73307)
--- Name: fki_resources; Type: INDEX; Schema: version30; Owner: -; Tablespace: 
+-- TOC entry 3677 (class 2606 OID 73612)
+-- Name: pk_v30_allocatorid; Type: CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY allocator
+    ADD CONSTRAINT pk_v30_allocatorid PRIMARY KEY (allocatorid);
+
+
+--
+-- TOC entry 3681 (class 2606 OID 73619)
+-- Name: pk_v30_prefix; Type: CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY prefix
+    ADD CONSTRAINT pk_v30_prefix PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3685 (class 2606 OID 73631)
+-- Name: pk_v30_registrant; Type: CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY registrant
+    ADD CONSTRAINT pk_v30_registrant PRIMARY KEY (registrantid);
+
+
+--
+-- TOC entry 3683 (class 2606 OID 73770)
+-- Name: prefix_prefix_unique; Type: CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY prefix
+    ADD CONSTRAINT prefix_prefix_unique UNIQUE (prefix);
+
+
+--
+-- TOC entry 3679 (class 2606 OID 73610)
+-- Name: v30_allocator_prefixes_primary; Type: CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY allocator_prefixes
+    ADD CONSTRAINT v30_allocator_prefixes_primary PRIMARY KEY (allocator, prefixes);
+
+
+--
+-- TOC entry 3687 (class 2606 OID 73633)
+-- Name: v30_registrant_prefixes_primary; Type: CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY registrant_prefixes
+    ADD CONSTRAINT v30_registrant_prefixes_primary PRIMARY KEY (registrant, prefixes);
+
+
+--
+-- TOC entry 3645 (class 1259 OID 73307)
+-- Name: fki_resources; Type: INDEX; Schema: version30; Owner: -
 --
 
 CREATE INDEX fki_resources ON alternate_identifiers USING btree (resource_identifier);
 
 
 --
--- TOC entry 3625 (class 2606 OID 73491)
+-- TOC entry 3694 (class 2606 OID 73302)
+-- Name: fk_alternate_identifiers_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY alternate_identifiers
+    ADD CONSTRAINT fk_alternate_identifiers_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3688 (class 2606 OID 73663)
+-- Name: fk_c3p8dx0u16gejn29tucchpfl7; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY resources
+    ADD CONSTRAINT fk_c3p8dx0u16gejn29tucchpfl7 FOREIGN KEY (registrant) REFERENCES registrant(registrantid);
+
+
+--
+-- TOC entry 3699 (class 2606 OID 73342)
+-- Name: fk_classifications_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY classifications
+    ADD CONSTRAINT fk_classifications_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3703 (class 2606 OID 73511)
+-- Name: fk_contributors_identifier_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY contributors
+    ADD CONSTRAINT fk_contributors_identifier_type FOREIGN KEY (contributor_identifier_type) REFERENCES cv_identifier_type(cv_identifier_type_id);
+
+
+--
+-- TOC entry 3702 (class 2606 OID 73407)
+-- Name: fk_contributors_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY contributors
+    ADD CONSTRAINT fk_contributors_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3701 (class 2606 OID 73394)
+-- Name: fk_curation_details_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY curation_details
+    ADD CONSTRAINT fk_curation_details_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3698 (class 2606 OID 73491)
 -- Name: fk_cv_material_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
@@ -426,7 +827,7 @@ ALTER TABLE ONLY material_types
 
 
 --
--- TOC entry 3623 (class 2606 OID 73496)
+-- TOC entry 3696 (class 2606 OID 73496)
 -- Name: fk_cv_resource_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
@@ -435,34 +836,16 @@ ALTER TABLE ONLY resource_types
 
 
 --
--- TOC entry 3632 (class 2606 OID 73511)
--- Name: fk_idenfifier_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
+-- TOC entry 3690 (class 2606 OID 73539)
+-- Name: fk_date; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
-ALTER TABLE ONLY contributors
-    ADD CONSTRAINT fk_idenfifier_type FOREIGN KEY (contributor_identifier_type) REFERENCES cv_identifier_type(cv_identifier_type_id);
-
-
---
--- TOC entry 3634 (class 2606 OID 73506)
--- Name: fk_identifier_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY related_resources
-    ADD CONSTRAINT fk_identifier_type FOREIGN KEY (related_resource_identifier_type) REFERENCES cv_identifier_type(cv_identifier_type_id);
+ALTER TABLE ONLY resources
+    ADD CONSTRAINT fk_date FOREIGN KEY (date) REFERENCES resource_date(resource_date_id) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3629 (class 2606 OID 73516)
--- Name: fk_identifier_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY collectors
-    ADD CONSTRAINT fk_identifier_type FOREIGN KEY (collector_identifier_type) REFERENCES cv_identifier_type(cv_identifier_type_id);
-
-
---
--- TOC entry 3621 (class 2606 OID 73368)
+-- TOC entry 3693 (class 2606 OID 73368)
 -- Name: fk_location; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
@@ -471,7 +854,7 @@ ALTER TABLE ONLY resources
 
 
 --
--- TOC entry 3620 (class 2606 OID 73430)
+-- TOC entry 3692 (class 2606 OID 73430)
 -- Name: fk_log_date; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
@@ -480,7 +863,16 @@ ALTER TABLE ONLY resources
 
 
 --
--- TOC entry 3619 (class 2606 OID 73450)
+-- TOC entry 3697 (class 2606 OID 73329)
+-- Name: fk_material_types_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY material_types
+    ADD CONSTRAINT fk_material_types_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3691 (class 2606 OID 73450)
 -- Name: fk_method; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
@@ -489,96 +881,96 @@ ALTER TABLE ONLY resources
 
 
 --
--- TOC entry 3636 (class 2606 OID 73534)
--- Name: fk_resource; Type: FK CONSTRAINT; Schema: version30; Owner: -
+-- TOC entry 3708 (class 2606 OID 73684)
+-- Name: fk_registrant_allocator; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
-ALTER TABLE ONLY resource_date
-    ADD CONSTRAINT fk_resource FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3622 (class 2606 OID 73302)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY alternate_identifiers
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+ALTER TABLE ONLY registrant
+    ADD CONSTRAINT fk_registrant_allocator FOREIGN KEY (allocator) REFERENCES allocator(allocatorid);
 
 
 --
--- TOC entry 3624 (class 2606 OID 73316)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY resource_types
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3626 (class 2606 OID 73329)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY material_types
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3627 (class 2606 OID 73342)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY classifications
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3628 (class 2606 OID 73355)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY sampled_features
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3630 (class 2606 OID 73381)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY collectors
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3631 (class 2606 OID 73394)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY curation_details
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3633 (class 2606 OID 73407)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
---
-
-ALTER TABLE ONLY contributors
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
-
-
---
--- TOC entry 3635 (class 2606 OID 73437)
--- Name: fk_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+-- TOC entry 3705 (class 2606 OID 73506)
+-- Name: fk_related_resource_identifier_type; Type: FK CONSTRAINT; Schema: version30; Owner: -
 --
 
 ALTER TABLE ONLY related_resources
-    ADD CONSTRAINT fk_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_related_resource_identifier_type FOREIGN KEY (related_resource_identifier_type) REFERENCES cv_identifier_type(cv_identifier_type_id);
 
 
--- Completed on 2017-01-09 13:04:51
+--
+-- TOC entry 3704 (class 2606 OID 73437)
+-- Name: fk_related_resources_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY related_resources
+    ADD CONSTRAINT fk_related_resources_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3695 (class 2606 OID 73316)
+-- Name: fk_resource_type_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY resource_types
+    ADD CONSTRAINT fk_resource_type_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3689 (class 2606 OID 73649)
+-- Name: fk_resources_registrant; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY resources
+    ADD CONSTRAINT fk_resources_registrant FOREIGN KEY (registrantid) REFERENCES registrant(registrantid);
+
+
+--
+-- TOC entry 3700 (class 2606 OID 73355)
+-- Name: fk_sampled_features_resources; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY sampled_features
+    ADD CONSTRAINT fk_sampled_features_resources FOREIGN KEY (resource_identifier) REFERENCES resources(resource_identifier) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3707 (class 2606 OID 73620)
+-- Name: fk_v30_allocator; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY allocator_prefixes
+    ADD CONSTRAINT fk_v30_allocator FOREIGN KEY (allocator) REFERENCES allocator(allocatorid);
+
+
+--
+-- TOC entry 3706 (class 2606 OID 73625)
+-- Name: fk_v30_allocator_prefixes; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY allocator_prefixes
+    ADD CONSTRAINT fk_v30_allocator_prefixes FOREIGN KEY (prefixes) REFERENCES prefix(id);
+
+
+--
+-- TOC entry 3709 (class 2606 OID 73639)
+-- Name: v30_registrant_prefix; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY registrant_prefixes
+    ADD CONSTRAINT v30_registrant_prefix FOREIGN KEY (prefixes) REFERENCES prefix(id);
+
+
+--
+-- TOC entry 3710 (class 2606 OID 73634)
+-- Name: v30_registrant_registrant; Type: FK CONSTRAINT; Schema: version30; Owner: -
+--
+
+ALTER TABLE ONLY registrant_prefixes
+    ADD CONSTRAINT v30_registrant_registrant FOREIGN KEY (registrant) REFERENCES registrant(registrantid);
+
+
+-- Completed on 2017-02-24 09:50:46
 
 --
 -- PostgreSQL database dump complete
