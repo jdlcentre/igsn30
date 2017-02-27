@@ -465,6 +465,11 @@ a:focus {
 .padding-0 {
   padding: 0;
 }
+
+.padding-5 {
+  padding: 5px;
+}
+
 .padding-vertical-32 {
   padding-left: 32px;
   padding-right: 32px;
