@@ -63,7 +63,7 @@ public class MintService {
 				+ "xsi:schemaLocation=\"http://igsn.org/schema/kernel-v.1.0 "
 				+ "http://doidb.wdc-terra.org/igsn/schemas/igsn.org/schema/1.0/igsn.xsd\">";
 		metacontent += "<sampleNumber identifierType=\"igsn\">" + IGSNPrefix + sampleNumber + "</sampleNumber>";
-		metacontent += "<registrant><registrantName>CSIRO.CSIRO</registrantName></registrant>";
+		metacontent += "<registrant><registrantName>"+IGSN_USER+"</registrantName></registrant>";
 		metacontent += "<log><logElement event=\"" + event + "\" timeStamp=\"" + timeStamp + "\"/></log></sample>";
 		
 		
@@ -76,7 +76,7 @@ public class MintService {
 			retbody = new ByteArrayOutputStream();
 			int responseCode = 0;
 			if (testMode) {
-				responseCode = httpRequest(IGSN_REGISTRY_URL + "igsn", mintcontent.getBytes(), retbody, "POST","text/plain;charset=UTF-8");
+				responseCode = httpRequest(IGSN_REGISTRY_URL + "igsn?testMode=true", mintcontent.getBytes(), retbody, "POST","text/plain;charset=UTF-8");
 			} else {
 				//VT: in non test mode, we will want to mint the metadata as well.
 				responseCode = httpRequest(IGSN_REGISTRY_URL + "igsn", mintcontent.getBytes(), retbody, "POST","text/plain;charset=UTF-8");
@@ -97,9 +97,9 @@ public class MintService {
 	
 	private int httpRequest(String serviceurl, byte[] body, OutputStream retbody, String method,String format)
 			throws Exception {
-		if(1==1){
-			return 201;
-		}
+//		if(1==1){
+//			return 201;
+//		}
 		
 		URL url;
 		HttpsURLConnection con;

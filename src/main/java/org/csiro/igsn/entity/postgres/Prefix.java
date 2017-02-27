@@ -35,11 +35,11 @@ import javax.persistence.Version;
 	),
 	@NamedQuery(
 			name="Prefix.searchJoinRegistrant",
-		    query="SELECT p FROM Prefix p left join fetch p.registrants where p.prefix  = :prefix order by p.prefix"
+		    query="SELECT p FROM Prefix p left join fetch p.registrants where lower(p.prefix)  = lower(:prefix) order by p.prefix"
 	),
 	@NamedQuery(
 			name="Prefix.search",
-		    query="SELECT p FROM Prefix p where p.prefix = :prefix order by p.prefix"
+		    query="SELECT p FROM Prefix p where lower(p.prefix) = lower(:prefix) order by p.prefix"
 	)
 })	
 public class Prefix implements java.io.Serializable {

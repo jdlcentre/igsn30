@@ -34,14 +34,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQueries({
 	@NamedQuery(
 			name="Registrant.searchByUsernameJoinPrefix",
-		    query="SELECT r FROM Registrant r left join fetch r.prefixes where r.username = :username"
+		    query="SELECT r FROM Registrant r left join fetch r.prefixes where lower(r.username) = lower(:username)"
 	),@NamedQuery(
 			name="Registrant.searchActiveByUsernameJoinPrefix",
-		    query="SELECT r FROM Registrant r left join fetch r.prefixes where r.isactive=true and r.username = :username"
+		    query="SELECT r FROM Registrant r left join fetch r.prefixes where r.isactive=true and lower(r.username) = lower(:username)"
 	),
 	@NamedQuery(
 			name="Registrant.searchByUsername",
-		    query="SELECT r FROM Registrant r where r.isactive=true and r.username = :username"
+		    query="SELECT r FROM Registrant r where r.isactive=true and lower(r.username) = lower(:username)"
 	),
 	@NamedQuery(
 			name="Registrant.getAllRegistrant",

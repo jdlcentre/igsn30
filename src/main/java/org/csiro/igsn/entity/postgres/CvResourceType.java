@@ -26,7 +26,7 @@ import javax.persistence.Table;
 	),
 	@NamedQuery(
 			name="CvResourceType.search",
-		    query="SELECT crt FROM CvResourceType crt where crt.resourceType = :resourceType"
+		    query="SELECT crt FROM CvResourceType crt where lower(crt.resourceType) = lower(:resourceType)"
 	)
 })
 public class CvResourceType implements java.io.Serializable {

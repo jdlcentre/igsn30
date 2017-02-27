@@ -970,6 +970,102 @@ ALTER TABLE ONLY registrant_prefixes
     ADD CONSTRAINT v30_registrant_registrant FOREIGN KEY (registrant) REFERENCES registrant(registrantid);
 
 
+	
+	--
+-- TOC entry 3737 (class 0 OID 73483)
+-- Dependencies: 300
+-- Data for Name: cv_identifier_type; Type: TABLE DATA; Schema: version30; Owner: igsn
+--
+
+INSERT INTO cv_identifier_type VALUES (1, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ARK');
+INSERT INTO cv_identifier_type VALUES (2, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/arXiv');
+INSERT INTO cv_identifier_type VALUES (3, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/bibcode');
+INSERT INTO cv_identifier_type VALUES (4, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/DOI');
+INSERT INTO cv_identifier_type VALUES (5, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/EAN13');
+INSERT INTO cv_identifier_type VALUES (6, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/EISSN');
+INSERT INTO cv_identifier_type VALUES (7, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/Handle');
+INSERT INTO cv_identifier_type VALUES (8, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/IGSN');
+INSERT INTO cv_identifier_type VALUES (9, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISBN');
+INSERT INTO cv_identifier_type VALUES (10, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISNI');
+INSERT INTO cv_identifier_type VALUES (11, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISSN');
+INSERT INTO cv_identifier_type VALUES (12, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISTC');
+INSERT INTO cv_identifier_type VALUES (13, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/LISSN');
+INSERT INTO cv_identifier_type VALUES (14, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/LSID');
+INSERT INTO cv_identifier_type VALUES (15, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ORCID');
+INSERT INTO cv_identifier_type VALUES (16, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/PMID');
+INSERT INTO cv_identifier_type VALUES (17, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/PURL');
+INSERT INTO cv_identifier_type VALUES (18, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/UPC');
+INSERT INTO cv_identifier_type VALUES (19, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/URL');
+INSERT INTO cv_identifier_type VALUES (20, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/URN');
+INSERT INTO cv_identifier_type VALUES (21, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/VIAF');
+
+
+--
+-- TOC entry 3735 (class 0 OID 73470)
+-- Dependencies: 298
+-- Data for Name: cv_material_types; Type: TABLE DATA; Schema: version30; Owner: igsn
+--
+
+INSERT INTO cv_material_types VALUES (1, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/air');
+INSERT INTO cv_material_types VALUES (2, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/gas');
+INSERT INTO cv_material_types VALUES (3, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/habitat');
+INSERT INTO cv_material_types VALUES (4, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/ice');
+INSERT INTO cv_material_types VALUES (5, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/liquidAqueous');
+INSERT INTO cv_material_types VALUES (6, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/liquidOrganic');
+INSERT INTO cv_material_types VALUES (7, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/mineral');
+INSERT INTO cv_material_types VALUES (8, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/notApplicable');
+INSERT INTO cv_material_types VALUES (9, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/organism');
+INSERT INTO cv_material_types VALUES (10, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/other');
+INSERT INTO cv_material_types VALUES (11, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/particulate');
+INSERT INTO cv_material_types VALUES (12, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/regolith');
+INSERT INTO cv_material_types VALUES (13, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/rock');
+INSERT INTO cv_material_types VALUES (14, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/sediment');
+INSERT INTO cv_material_types VALUES (15, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/snow');
+INSERT INTO cv_material_types VALUES (16, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/soil');
+INSERT INTO cv_material_types VALUES (17, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/tissue');
+INSERT INTO cv_material_types VALUES (18, 'http://www.opengis.net/def/nil/OGC/0/inapplicable');
+INSERT INTO cv_material_types VALUES (19, 'http://www.opengis.net/def/nil/OGC/0/missing');
+INSERT INTO cv_material_types VALUES (20, 'http://www.opengis.net/def/nil/OGC/0/template');
+INSERT INTO cv_material_types VALUES (21, 'http://www.opengis.net/def/nil/OGC/0/unknown');
+INSERT INTO cv_material_types VALUES (22, 'http://www.opengis.net/def/nil/OGC/0/withheld');
+
+
+--
+-- TOC entry 3736 (class 0 OID 73475)
+-- Dependencies: 299
+-- Data for Name: cv_resource_type; Type: TABLE DATA; Schema: version30; Owner: igsn
+--
+
+INSERT INTO cv_resource_type VALUES (30, 'http://www.opengis.net/def/nil/OGC/0/withheld');
+INSERT INTO cv_resource_type VALUES (29, 'http://www.opengis.net/def/nil/OGC/0/unknown');
+INSERT INTO cv_resource_type VALUES (28, 'http://www.opengis.net/def/nil/OGC/0/template');
+INSERT INTO cv_resource_type VALUES (27, 'http://www.opengis.net/def/nil/OGC/0/missing');
+INSERT INTO cv_resource_type VALUES (26, 'http://www.opengis.net/def/nil/OGC/0/inapplicable');
+INSERT INTO cv_resource_type VALUES (25, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/thinSection');
+INSERT INTO cv_resource_type VALUES (24, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/terrestrialSection');
+INSERT INTO cv_resource_type VALUES (23, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/standardReferenceSpecimen');
+INSERT INTO cv_resource_type VALUES (22, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/rockPowder');
+INSERT INTO cv_resource_type VALUES (21, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/precipitationBulk');
+INSERT INTO cv_resource_type VALUES (20, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/petriDishDryDeposition');
+INSERT INTO cv_resource_type VALUES (19, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/other');
+INSERT INTO cv_resource_type VALUES (18, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/orientedCore');
+INSERT INTO cv_resource_type VALUES (17, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/litterFallDigestion');
+INSERT INTO cv_resource_type VALUES (16, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/individualSample');
+INSERT INTO cv_resource_type VALUES (15, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/grab');
+INSERT INTO cv_resource_type VALUES (14, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/forestFloorDigestion');
+INSERT INTO cv_resource_type VALUES (13, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/foliageLeaching');
+INSERT INTO cv_resource_type VALUES (12, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/foliageDigestion');
+INSERT INTO cv_resource_type VALUES (11, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/dredge');
+INSERT INTO cv_resource_type VALUES (10, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/cuttings');
+INSERT INTO cv_resource_type VALUES (9, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreWholeRound');
+INSERT INTO cv_resource_type VALUES (8, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreSub-Piece');
+INSERT INTO cv_resource_type VALUES (7, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreSectionHalf');
+INSERT INTO cv_resource_type VALUES (6, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreSection');
+INSERT INTO cv_resource_type VALUES (5, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreQuarterRound');
+INSERT INTO cv_resource_type VALUES (4, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/corePiece');
+INSERT INTO cv_resource_type VALUES (3, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreHalfRound');
+INSERT INTO cv_resource_type VALUES (2, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/core');
+INSERT INTO cv_resource_type VALUES (1, 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/automated');
 -- Completed on 2017-02-24 09:50:46
 
 --

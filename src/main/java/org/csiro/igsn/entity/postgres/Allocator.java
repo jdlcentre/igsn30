@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQueries({
 	@NamedQuery(
 			name="Allocator.searchByUsername",
-		    query="SELECT a FROM Allocator a where a.username = :username"
+		    query="SELECT a FROM Allocator a where lower(a.username) = lower(:username)"
 	)
 })
 public class Allocator implements java.io.Serializable {
