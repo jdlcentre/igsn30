@@ -13,7 +13,8 @@
 	              <div class="panel-body">
 	                <form name="mandatoryleft">
 	                  <div class="form-group form-group-sm">
-	                      <label><span class="hasEvent colored" data-toggle="tooltip" title="Hooray!"><i class="fa fa-question-circle" aria-hidden="true"></i></span> Resource Identifier: {{resource.prefix}}{{resource.resourceIdentifier}}</label>
+	                      <label><span class="hasEvent colored" popover-placement="right" uib-popover="The IGSN code of a <a href='google.com'>geosample</a> e.g., CSRWASC111. The first two characters must be [A-Z] and specify the code of an allocating agent. The CS code has been assigned to CSIRO. This is followed by 3 characters [A-Z] representing the project as designated by the allocating agent. The rest of the characters represent the local sample code specified by the project This can be a combination of characters, numbers and dash (-) and dot (.). See the xsd pattern constraint.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geosample: {{resource.prefix}}{{resource.resourceIdentifier}}</label>
 	                      <div class="form-inline">
 		                      <div ng-show="mode=='register'" class="form-group" ng-class="{ 'has-error' : mandatoryleft.prefix.$invalid}">
 			                     <select  class="form-control" ng-model="resource.prefix" ng-change="changePrefix()" name="prefix" ng-options="allocatedPrefix.prefix as allocatedPrefix.prefix for allocatedPrefix in allocatedPrefixes" required></select>	
@@ -36,7 +37,8 @@
 	                    <p ng-show="mandatoryleft.registeredObjectType.$invalid" class="small help-block">Select registered object type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm">
-	                      <label>Landing Page</label>
+	                      <label><span class="hasEvent colored" data-toggle="tooltip" title="The landing page of a resource. This page contains more detailed (domain-specific) information about the resource.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Landing Page</label>
 	                      <div class="form-inline">		                      
 							  <div class="form-group form-group-sm">
 			                      <div class="input-group" style="width:300px" ng-class="{ 'has-error' : mandatoryleft.landingPage.$invalid && !resource.defaultLandingPage}">				                      				            
@@ -53,7 +55,8 @@
 	                    <div class="row">
 						  <div class="col-sm-6 col-xs-12">		
 						  	 <div class="input-group width-100">
-						  	    <label>isPublic</label>
+						  	    <label><span class="hasEvent colored" data-toggle="tooltip" title="The visibility of a resource's metadata. Use 'true' for public and 'false' for private resources.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> isPublic</label>
 			                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" ng-options="o.v as o.n for o in [{ n: 'True', v: true }, { n: 'False', v: false }]" required></select>
 							    <p ng-show="mandatoryleft.ispublic.$invalid" class="small help-block">Select public access</p>
 						      </div>				   					      							      				   
@@ -72,17 +75,20 @@
 						</div>                   
 	                  </div>	
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
-	                    <label>Resource Title</label>
+	                    <label><span class="hasEvent colored" data-toggle="tooltip" title="The name, descriptive phrase or title of the geosample">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Resource Title</label>
 	                    <input type="text" class="form-control" name="resourcetitle" placeholder="Title for resource" ng-model="resource.resourceTitle" required/>
 	                    <p ng-show="mandatoryleft.resourcetitle.$invalid" class="small help-block">Provide a title for the resource</p>
 	                  </div>	     
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetype.$invalid}">
-	                    <label>Resource Type</label>
+	                    <label><span class="hasEvent colored" data-toggle="tooltip" title="The physical form of a resource, e.g. core, cuttings and grab.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Resource Type</label>
 	                    <select  ng-repeat="types in resource.resourceTypeses" class="form-control" ng-model="types.cvResourceType.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
 	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a resource type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.materialtype.$invalid}">
-	                    <label>Material Type</label>
+	                    <label><span class="hasEvent colored" data-toggle="tooltip" title="Type of material represented by the SAMPLE">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Material Type</label>
 	                    <select ng-repeat="types in resource.materialTypeses" class="form-control" ng-model="types.cvMaterialTypes.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
 	                     <p ng-show="mandatoryleft.materialtype.$invalid" class="small help-block">Select a material type</p>                   
 	                  </div>
@@ -97,13 +103,16 @@
 	              <div class="panel-body">
 	                <form name="mandatoryright">
 	                  <fieldset class="form-group form-group-sm show-fieldset-borders">
-					    <legend><div class="title-sm text-theme hr-left">Curation Details</div></legend>
+					    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" data-toggle="tooltip" title="Resource archival information, mainly applicable to physical samples and sample collections. The curating instuition must be specified. This can be present or future curator.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Details</div></legend>
 					    <div class="form-group form-group-sm">
-						    <label>Curator</label>
+						    <label><span class="hasEvent colored" data-toggle="tooltip" title="The full name of a resource curator.">
+	                      	<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curator</label>
 		                    <input type="text" class="form-control" placeholder="Curator" ng-model="resource.curationDetailses[0].curator"/>
 	                    </div>
 	                    <div class="form-group form-group-sm">
-		                    <label>Curation Date</label>			     
+		                    <label><span class="hasEvent colored" data-toggle="tooltip" title="The date the resource was moved to its current location.">
+	                       	 <i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Date</label>			     
 						     <div class="input-group width-200px" ng-class="{ 'has-error' : mandatoryright.curatingDate.$invalid  }">						     
 	                             <input type="text" format-date class="form-control" name="curatingDate" uib-datepicker-popup="yyyy-MM-dd"  is-open="form.curationDate.opened" ng-model="resource.curationDetailses[0].curationDate" close-text="Close"/>
 	                             <span class="input-group-btn">
@@ -113,16 +122,19 @@
                              <p ng-show="mandatoryright.curatingDate.$invalid" class="small help-block" style="color: #a94442;">Enter a valid date in the YYYY-MM-DD format</p>   
 		                 </div>
 		                 <div class="form-group form-group-sm">
-						    <label>Curation Location</label>
+						    <label><span class="hasEvent colored" data-toggle="tooltip" title="The location (address) where the sample is stored. This can be general or specific (room number, building name).">
+	                      	<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Location</label>
 		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="resource.curationDetailses[0].curationLocation"/>
 	                    </div>
 	                     <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryright.curatingInstitution.$invalid}">
-						    <label>Curating Institution(*)</label>
+						    <label><span class="hasEvent colored" data-toggle="tooltip" title="The institution where the sample is stored.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curating Institution(*)</label>
 		                    <input type="text" class="form-control" name="curatingInstitution" placeholder="Curating Institution" ng-model="resource.curationDetailses[0].curatingInstitution" required/>
 		                    <p ng-show="mandatoryright.curatingInstitution.$invalid" class="small help-block">Enter the curating institution</p>
 	                    </div>
 		                 <div class="form-group form-group-sm">
-						    <label>Curation Institution Uri</label>
+						    <label><span class="hasEvent colored" data-toggle="tooltip" title="The uri of the institution where the sample is stored.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Institution Uri</label>
 		                    <input type="text" class="form-control" placeholder="http://" ng-model="resource.curationDetailses[0].institutionUri"/>		                    
 	                    </div>		                 
 					  </fieldset>			                       
@@ -172,9 +184,12 @@
 			          <div class="col-md-12"> 
 			            <form name="location">       
 				          	<fieldset class="form-group form-group-sm show-fieldset-borders">
-							    <legend><div class="title-sm text-theme hr-left">Location</div></legend>
+							    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" data-toggle="tooltip" title="The location where the resource was found/collected (sampling feature,specimen) or created (synthetic materials). This may refer to a geographic location (in Well Known Text) or a locality (aka. toponym). For a spatial location, the SRID  attribute may be used to indicate the spatial reference system (in EPSG).
+							    	This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Location</div></legend>
 							    <div class="form-group form-group-sm">
-								    <label>Locality</label>
+								    <label><span class="hasEvent colored" data-toggle="tooltip" title="The named place/toponym or address. You may use the attribute localityIdentifier to denote the web location of a place.">
+	                     			 <i class="fa fa-question-circle" aria-hidden="true"></i></span> Locality</label>
 				                    <input type="text" class="form-control" placeholder="locality" ng-model="resource.location.locality"/>
 			                    </div>
 			                    <div class="form-group form-group-sm">
@@ -182,7 +197,8 @@
 				                    <input type="text" class="form-control" placeholder="http://" ng-model="resource.location.localityUri"/>
 			                    </div>			                    
 				                 <div class="form-group form-group-sm">
-				                    <label>Vertical Datum</label>
+				                    <label><span class="hasEvent colored" data-toggle="tooltip" title="A vertical datum specifies the origin for elevations assocated with a resource. Specify the EPSG vertical coordinate reference system code. For example, 5711 refers is the epsg code for the Australian Height Datum (AHD).">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Vertical Datum</label>
 				                    <select  class="form-control" ng-model="resource.location.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
 				                 </div>
 				                 <div class="form-group form-group-sm">
@@ -190,12 +206,13 @@
 				                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="resource.location.geometryUri"/>
 			                    </div>
 			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : resource.location.wkt.length > 0 && resource.location.srid==null}">
-				                    <label>SRID</label>
+				                    <label><span class="hasEvent colored" data-toggle="tooltip" title="This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Spatial Reference System Identifier(SRID)</label>
 				                    <select  class="form-control" ng-model="resource.location.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	
 				                     <p ng-show="resource.location.wkt.length > 0 && resource.location.srid==null" class="small help-block">Select SRID for location</p>                   
 				                 </div>
 			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
-								    <label>location wkt</label>
+								    <label>location well known text</label>
 				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(resource.location.wkt)" placeholder="Well known text, eg POINT(lon lat)"  ng-model="resource.location.wkt"/>
 				                    <p ng-show="location.wkt.$invalid && !location.wkt.$pristine" class="small help-block">Invalid well known text</p>  
 			                    </div>
@@ -209,20 +226,23 @@
 	          	 	<div class="col-md-12">	          
 			         	<form name="otherInformation">		              	
 		                  <div class="form-group form-group-sm">
-		                    <label>Alternate Identifier</label>
+		                    <label><span class="hasEvent colored" data-toggle="tooltip" title="Alternate identifiers of the geosample including the local and other web-resolvable identifiers.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Alternate Identifier</label>
 		                    <input type="text" ng-repeat="altId in resource.alternateIdentifierses" class="form-control" placeholder="Alternate identifier" ng-model="altId.alternateIdentifier"/>
 		                  </div> 
 		                   <div class="form-group form-group-sm">		                   
 		                     <div class="row" ng-repeat ="classification in resource.classificationses">
 							  <div class="col-sm-6 col-xs-12">		
 							  	  <div class="input-group width-100">
-								  	  <label>Classification uri:</label>					   					      
+								  	  <label><span class="hasEvent colored" data-toggle="tooltip" title="You may use the attribute classificationIdentifier to indicate the URI of the concept.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Classification uri:</label>					   					      
 								      <input type="text" class="form-control"  placeholder="http://" ng-model="classification.classificationUri"/>
 							      </div>		    
 							  </div>
 							  <div class="col-sm-6 col-xs-12">	
 							  	  <div class="input-group width-100">
-								  	  <label>Classification</label>					   					      
+								  	  <label><span class="hasEvent colored" data-toggle="tooltip" title="Domain-specific classification codes, i.e. other concepts describing the physical form, function or type of the resource.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Classification</label>					   					      
 								      <input type="text" class="form-control"  placeholder="classification" ng-model="classification.classification"/>
 							      </div>								  	  		   				     
 							      						    
@@ -230,7 +250,8 @@
 							</div>		                    
 		                  </div>  
 		                   <div class="form-group form-group-sm">
-		                    <label>purpose</label>
+		                    <label><span class="hasEvent colored" data-toggle="tooltip" title="The purpose for collecting/creating the resource.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Purpose</label>
 		                    <input type="text" class="form-control" placeholder="purpose" ng-model="resource.purpose"/>
 		                  </div>   
 		                   <div class="form-group form-group-sm">		                    
@@ -250,7 +271,8 @@
 							</div>
 		                  </div>  
 						  <div class="form-group form-group-sm">
-						     <label>Date</label>			     
+						     <label><span class="hasEvent colored" data-toggle="tooltip" title="The time period or date of the collection/creation of the sample.">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Date</label>			     
 						     <div class="input-group width-200px" ng-class="{ 'has-error' : otherInformation.resourceDate.$invalid}">					     
 	                             <input type="text" format-date class="form-control" name="resourceDate" uib-datepicker-popup="yyyy-MM-dd"  is-open="form.resourceDate.opened" ng-model="resource.resourceDate.timeInstant" close-text="Close"/>
 	                             <span class="input-group-btn">
@@ -263,24 +285,28 @@
 		                    <div class="row">
 							  <div class="col-sm-6 col-xs-12">		
 							  	 <div class="input-group width-100">
-								  	  <label>Method uri:</label>					   					      
+								  	  <label><span class="hasEvent colored" data-toggle="tooltip" title="The method/instrument by which the resource was collected/created, e.g., rock chip sampling, dredging, manual observation.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Method uri:</label>					   					      
 								      <input type="text" class="form-control" placeholder="http://" ng-model="resource.method.methodUri"/>
 							      </div>				   					      							      				   
 							  </div>
 							  <div class="col-sm-6 col-xs-12">									  	  				   				      
 							      <div class="input-group width-100">
-								  	  <label>Method:</label>					   					      
+								  	  <label><span class="hasEvent colored" data-toggle="tooltip" title="The method/instrument by which the resource was collected/created, e.g., rock chip sampling, dredging, manual observation.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Method:</label>					   					      
 								      <input type="text" class="form-control" placeholder="Method" ng-model="resource.method.method"/>
 							      </div>						    
 							  </div>
 							</div>		                    
 		                  </div>  
 		                  <div class="form-group form-group-sm">
-		                    <label>Campaign</label>
+		                    <label><span class="hasEvent colored" data-toggle="tooltip" title="The field program/project name, e.g., cruise or expedition; typically used for samples and sample collections.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Campaign</label>
 		                    <input type="text" class="form-control" placeholder="Campaign" ng-model="resource.campaign"/>
 		                  </div> 
 						  <div class="form-group form-group-sm">
-		                    <label>Comments</label>
+		                    <label><span class="hasEvent colored" data-toggle="tooltip" title="Any free text describing the resource.This can also be used to include additional metadata which cannot be specified with the standard schema elements.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Comments</label>
 		                    <input type="text" class="form-control" placeholder="Comments" ng-model="resource.comments"/>
 		                  </div>      
 		                </form>	 	
@@ -336,7 +362,8 @@
 		                    <p ng-show="!relatedResource.cvIdentifierType.identifierType && (relatedResource.relationType || relatedResource.relatedResource)" class="small help-block">Related Identifier must not be empty if specifying a relationship or related resource</p>                
 		                 </div>		                 
 	                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : (relatedResource.cvIdentifierType.identifierType || relatedResource.relatedResource) && !relatedResource.relationType}">
-		                    <label>Relation Type</label>
+		                    <label><span class="hasEvent colored" data-toggle="tooltip" title="The relationship between the resource being registered and other entity (e.g., event, document, parent sample, etc.)">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Relation Type</label>
 		                    <select  class="form-control" ng-model="relatedResource.relationType"  ng-options="type as type for type in getRelationType"></select>	
 		                    <p ng-show="(relatedResource.cvIdentifierType.identifierType || relatedResource.relatedResource) && !relatedResource.relationType" class="small help-block">Relation type must not be empty if specifying a related identifier type or related resource</p>                   
 		                 </div>	
