@@ -12,7 +12,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.loading=false;
  
   var parseOptionToHtmlList = function(arrayList){
-	  var result = "<ul class='small'>";
+	  var result = "<ul class='small' style='padding-left:10px'>";
 	  for(var index in arrayList){
 		  result += "<li><a target='_blank' href='"+arrayList[index]+"'>" + arrayList[index] + "</a></li>"
 	  }
