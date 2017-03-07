@@ -11,8 +11,20 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getTrueFalse = selectListService.getTrueFalse();
   $scope.loading=false;
  
-  $scope.htmlResourceIdentifierPopover = $sce.trustAsHtml('<p>The IGSN code of a geosample e.g., CSRWASC111. The first two characters must be [A-Z] and specify the code of an allocating agent. The CS code has been assigned to CSIRO. This is followed by 3 characters [A-Z] representing the project as designated by the allocating agent. The rest of the characters represent the local sample code specified by the project This can be a combination of characters, numbers and dash (-) and dot (.). See the xsd pattern constraint.</p>');
+  var parseOptionToHtmlList = function(arrayList){
+	  var result = "<ul class='small'>";
+	  for(var index in arrayList){
+		  result += "<li><a target='_blank' href='"+arrayList[index]+"'>" + arrayList[index] + "</a></li>"
+	  }
+	  return result + "</ul>";
+  }
 
+  $scope.htmlResourceIdentifierPopover = $sce.trustAsHtml('<p>The IGSN code of a geosample e.g., CSRWASC111. The first two characters must be [A-Z] and specify the code of an allocating agent. The CS code has been assigned to CSIRO. This is followed by 3 characters [A-Z] representing the project as designated by the allocating agent. The rest of the characters represent the local sample code specified by the project This can be a combination of characters, numbers and dash (-) and dot (.). See the xsd pattern constraint.</p>');
+  
+  
+  $scope.htmlRegisteredObjectType = $sce.trustAsHtml("<p>Registered Object Type - Select the links below for definition:<br>"+parseOptionToHtmlList($scope.registeredObjectType)+"</p>")
+  
+  
   
   var initDataStructure = function(){
 	  if($scope.resource==null){

@@ -638,6 +638,20 @@ a:focus {
 .mr-12 {
   margin-right: 12px;
 }
+
+.popover-width-400 {
+   max-width: 400px;
+}
+
+.popover-width-500 {
+   max-width: 500px;
+}
+
+.popover-width-600 {
+   max-width: 600px;
+}
+
+
 /* FORM  ================================================== */
 .form-control {
   -webkit-box-shadow: none;
