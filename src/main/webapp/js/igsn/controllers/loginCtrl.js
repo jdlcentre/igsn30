@@ -23,7 +23,7 @@ allControllers.controller('LoginCtrl', ['$scope','$timeout','$http','currentAuth
             }
         }).success(function(data,status) {
         	
-	      if(data.name) {
+	      if(data.name || data.userName) {
 	    	  currentAuthService.setAuthenticated(true);
 	    	  currentAuthService.setUsername(data.userName);	    	 
 			  currentAuthService.setName(data.name);
