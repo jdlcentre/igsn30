@@ -20,10 +20,12 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   }
 
   $scope.htmlResourceIdentifierPopover = $sce.trustAsHtml('<p>The IGSN code of a geosample e.g., CSRWASC111. The first two characters must be [A-Z] and specify the code of an allocating agent. The CS code has been assigned to CSIRO. This is followed by 3 characters [A-Z] representing the project as designated by the allocating agent. The rest of the characters represent the local sample code specified by the project This can be a combination of characters, numbers and dash (-) and dot (.). See the xsd pattern constraint.</p>');
-  
-  
   $scope.htmlRegisteredObjectType = $sce.trustAsHtml("<p>Registered Object Type - Select the links below for definition:<br>"+parseOptionToHtmlList($scope.registeredObjectType)+"</p>")
-  
+  $scope.htmlResourceType = $sce.trustAsHtml("<p>The physical form of a resource, e.g. core, cuttings and grab.</p>" + parseOptionToHtmlList($scope.getResourceType));
+  $scope.htmlMaterialType = $sce.trustAsHtml("<p>Type of material represented by the sample</p>" + parseOptionToHtmlList($scope.getMaterialType));
+  $scope.htmlRelationType = $sce.trustAsHtml("<p>The relationship between the resource being registered and other entity (e.g., event, document, parent sample, etc.)</p>" + parseOptionToHtmlList($scope.getRelationType));
+  $scope.htmlRelatedIdentifierType = $sce.trustAsHtml("<p>Identifier type</p>" + parseOptionToHtmlList($scope.getIdentifierType));
+  $scope.htmlContributorType = $sce.trustAsHtml("<p>Contributor type</p>" + parseOptionToHtmlList($scope.getContributorType));
   
   
   var initDataStructure = function(){

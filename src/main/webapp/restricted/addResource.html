@@ -82,13 +82,13 @@
 	                    <p ng-show="mandatoryleft.resourcetitle.$invalid" class="small help-block">Provide a title for the resource</p>
 	                  </div>	     
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetype.$invalid}">
-	                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The physical form of a resource, e.g. core, cuttings and grab.">
+	                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlResourceType">
 	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Resource Type</label>
 	                    <select  ng-repeat="types in resource.resourceTypeses" class="form-control" ng-model="types.cvResourceType.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
 	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a resource type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.materialtype.$invalid}">
-	                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="Type of material represented by the SAMPLE">
+	                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlMaterialType">
 	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Material Type</label>
 	                    <select ng-repeat="types in resource.materialTypeses" class="form-control" ng-model="types.cvMaterialTypes.materialType" name=materialtype ng-options="type as type for type in getMaterialType" required></select>	
 	                     <p ng-show="mandatoryleft.materialtype.$invalid" class="small help-block">Select a material type</p>                   
@@ -185,8 +185,7 @@
 			          <div class="col-md-12"> 
 			            <form name="location">       
 				          	<fieldset class="form-group form-group-sm show-fieldset-borders">
-							    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The location where the resource was found/collected (sampling feature,specimen) or created (synthetic materials). This may refer to a geographic location (in Well Known Text) or a locality (aka. toponym). For a spatial location, the SRID  attribute may be used to indicate the spatial reference system (in EPSG).
-							    	This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.">
+							    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The location where the resource was found/collected (sampling feature,specimen) or created (synthetic materials). This may refer to a geographic location (in Well Known Text) or a locality (aka. toponym). For a spatial location, the SRID  attribute may be used to indicate the spatial reference system (in EPSG). This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.">
 	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Location</div></legend>
 							    <div class="form-group form-group-sm">
 								    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The named place/toponym or address. You may use the attribute localityIdentifier to denote the web location of a place.">
@@ -328,7 +327,8 @@
 		                    <p ng-show="(contributor.contributorType!=null || contributor.contributorIdentifier.length > 0 || contributor.cvIdentifierType.identifierType!=null) && !contributor.contributorName" class="small help-block">Name cannot be empty if including contributor</p> 
 	                    </div>	                   
 	                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : contributor.contributorName && !contributor.contributorType}">
-		                    <label>Contributor Type</label>
+		                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlContributorType">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Contributor Type</label>
 		                    <select  class="form-control" ng-model="contributor.contributorType"  ng-options="type as type for type in getContributorType"></select>
 		                    <p ng-show="contributor.contributorName && !contributor.contributorType" class="small help-block">Contributor Type cannot be empty including one</p>	                   
 		                 </div>
@@ -337,7 +337,8 @@
 		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="contributor.contributorIdentifier">
 	                    </div>
 	                    <div class="form-group form-group-sm"  ng-class="{ 'has-error' : contributor.contributorIdentifier && !contributor.cvIdentifierType.identifierType}">
-		                    <label>Contributor Identifier Type</label>
+		                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlRelatedIdentifierType">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Contributor Identifier Type</label>
 		                    <select  class="form-control" ng-model="contributor.cvIdentifierType.identifierType"  ng-options="type as type for type in getIdentifierType"></select>			                       
 		                    <p ng-show="contributor.contributorIdentifier && !contributor.cvIdentifierType.identifierType" class="small help-block">Identifier type cannot be empty if specifying identifier</p>                
 		                 </div>	
@@ -358,12 +359,13 @@
 		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="relatedResource.relatedResource">
 	                    </div>	                   
 	                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : !relatedResource.cvIdentifierType.identifierType && (relatedResource.relationType || relatedResource.relatedResource)}">
-		                    <label>Related Identifier Type</label>
+		                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlRelatedIdentifierType">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Related Identifier Type</label>
 		                    <select  class="form-control" ng-model="relatedResource.cvIdentifierType.identifierType"  ng-options="type as type for type in getIdentifierType"></select>	   
 		                    <p ng-show="!relatedResource.cvIdentifierType.identifierType && (relatedResource.relationType || relatedResource.relatedResource)" class="small help-block">Related Identifier must not be empty if specifying a relationship or related resource</p>                
 		                 </div>		                 
 	                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : (relatedResource.cvIdentifierType.identifierType || relatedResource.relatedResource) && !relatedResource.relationType}">
-		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The relationship between the resource being registered and other entity (e.g., event, document, parent sample, etc.)">
+		                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlRelationType">
 	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Relation Type</label>
 		                    <select  class="form-control" ng-model="relatedResource.relationType"  ng-options="type as type for type in getRelationType"></select>	
 		                    <p ng-show="(relatedResource.cvIdentifierType.identifierType || relatedResource.relatedResource) && !relatedResource.relationType" class="small help-block">Relation type must not be empty if specifying a related identifier type or related resource</p>                   
