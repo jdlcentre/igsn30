@@ -9,6 +9,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getRelationType = selectListService.getRelationType();
   $scope.registeredObjectType = selectListService.registeredObjectType();
   $scope.getTrueFalse = selectListService.getTrueFalse();
+  $scope.getMGAZone = selectListService.getMGAZone();
   $scope.loading=false;
  
   var parseOptionToHtmlList = function(arrayList){
@@ -18,6 +19,10 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  }
 	  return result + "</ul>";
   }
+  
+  var isUndefinedOrNull =function(obj) {
+      return !angular.isDefined(obj) || obj===null;
+  }
 
   $scope.htmlResourceIdentifierPopover = $sce.trustAsHtml('<p>An example of a geosample code CSRWASC111. The first two characters must be [A-Z] and specify the code of an allocating agent. The CS code has been assigned to CSIRO. This is followed by 3 characters [A-Z] representing the project as designated by the allocating agent. The rest of the characters represent the local sample code specified by the project This can be a combination of characters, numbers and dash (-) and dot (.). See the xsd pattern constraint.</p>');
   $scope.htmlRegisteredObjectType = $sce.trustAsHtml("<p>Registered Object Type - Select the links below for definition:<br>"+parseOptionToHtmlList($scope.registeredObjectType)+"</p>")
@@ -26,7 +31,10 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.htmlRelationType = $sce.trustAsHtml("<p>The relationship between the resource being registered and other entity (e.g., event, document, parent sample, etc.)</p>" + parseOptionToHtmlList($scope.getRelationType));
   $scope.htmlRelatedIdentifierType = $sce.trustAsHtml("<p>Identifier type</p>" + parseOptionToHtmlList($scope.getIdentifierType));
   $scope.htmlContributorType = $sce.trustAsHtml("<p>Contributor type</p>" + parseOptionToHtmlList($scope.getContributorType));
-  
+  $scope.htmlWellknowntext = $sce.trustAsHtml("<p>Well-known text (WKT) is a text markup language for representing vector geometry objects on a map, spatial reference systems of spatial objects and transformations between spatial reference systems(<a target='_BLANK' href='https://en.wikipedia.org/wiki/Well-known_text'>Wikipedia)</a></p>");
+  $scope.htmlSRID = $sce.trustAsHtml("<p>This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.</p>" + parseOptionToHtmlList($scope.getEpsg))
+  $scope.htmlGeographicCoordinates = $sce.trustAsHtml("<p>A geographic coordinate system that enables every location on Earth to be specified by the use of <a target='_BLANK' href='https://en.wikipedia.org/wiki/Latitude'>latitude</a> and <a target='_BLANK' href='https://en.wikipedia.org/wiki/Longitude'>longtitude</a></p>");
+  $scope.htmlUTMCoordinates = $sce.trustAsHtml("<p><a target='_BLANK' href='http://www.dtpli.vic.gov.au/property-and-land-titles/geodesy/geocentric-datum-of-australia-1994-gda94'>GDA94</a> is the official geodetic datum adopted nationally across Australia on 1 January 2000. It replaced the Australian Geodetic Datum 1966 (AGD66) used in Victoria. Universal Transverse Mercator (UTM) projection coordinates (easting, northing and zone)</p>");
   
   var initDataStructure = function(){
 	  if($scope.resource==null){
@@ -63,8 +71,10 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 		  $scope.resource.logDate={};
 		  $scope.resource.logDate.eventType="registered";
 	  }	  
-	
-	    
+	  
+	  $scope.resource.locationInputType = "wkt";
+	  $scope.useDegree = false;
+		    
 	  if( $scope.resource.contributorses.length==0){
 		  $scope.resource.contributorses[0] = {}; 
 	  };
@@ -134,6 +144,22 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 		  }
 	  }catch(err){
 		  //VT:do nothing, if there is no time instant, ignore it.}
+	  }
+	  
+	 
+	  
+	  if($scope.resource.locationInputType=="geographic" && $scope.useDegree && !isUndefinedOrNull($scope.longitude.degree) && !isUndefinedOrNull($scope.latitude.degree)){
+		  var lng = (($scope.longitude.seconds?$scope.longitude.seconds/60:0) + ($scope.longitude.minutes?$scope.longitude.minutes:0))/60 + $scope.longitude.degree;
+		  var lat = (($scope.latitude.seconds?$scope.latitude.seconds/60:0) + ($scope.latitude.minutes?$scope.latitude.minutes:0))/60 + $scope.latitude.degree;
+		  if(!$scope.resource.location){
+			  $scope.resource.location={}
+		  }
+		  $scope.resource.location.wkt = $scope.resource.location.wkt = "POINT(" + lng + " " + lat + ")";
+	  }else if($scope.resource.locationInputType=="geographic" && !$scope.useDegree && !isUndefinedOrNull($scope.longitude.longitude) && !isUndefinedOrNull($scope.latitude.latitude)){	
+		  if(!$scope.resource.location){
+			  $scope.resource.location={}
+		  }
+		  $scope.resource.location.wkt = "POINT(" + $scope.longitude.longitude + " " + $scope.latitude.latitude + ")";
 	  }
 	  
 	  $http.post('web/mintJson.do', 

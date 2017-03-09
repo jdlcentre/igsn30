@@ -204,18 +204,88 @@
 				                 <div class="form-group form-group-sm">
 								    <label>Geometry uri</label>
 				                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="resource.location.geometryUri"/>
-			                    </div>
-			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : resource.location.wkt.length > 0 && resource.location.srid==null}">
-				                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.">
+			                    </div>		
+			                    <hr>	                   
+				                 <div class="form-group form-group-sm">
+				                 	<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="wkt"><b>Well Known Text</b></label>
+									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="geographic" ><b>Geographic(Point) Coordinate</b></label>									
+									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="utm"><b>UTM(Point) GDA94/MGA</b></label>       									
+				                 </div>
+				                  <div ng-show="resource.locationInputType=='wkt' || resource.locationInputType=='geographic'" class="form-group form-group-sm" ng-class="{ 'has-error' : ((resource.location.wkt.length > 0 && resource.location.srid==null)||(latitude.latitude && resource.location.srid==null))}">
+				                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlSRID">
 	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Spatial Reference System Identifier(SRID)</label>
 				                    <select  class="form-control" ng-model="resource.location.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	
-				                     <p ng-show="resource.location.wkt.length > 0 && resource.location.srid==null" class="small help-block">Select SRID for location</p>                   
+				                     <p ng-show="(resource.location.wkt.length > 0 && resource.location.srid==null) ||(latitude.latitude && resource.location.srid==null)" class="small help-block">Select SRID for location</p>                   
 				                 </div>
-			                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
-								    <label>location well known text</label>
+			                     <div ng-show="resource.locationInputType=='wkt'" class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
+								    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlWellknowntext">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> location well known text</label>
 				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(resource.location.wkt)" placeholder="Well known text, eg POINT(lon lat)"  ng-model="resource.location.wkt"/>
 				                    <p ng-show="location.wkt.$invalid && !location.wkt.$pristine" class="small help-block">Invalid well known text</p>  
-			                    </div>
+			                     </div>
+			                      <div ng-show="resource.locationInputType=='geographic' && !useDegree" class="form-group form-group-sm">
+								      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlGeographicCoordinates">
+				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geographic coordinates(Decimals) - (<a ng-click="useDegree=true">use degrees instead</a>)</label>
+				                      <div class="form-inline">		                      
+										  <div class="form-group form-group-sm">
+						                      <div class="input-group" style="width:300px" ng-class="{ 'has-error' : (location.latitudelatitude.$invalid)}">
+						                      	<label>Latitude</label>				                      				            
+									            <input name="latitudelatitude" type="number" step="any" min=-90 max=90 type="text" class="form-control" placeholder="Enter a valid Latitude in decimals"  ng-model="latitude.latitude"/>						            
+									          </div>
+									          <div class="input-group" style="width:300px" ng-class="{ 'has-error' : (location.longitudelongitude.$invalid)}">
+									          	<label>Longitude</label>				                      				            
+									            <input name="longitudelongitude" type="number" step="any" min=-180 max=180 type="text" class="form-control" placeholder="Enter a valid Longitude in decimals"  ng-model="longitude.longitude"/>						            
+									          </div>
+									          <p ng-show="location.longitudelongitude.$invalid || location.latitudelatitude.$invalid" class="small help-block" style="color: #a94442;">Coordinates out of range</p>							       
+								          </div>
+							         </div>
+			                     </div>
+			                      <div ng-show="resource.locationInputType=='geographic' && useDegree" class="form-group form-group-sm">
+								      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlGeographicCoordinates">
+				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geographic coordinates(Degrees) - (<a ng-click="useDegree=false">use decimals instead</a>)</label>
+				                      <div class="row">		                      										
+					                      <div class="col-md-6" >
+					                      	<label>Latitude</label>	
+					                      	 <div class="form-inline" ng-class="{ 'has-error' : (location.latitudedegree.$invalid || location.latitudeminutes.$invalid || location.latitudeseconds.$invalid)}">				                      				            
+								            	<input name="latitudedegree" style="width:100px" type="number" step="1" min=-90 max=90 class="form-control" placeholder="Degrees"  ng-model="latitude.degree"/><span class="mr-8">D</span>	
+								            	<input name="latitudeminutes" style="width:100px" type="number" step="1" min=0 max=60 class="form-control" placeholder="Minutes"  ng-model="latitude.minutes"/><span class="mr-8">M</span>
+								            	<input name="latitudeseconds" style="width:100px" type="number" step="1" min=0 max=60 class="form-control" placeholder="Seconds"  ng-model="latitude.seconds"/><span class="mr-8">S</span>
+								            </div>
+								            <p ng-show="location.latitudedegree.$invalid || location.latitudeminutes.$invalid || location.latitudeseconds.$invalid""  class="small help-block" style="color: #a94442;">latitude out of range</p>					            
+								          </div>
+								          <div class="col-md-6">
+								          	<label>Longitude</label>				                      				            
+								             <div class="form-inline"  ng-class="{ 'has-error' : (location.longtitudedegree.$invalid || location.longtitudeminutes.$invalid || location.longtitudeseconds.$invalid)}">				                      				            
+								            	<input name="longtitudedegree" style="width:100px" type="number" step="1" min=-180 max=180 class="form-control" placeholder="Degrees"  ng-model="longitude.degree"/><span class="mr-8">D</span>	
+								            	<input name="longtitudeminutes" style="width:100px" type="number" step="1" min=0 max=60 class="form-control" placeholder="Minutes"  ng-model="longitude.minutes"/><span class="mr-8">M</span>
+								            	<input name="longtitudeseconds" style="width:100px" type="number" step="1" min=0 max=60 class="form-control" placeholder="Seconds"  ng-model="longitude.seconds"/><span class="mr-8">S</span>
+								            </div>
+								            <p ng-show="location.longtitudedegree.$invalid || location.longtitudeminutes.$invalid || location.longtitudeseconds.$invalid""  class="small help-block" style="color: #a94442;">longitude out of range</p>						            
+								          </div>							       
+							          </div>
+			                     </div>
+			                      <div ng-show="resource.locationInputType=='utm'" class="form-group form-group-sm">
+								      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlUTMCoordinates">
+				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> UTM(GDA94/MGA) coordinates</label>
+				                      <p><small>Coordinates in UTM will be automatically converted to <a target="_BLANK" href='https://epsg.io/4326'>Geographic Coordinates</a></small></p>
+				                      <div class="form-inline" ng-class="{ 'has-error' : (resource.location.easting && !resource.location.zone)}">	
+				                      	  <label>Zone:</label>	
+				                       	  <select  class="form-control" ng-model="resource.location.zone"  ng-options="zone as zone for zone in getMGAZone"></select>
+				                      </div>
+				                      <div class="form-inline">		                      
+										  <div class="form-group form-group-sm">
+						                      <div class="input-group" style="width:300px" ng-class="{ 'has-error' : location.easting.$invalid || (resource.location.northing && !resource.location.easting)}">
+						                      	<label>Easting</label>				                      				            
+									            <input name="easting" type="number" step="any" min=99999 max=10000000 class="form-control" placeholder="Enter a valid easting in decimals"  ng-model="resource.location.easting"/>						            
+									          </div>
+									          <div class="input-group" style="width:300px" ng-class="{ 'has-error' : location.northing.$invalid || (!resource.location.northing && resource.location.easting)}">
+									          	<label>Northing</label>				                      				            
+									            <input name="northing" type="number" step="any" min=999999 max=100000000 class="form-control" placeholder="Enter a valid northing in decimals"  ng-model="resource.location.northing"/>						            
+									          </div>							       
+								          </div>
+								           <p ng-show="location.easting.$invalid || location.northing.$invalid" class="small help-block">Easting/Northing out of range</p>  
+							         </div>
+			                     </div>
 							  </fieldset> 
 						  </form>
 						</div>               

@@ -37,6 +37,7 @@ import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.ResourceType
 import org.csiro.igsn.service.MintService;
 import org.csiro.igsn.utilities.IGSNDateUtil;
 import org.csiro.igsn.utilities.IGSNUtil;
+import org.csiro.igsn.utilities.SpatialUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.vividsolutions.jts.geom.Geometry;
 
 @RestController
 @RequestMapping(value = "/web/")
@@ -113,6 +115,23 @@ public class WebFormIGSNMintCtrl {
 			return new ResponseEntity<Object>(new ExceptionWrapper("Fail to mint resource",e.getMessage()==null?"There are error in the form. Correct them before submitting":e.getMessage()),HttpStatus.BAD_REQUEST);
 		}
 		
+		
+	}
+	
+	@RequestMapping("convertutm.do")
+	public ResponseEntity<Object> removeRegistrants(
+			@RequestParam(required = true, value ="zone") String zone,
+			@RequestParam(required = true, value ="easting") String easting,
+			@RequestParam(required = true, value ="northing") String northing,
+			Principal user) {
+		
+		try {
+			return new ResponseEntity<Object>(SpatialUtilities.convertUTM_MGA942Geographic_EPSG4326(easting, northing, zone),HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<Object>(new ExceptionWrapper("Conversion fail",e.getMessage()),HttpStatus.BAD_REQUEST);
+		}
 		
 	}
 	

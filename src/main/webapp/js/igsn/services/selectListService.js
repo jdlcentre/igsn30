@@ -155,4 +155,16 @@ app.service('selectListService', ['$q','$http',function($q,$http) {
     	          ];
      }
       
+      this.getMGAZone = function(){
+    	  return [
+				"49",
+				"50",
+				"51",
+				"52",
+				"53",
+				"54",
+				"55"
+  	          ];
+      }
+      
 }]);

@@ -1,31 +1,24 @@
-import java.io.StringWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
-import org.csiro.igsn.jaxb.registration.bindings.ObjectFactory;
-import org.csiro.igsn.jaxb.registration.bindings.Resources;
-import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource;
+import org.csiro.igsn.utilities.SpatialUtilities;
+import org.geotools.factory.FactoryRegistryException;
+import org.opengis.geometry.MismatchedDimensionException;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.operation.TransformException;
 
 public class TEST {
-	public static void main(String [] args) throws ParseException, JAXBException{
+	public static void main(String [] args) throws NoSuchAuthorityCodeException, FactoryRegistryException, FactoryException, MismatchedDimensionException, TransformException{
 
-//		ObjectFactory objectfactory = new ObjectFactory();
-//		
-//		
-//		
-//		
-//		
-//		
-//		StringWriter writer = new StringWriter();
-//	    JAXBContext jaxbContext = JAXBContext.newInstance(Resources.class);
-//	    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//	    jaxbMarshaller.marshal(resourcesXML, writer);
-//	    System.out.println(writer.toString());
-				
+		
+		String zone = "52";
+		double easting =596450.153;
+		double northing = 6680793.777;
+		System.out.print(SpatialUtilities.convertUTM_MGA942Geographic_EPSG4326(easting, northing, zone));
+		
+//		String zone = "53";
+//		double easting =616450.153;
+//		double northing = 6680793.777;
+//		System.out.print(SpatialUtilities.convertUTM_MGA942Geographic_EPSG4326(easting, northing, zone));
+		
 	}
 
 }
