@@ -10,6 +10,11 @@ import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.IsPublic;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Location;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.ResourceIdentifier;
 import org.csiro.igsn.utilities.IGSNDateUtil;
+import org.csiro.igsn.utilities.SpatialUtilities;
+import org.opengis.geometry.MismatchedDimensionException;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.operation.TransformException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +50,12 @@ public class JsonToSchemaConverterCSIRO {
 	 * Parse in JsonElement to be parsed into jaxb binding
 	 * @param resourceElement
 	 * @return
+	 * @throws TransformException 
+	 * @throws FactoryException 
+	 * @throws NoSuchAuthorityCodeException 
+	 * @throws MismatchedDimensionException 
 	 */
-	public org.csiro.igsn.jaxb.registration.bindings.Resources.Resource convert(JsonElement resourceElement,String baseUrl) {	
+	public org.csiro.igsn.jaxb.registration.bindings.Resources.Resource convert(JsonElement resourceElement,String baseUrl) throws MismatchedDimensionException, NoSuchAuthorityCodeException, FactoryException, TransformException {	
 		
 		JsonObject resourceJO = resourceElement.getAsJsonObject();
 		
@@ -152,8 +161,15 @@ public class JsonToSchemaConverterCSIRO {
 				geometry.setGeometryURI(locationObject.get("geometryUri").getAsString());
 				hasGeometry = true;
 			}
-			if(!isNull(locationObject.get("wkt"))){
+			
+			if(!isNull(locationObject.get("wkt")) && !resourceJO.get("locationInputType").getAsString().equalsIgnoreCase("utm")){
 				geometry.setValue(locationObject.get("wkt").getAsString());	
+				hasGeometry = true;
+			}else if(resourceJO.get("locationInputType").getAsString().equalsIgnoreCase("utm") && 
+					!isNull(locationObject.get("easting")) && !isNull(locationObject.get("northing")) ){
+				geometry.setValue(SpatialUtilities.convertUTM_MGA942Geographic_EPSG4326(locationObject.get("easting").getAsDouble(), 
+						locationObject.get("northing").getAsDouble(), locationObject.get("zone").getAsString()).toText());
+				geometry.setSrid("https://epsg.io/4326");
 				hasGeometry = true;
 			}
 			if(hasGeometry){

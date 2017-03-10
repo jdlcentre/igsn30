@@ -211,11 +211,11 @@
 									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="geographic" ><b>Geographic(Point) Coordinate</b></label>									
 									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="utm"><b>UTM(Point) GDA94/MGA</b></label>       									
 				                 </div>
-				                  <div ng-show="resource.locationInputType=='wkt' || resource.locationInputType=='geographic'" class="form-group form-group-sm" ng-class="{ 'has-error' : ((resource.location.wkt.length > 0 && resource.location.srid==null)||(latitude.latitude && resource.location.srid==null))}">
+				                  <div ng-show="resource.locationInputType=='wkt' || resource.locationInputType=='geographic'" class="form-group form-group-sm" ng-class="{ 'has-error' : ((resource.location.wkt.length > 0 || latitude.latitude|| latitude.degree) && resource.location.srid==null)}">
 				                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlSRID">
-	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Spatial Reference System Identifier(SRID)</label>
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Spatial Reference System Identifier(SRID){{latitude.latitude}}{{longitude.longitude}}</label>
 				                    <select  class="form-control" ng-model="resource.location.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	
-				                     <p ng-show="(resource.location.wkt.length > 0 && resource.location.srid==null) ||(latitude.latitude && resource.location.srid==null)" class="small help-block">Select SRID for location</p>                   
+				                     <p ng-show="((resource.location.wkt.length > 0 || latitude.latitude|| latitude.degree) && resource.location.srid==null)" class="small help-block">Select SRID for location</p>                   
 				                 </div>
 			                     <div ng-show="resource.locationInputType=='wkt'" class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
 								    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlWellknowntext">
