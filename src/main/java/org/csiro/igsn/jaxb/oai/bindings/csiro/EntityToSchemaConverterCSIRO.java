@@ -196,9 +196,16 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 				Resource.Contributors.Contributor contributorXML = new Resource.Contributors.Contributor();
 				contributorXML.setContributorType(contributor.getContributorType());
 				contributorXML.setContributorName(contributor.getContributorName());
-				contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
-				contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
-				contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
+				if(contributor.getCvIdentifierType()!=null){
+					contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
+					contributorXML.getContributorIdentifier().setContributorIdentifierType(contributor.getCvIdentifierType().getIdentifierType());
+				}
+				if(contributor.getContributorIdentifier()!=null){
+					if(contributorXML.getContributorIdentifier()==null){
+						contributorXML.setContributorIdentifier(this.objectFactory.createResourcesResourceContributorsContributorContributorIdentifier());
+					}
+					contributorXML.getContributorIdentifier().setValue(contributor.getContributorIdentifier());
+				}
 				resourceXML.getContributors().contributor.add(contributorXML);
 			}
 		}
@@ -208,14 +215,22 @@ public class EntityToSchemaConverterCSIRO implements JAXBConverterInterface{
 			resourceXML.getRelatedResources().relatedResource = new ArrayList<Resource.RelatedResources.RelatedResource>();
 			for(RelatedResources relatedResources:resource.getRelatedResourceses()){
 				Resource.RelatedResources.RelatedResource relatedResourcesXML = new Resource.RelatedResources.RelatedResource();
-				relatedResourcesXML.setRelatedResourceIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType());
-				relatedResourcesXML.setRelationType(relatedResources.getRelationType());
-				relatedResourcesXML.setValue(relatedResources.getRelatedResource());
+				if(relatedResources.getCvIdentifierType()!=null){
+					relatedResourcesXML.setRelatedResourceIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType());
+				}
+				if(relatedResources.getRelationType()!=null){
+					relatedResourcesXML.setRelationType(relatedResources.getRelationType());
+				}
+				if(relatedResources.getRelatedResource()!=null){
+					relatedResourcesXML.setValue(relatedResources.getRelatedResource());
+				}
 				resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
 			}
 		}
 		
-		resourceXML.setComments(resource.getComments());
+		if(resource.getComments()!=null && !resource.getComments().isEmpty()){
+			resourceXML.setComments(resource.getComments());
+		}
 		
 		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
 		resourceXML.getLogDate().setEventType(EventType.fromValue(resource.getLogDate().getEventType()));

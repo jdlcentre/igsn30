@@ -209,9 +209,16 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 					}
 					Collector collectorXML = this.objectFactory.createResourceCollectorsCollector();
 					collectorXML.setName(contributor.getContributorName());
-					collectorXML.setIdentifier(this.objectFactory.createResourceCollectorsCollectorIdentifier());					
-					collectorXML.getIdentifier().setType(mapIdentifierType(contributor.getCvIdentifierType().getIdentifierType()));
-					collectorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
+					if(contributor.getCvIdentifierType()!=null){
+						collectorXML.setIdentifier(this.objectFactory.createResourceCollectorsCollectorIdentifier());					
+						collectorXML.getIdentifier().setType(mapIdentifierType(contributor.getCvIdentifierType().getIdentifierType()));
+					}
+					if(contributor.getContributorIdentifier()!=null){
+						if(collectorXML.getIdentifier()==null){
+							collectorXML.setIdentifier(this.objectFactory.createResourceCollectorsCollectorIdentifier());
+						}
+						collectorXML.getIdentifier().setValue(contributor.getContributorIdentifier());
+					}
 					resourceXML.getCollectors().collector.add(collectorXML);
 					
 				}else{					
@@ -246,9 +253,16 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 				//VT: only if its mappable we map it.
 				if(mapRelationType(relatedResources.getRelationType())!=null){
 					Resource.RelatedResources.RelatedResource relatedResourcesXML = new Resource.RelatedResources.RelatedResource();
-					relatedResourcesXML.setType(mapIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType()));
-					relatedResourcesXML.setRelationType(mapRelationType(relatedResources.getRelationType()));
-					relatedResourcesXML.setValue(relatedResources.getRelatedResource());
+					if(mapIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType()) !=null){
+						relatedResourcesXML.setType(mapIdentifierType(relatedResources.getCvIdentifierType().getIdentifierType()));
+					}
+					
+					if(mapRelationType(relatedResources.getRelationType())!=null){
+						relatedResourcesXML.setRelationType(mapRelationType(relatedResources.getRelationType()));
+					}
+					if(relatedResources.getRelatedResource()!=null){
+						relatedResourcesXML.setValue(relatedResources.getRelatedResource());
+					}
 					resourceXML.getRelatedResources().relatedResource.add(relatedResourcesXML);
 				}
 			}
@@ -320,7 +334,11 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		if(trimedFromValue.equalsIgnoreCase("url") || trimedFromValue.equalsIgnoreCase("urn")){
 			return IdentifierType.URI;
 		}else{
-			return IdentifierType.fromValue(trimedFromValue);
+			try{
+				return IdentifierType.fromValue(trimedFromValue);
+			}catch(Exception e){
+				return null;
+			}
 		}
 		
 	}
