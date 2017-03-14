@@ -42,6 +42,11 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 	@Value("#{configProperties['REGISTRANT_NAME']}")
 	private String REGISTRANT_NAME;
 	
+	@Value("#{configProperties['IGSN_HANDLE_PREFIX']}")
+	private String IGSN_HANDLE_PREFIX;
+	
+	
+	
 	
 	public EntityToSchemaConverterIGSN(){
 		this.objectFactory = new ObjectFactory();		 
@@ -89,7 +94,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		resourceXML.setRegistedObjectType(mapRegisteredObjectType(resource.getRegisteredObjectType()));
 		
 		resourceXML.setIdentifier(this.objectFactory.createResourceIdentifier());
-		resourceXML.getIdentifier().setValue(resource.getResourceIdentifier());
+		resourceXML.getIdentifier().setValue(IGSN_HANDLE_PREFIX + resource.getResourceIdentifier());
 		resourceXML.getIdentifier().setType(IdentifierType.IGSN);
 		
 		
