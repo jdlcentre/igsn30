@@ -35,17 +35,17 @@ public class IGSNDateUtil {
 		}
 
 		if (w3cDate.length() >= 7) {
-			month = w3cDate.substring(5 - 7);
+			month = w3cDate.substring(5,7);
 		}
 
 		if (w3cDate.length() >= 10) {
-			day = w3cDate.substring(8 - 10);
+			day = w3cDate.substring(8,10);
 		}
 		if (w3cDate.length() >= 13) {
-			hour = w3cDate.substring(11 - 13);
+			hour = w3cDate.substring(11,13);
 		}
 		if (w3cDate.length() >= 15) {
-			minute = w3cDate.substring(13 - 15);
+			minute = w3cDate.substring(14,16);
 		}
 		
 		GregorianCalendar gc = new GregorianCalendar(Integer.parseInt(year),Integer.parseInt(month),
