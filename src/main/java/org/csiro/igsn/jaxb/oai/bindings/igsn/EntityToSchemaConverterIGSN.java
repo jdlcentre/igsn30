@@ -277,7 +277,7 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 		}
 		
 		//VT:Comments and description are not exactly the same thing.
-		//resourceXML.setDescription(resource.getComments());
+		resourceXML.setDescription(resource.getComments());
 		
 		resourceXML.setRegistrant(this.objectFactory.createResourceRegistrant());
 		resourceXML.getRegistrant().setName(this.REGISTRANT_NAME);
