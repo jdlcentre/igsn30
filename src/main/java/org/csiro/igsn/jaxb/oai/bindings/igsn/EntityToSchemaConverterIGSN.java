@@ -354,20 +354,20 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 
 	private MaterialType mapMaterialType(String materialType) {
 		switch(materialType){
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/air": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_AIR;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/gas": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_GAS;			
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/ice": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_ICE;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/liquidAqueous": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_LIQUID_AQUEOUS;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/liquidOrganic": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_LIQUID_ORGANIC;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/mineral": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_MINERAL;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/organism": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_ORGANISM;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/other": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_OTHER;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/particulate": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_PARTICULATE;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/rock": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_ROCK;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/sediment": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SEDIMENT;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/snow": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SNOW;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/soil": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SOIL;
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/tissue": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_TISSUE;			
+			case "http://vocabulary.odm2.org/medium/air": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_AIR;
+			case "http://vocabulary.odm2.org/medium/gas": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_GAS;			
+			case "http://vocabulary.odm2.org/medium/ice": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_ICE;
+			case "http://vocabulary.odm2.org/medium/liquidAqueous": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_LIQUID_AQUEOUS;
+			case "http://vocabulary.odm2.org/medium/liquidOrganic": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_LIQUID_ORGANIC;
+			case "http://vocabulary.odm2.org/medium/mineral": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_MINERAL;
+			case "http://vocabulary.odm2.org/medium/organism": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_ORGANISM;
+			case "http://vocabulary.odm2.org/medium/other": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_OTHER;
+			case "http://vocabulary.odm2.org/medium/particulate": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_PARTICULATE;
+			case "http://vocabulary.odm2.org/medium/rock": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_ROCK;
+			case "http://vocabulary.odm2.org/medium/sediment": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SEDIMENT;
+			case "http://vocabulary.odm2.org/medium/snow": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SNOW;
+			case "http://vocabulary.odm2.org/medium/soil": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_SOIL;
+			case "http://vocabulary.odm2.org/medium/tissue": return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_TISSUE;			
 			default: return MaterialType.HTTP_VOCABULARY_ODM_2_ORG_MEDIUM_UNKNOWN;
 		}
 		
@@ -376,30 +376,30 @@ public class EntityToSchemaConverterIGSN implements JAXBConverterInterface{
 
 	private String mapResourceType(String resourceType) {
 		switch(resourceType){
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/automated": return "http://vocabulary.odm2.org/specimentype/automated";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/core" : return "http://vocabulary.odm2.org/specimentype/core";			
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreHalfRound" : return "http://vocabulary.odm2.org/specimentype/coreHalfRound";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/corePiece" : return "http://vocabulary.odm2.org/specimentype/corePiece";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreQuarterRound" : return "http://vocabulary.odm2.org/specimentype/coreQuarterRound";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreSection": return "http://vocabulary.odm2.org/specimentype/coreSection";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreSectionHalf": return "http://vocabulary.odm2.org/specimentype/coreSectionHalf";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreSub-Piece": return"http://vocabulary.odm2.org/specimentype/coreSub-Piece";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/coreWholeRound" : return "http://vocabulary.odm2.org/specimentype/coreWholeRound";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/cuttings" : return "http://vocabulary.odm2.org/specimentype/cuttings";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/dredge" : return "http://vocabulary.odm2.org/specimentype/dredge";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/foliageDigestion" : return "http://vocabulary.odm2.org/specimentype/foliageDigestion";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/foliageLeaching": return "http://vocabulary.odm2.org/specimentype/foliageLeaching";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/forestFloorDigestion" : return "http://vocabulary.odm2.org/specimentype/forestFloorDigestion";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/individualSample" : return "http://vocabulary.odm2.org/specimentype/individualSample";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/litterFallDigestion" : return "http://vocabulary.odm2.org/specimentype/litterFallDigestion";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/petriDishDryDeposition" : return "http://vocabulary.odm2.org/specimentype/petriDishDryDeposition";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/precipitationBulk" : return "http://vocabulary.odm2.org/specimentype/precipitationBulk";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/rockPowder" : return "http://vocabulary.odm2.org/specimentype/rockPowder";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/standardReferenceSpecimen" : return "http://vocabulary.odm2.org/specimentype/standardReferenceSpecimen";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/terrestrialSection" : return "http://vocabulary.odm2.org/specimentype/terrestrialSection";		
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/thinSection" : return "http://vocabulary.odm2.org/specimentype/thinSection";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/orientedCore" : return "http://vocabulary.odm2.org/specimentype/orientedCore";
-			case "http://pid.geoscience.gov.au/def/voc/igsn-codelists/grab" : return "http://vocabulary.odm2.org/specimentype/grab";			
+			case "http://vocabulary.odm2.org/specimentype/automated": return "http://vocabulary.odm2.org/specimentype/automated";
+			case "http://vocabulary.odm2.org/specimentype/core" : return "http://vocabulary.odm2.org/specimentype/core";			
+			case "http://vocabulary.odm2.org/specimentype/coreHalfRound" : return "http://vocabulary.odm2.org/specimentype/coreHalfRound";
+			case "http://vocabulary.odm2.org/specimentype/corePiece" : return "http://vocabulary.odm2.org/specimentype/corePiece";
+			case "http://vocabulary.odm2.org/specimentype/coreQuarterRound" : return "http://vocabulary.odm2.org/specimentype/coreQuarterRound";
+			case "http://vocabulary.odm2.org/specimentype/coreSection": return "http://vocabulary.odm2.org/specimentype/coreSection";
+			case "http://vocabulary.odm2.org/specimentype/coreSectionHalf": return "http://vocabulary.odm2.org/specimentype/coreSectionHalf";
+			case "http://vocabulary.odm2.org/specimentype/coreSub-Piece": return"http://vocabulary.odm2.org/specimentype/coreSub-Piece";
+			case "http://vocabulary.odm2.org/specimentype/coreWholeRound" : return "http://vocabulary.odm2.org/specimentype/coreWholeRound";
+			case "http://vocabulary.odm2.org/specimentype/cuttings" : return "http://vocabulary.odm2.org/specimentype/cuttings";
+			case "http://vocabulary.odm2.org/specimentype/dredge" : return "http://vocabulary.odm2.org/specimentype/dredge";
+			case "http://vocabulary.odm2.org/specimentype/foliageDigestion" : return "http://vocabulary.odm2.org/specimentype/foliageDigestion";
+			case "http://vocabulary.odm2.org/specimentype/foliageLeaching": return "http://vocabulary.odm2.org/specimentype/foliageLeaching";
+			case "http://vocabulary.odm2.org/specimentype/forestFloorDigestion" : return "http://vocabulary.odm2.org/specimentype/forestFloorDigestion";
+			case "http://vocabulary.odm2.org/specimentype/individualSample" : return "http://vocabulary.odm2.org/specimentype/individualSample";
+			case "http://vocabulary.odm2.org/specimentype/litterFallDigestion" : return "http://vocabulary.odm2.org/specimentype/litterFallDigestion";
+			case "http://vocabulary.odm2.org/specimentype/petriDishDryDeposition" : return "http://vocabulary.odm2.org/specimentype/petriDishDryDeposition";
+			case "http://vocabulary.odm2.org/specimentype/precipitationBulk" : return "http://vocabulary.odm2.org/specimentype/precipitationBulk";
+			case "http://vocabulary.odm2.org/specimentype/rockPowder" : return "http://vocabulary.odm2.org/specimentype/rockPowder";
+			case "http://vocabulary.odm2.org/specimentype/standardReferenceSpecimen" : return "http://vocabulary.odm2.org/specimentype/standardReferenceSpecimen";
+			case "http://vocabulary.odm2.org/specimentype/terrestrialSection" : return "http://vocabulary.odm2.org/specimentype/terrestrialSection";		
+			case "http://vocabulary.odm2.org/specimentype/thinSection" : return "http://vocabulary.odm2.org/specimentype/thinSection";
+			case "http://vocabulary.odm2.org/specimentype/orientedCore" : return "http://vocabulary.odm2.org/specimentype/orientedCore";
+			case "http://vocabulary.odm2.org/specimentype/grab" : return "http://vocabulary.odm2.org/specimentype/grab";			
 			default: return "http://vocabulary.odm2.org/specimentype/other";
 		}
 		
