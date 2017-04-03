@@ -146,8 +146,10 @@
 	          </div>
           </div>         
         </div>
-       
         <div class="row">
+        	<p ng-show="callback" class="pull-right small help-block">You will be re-routed when you successfully mint the resource</p>
+        </div>
+        <div class="row">        	
         	<div class="pull-right" ng-show="mode=='update' || mode=='register'">          		
         		<label ng-show="mode=='update'" class="radio-inline"><input type="radio" name="optradio" ng-model="resource.logDate.eventType" value="deprecated">Deprecate</label>
 				<label ng-show="mode=='update'" class="radio-inline"><input type="radio" name="optradio" ng-model="resource.logDate.eventType" value="destroyed" >Destroy</label>

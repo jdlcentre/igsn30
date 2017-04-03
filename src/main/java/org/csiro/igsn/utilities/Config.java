@@ -47,6 +47,14 @@ public class Config {
 			return prop.getProperty("ldap.userdn");
 		}
 	}
+	
+	public static String getLDAPBase() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("ldap.base");
+		}
+	}
 
 
 }

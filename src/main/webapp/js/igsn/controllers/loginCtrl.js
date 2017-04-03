@@ -3,7 +3,7 @@ allControllers.controller('LoginCtrl', ['$scope','$timeout','$http','currentAuth
 	
 	$scope.isRedirect = false;
 	
-	if(Object.keys($routeParams).length > 0){
+	if(Object.keys($routeParams).length > 0 && !$routeParams.sessionid && !$routeParams.callbackurl){
 		$scope.isRedirect = true;
 		$scope.redirectIGSN = $routeParams.igsn;
 	}

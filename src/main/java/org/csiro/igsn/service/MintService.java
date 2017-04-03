@@ -42,6 +42,16 @@ public class MintService {
 	@Value("#{configProperties['IGSN_REGISTRY_PASSWORD']}")
 	private String IGSN_PASSWORD;
 	
+	//VT: This will mint via the handle test api.
+	@Value("#{configProperties['TEST_MODE_ENABLE']}")
+	private Boolean TEST_MODE_ENABLE;
+	
+	//VT: This will not mint at all if enabled. Alway return 201
+	@Value("#{configProperties['MOCK_201_FROM_MINT']}")
+	private Boolean MOCK_201_FROM_MINT;
+	
+	
+	
 	/**
 	 * 
 	 * @param sampleNumber
@@ -55,7 +65,7 @@ public class MintService {
 	public String createRegistryXML(String sampleNumber, String landingPage, String timeStamp, boolean testMode,
 			String event) throws Exception {
 			
-		String IGSNPrefix = testMode?IGSN_TEST_PREFIX:IGSN_PREFIX;
+		String IGSNPrefix = (testMode || TEST_MODE_ENABLE)?IGSN_TEST_PREFIX:IGSN_PREFIX;
 		
 		String metacontent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		metacontent += "<sample xmlns=\"http://igsn.org/schema/kernel-v.1.0\" "
@@ -97,7 +107,8 @@ public class MintService {
 	
 	private int httpRequest(String serviceurl, byte[] body, OutputStream retbody, String method,String format)
 			throws Exception {
-		if(1==1){
+		
+		if(MOCK_201_FROM_MINT){
 			return 201;
 		}
 		

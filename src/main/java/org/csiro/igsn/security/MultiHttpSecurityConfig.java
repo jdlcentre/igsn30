@@ -72,7 +72,7 @@ public class MultiHttpSecurityConfig {
 		private LdapContextSource getLdapContextSource() throws Exception {
 	        LdapContextSource cs = new LdapContextSource();
 	        cs.setUrl(Config.getLdapUrl());
-	        cs.setBase("DC=nexus,DC=csiro,DC=au");
+	        cs.setBase(Config.getLDAPBase());
 	        cs.setUserDn(Config.getUserDN());
 	        //cs.setAnonymousReadOnly(true);
 	        Hashtable<String, Object> env = new Hashtable<String, Object>();
@@ -125,7 +125,7 @@ public class MultiHttpSecurityConfig {
 		private LdapContextSource getLdapContextSource() throws Exception {
 	        LdapContextSource cs = new LdapContextSource();
 	        cs.setUrl(Config.getLdapUrl());
-	        cs.setBase("DC=nexus,DC=csiro,DC=au");
+	        cs.setBase(Config.getLDAPBase());
 	        cs.setUserDn(Config.getUserDN());
 	        //cs.setAnonymousReadOnly(true);
 	        Hashtable<String, Object> env = new Hashtable<String, Object>();

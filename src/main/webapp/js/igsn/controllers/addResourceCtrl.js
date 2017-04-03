@@ -11,6 +11,10 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
   $scope.getTrueFalse = selectListService.getTrueFalse();
   $scope.getMGAZone = selectListService.getMGAZone();
   $scope.loading=false;
+  
+  if($routeParams.sessionid && $routeParams.callbackurl){
+	  $scope.callback = true;
+  }
  
   var parseOptionToHtmlList = function(arrayList){
 	  var result = "<ul class='small' style='padding-left:10px'>";
@@ -181,15 +185,20 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
    	         bodyText: "FAILURE:" + data[0].databaseLog + "<br>CAUSED:" + data[0].databaseExceptionCause
       		});
       	 }else{
-      		modalService.showModal({}, {    	            	           
-      		  headerText: "IGSN Minted" ,
-      	      bodyText: "IGSN HANDLE: <a href='"+data[0].handle+"'>" + data[0].handle + "</a>",
-      	      redirect: "/meta/"+data[0].sampleId,
-      	      addAnother:"/addresource"
-         	})
-         	if($scope.resource.logDate.eventType == "destroyed" || $scope.resource.logDate.eventType == "deprecated"){
-         		$scope.mode="unavailable";
-	   		}
+      		//VT: check route param for sessionid 
+      		if($routeParams.sessionid && $routeParams.callbackurl){
+      			window.location.href = $routeParams.callbackurl + "?" + "igsn=" + encodeURI(data[0].handle) + "&sessionid=" + $routeParams.sessionid;
+      		}else{ 
+	      		modalService.showModal({}, {    	            	           
+	      		  headerText: "IGSN Minted" ,
+	      	      bodyText: "IGSN HANDLE: <a href='"+data[0].handle+"'>" + data[0].handle + "</a>",
+	      	      redirect: "/meta/"+data[0].sampleId,
+	      	      addAnother:"/addresource"
+	         	})
+	         	if($scope.resource.logDate.eventType == "destroyed" || $scope.resource.logDate.eventType == "deprecated"){
+	         		$scope.mode="unavailable";
+		   		}
+      		}
       	 }
       	$scope.loading=false;
       	
