@@ -2,23 +2,23 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.csiro.igsn</groupId>
-    <artifactId>ISGN30</artifactId>
+    <artifactId>CUISGN30</artifactId>
     <packaging>war</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>CSIRO-IGSN30</name>
-    <description>CSIRO IGSN IMPLEMENTATION</description>
-    <url>http://igsn.csiro.au</url>
+    <name>CUIGSN30</name>
+    <description>Curtin IGSN IMPLEMENTATION</description>
+    <url>http://igsn.curtin.edu.au</url>
     <issueManagement>
         <system>Jira</system>
-        <url>https://jira.csiro.au/browse/AUS</url>
+        <url>https://jira.curtin.au/browse/AUS</url>
     </issueManagement>   
     <scm>   
-    	<connection>scm:git:git://github.com/AuScope/IGSN.git</connection>
+    	<connection>scm:git:git://github.com/victortey/igsn30.git</connection>
 	</scm>   
     <!-- Build Configuration -->
     <organization>
-        <name>CSIRO</name>
-        <url>http://www.csiro.au</url>
+        <name>Curtin</name>
+        <url>http://www.curtin.edu.au</url>
     </organization>
     <!-- Project properties -->
     <properties>
@@ -104,7 +104,7 @@
                 </property>         
             </activation>        
             <build>
-                <finalName>igsn30</finalName>                
+                <finalName>CUIGSN30</finalName>                
                 <plugins>                                 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
