@@ -62,8 +62,9 @@ public class MultiHttpSecurityConfig {
 			
 			auth.ldapAuthentication()
 			.userDetailsContextMapper(new UserDetailsContextMapperImpl())
-	        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
-	        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
+			.userSearchFilter("(&(uid={0}))") 
+			//.userSearchBase("OU=Staff").userSearchFilter("(&(uid={0}))")
+	        //.groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
 	        .contextSource(getLdapContextSource()); 
 			
 			
@@ -73,12 +74,12 @@ public class MultiHttpSecurityConfig {
 	        LdapContextSource cs = new LdapContextSource();
 	        cs.setUrl(Config.getLdapUrl());
 	        cs.setBase(Config.getLDAPBase());
-	        cs.setUserDn(Config.getUserDN());
-	        //cs.setAnonymousReadOnly(true);
+	        //cs.setUserDn(Config.getUserDN());
+	        cs.setAnonymousReadOnly(true);
 	        Hashtable<String, Object> env = new Hashtable<String, Object>();
 	        env.put(Context.REFERRAL, "follow");
 	        cs.setBaseEnvironmentProperties(env);
-	        cs.setPassword(Config.getLdapPassword());       
+	        //cs.setPassword(Config.getLdapPassword());       
 	        cs.afterPropertiesSet();
 	        
 	        return cs;
@@ -116,8 +117,9 @@ public class MultiHttpSecurityConfig {
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {		 
 			auth.ldapAuthentication()
 			.userDetailsContextMapper(new UserDetailsContextMapperImpl())
-	        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
-	        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
+	        .userSearchFilter("(&(uid={0}))") 
+			//.userSearchBase("OU=Staff").userSearchFilter("(&(uid={0}))")
+	        //.groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
 	        .contextSource(getLdapContextSource());
 
 		}
@@ -126,12 +128,12 @@ public class MultiHttpSecurityConfig {
 	        LdapContextSource cs = new LdapContextSource();
 	        cs.setUrl(Config.getLdapUrl());
 	        cs.setBase(Config.getLDAPBase());
-	        cs.setUserDn(Config.getUserDN());
-	        //cs.setAnonymousReadOnly(true);
+	        //cs.setUserDn(Config.getUserDN());
+	        cs.setAnonymousReadOnly(true);
 	        Hashtable<String, Object> env = new Hashtable<String, Object>();
 	        env.put(Context.REFERRAL, "follow");
-	        cs.setBaseEnvironmentProperties(env);
-	        cs.setPassword(Config.getLdapPassword());       
+	        cs.setBaseEnvironmentProperties(env);	        
+	        //cs.setPassword(Config.getLdapPassword());       
 	        cs.afterPropertiesSet();
 	        
 	        return cs;
