@@ -62,7 +62,7 @@ public class MultiHttpSecurityConfig {
 			
 			auth.ldapAuthentication()
 			.userDetailsContextMapper(new UserDetailsContextMapperImpl())
-	        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
+			.userSearchBase("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
 	        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
 	        .contextSource(getLdapContextSource()); 
 			
@@ -116,7 +116,7 @@ public class MultiHttpSecurityConfig {
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {		 
 			auth.ldapAuthentication()
 			.userDetailsContextMapper(new UserDetailsContextMapperImpl())
-	        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
+	        .userSearchBase("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
 	        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
 	        .contextSource(getLdapContextSource());
 
