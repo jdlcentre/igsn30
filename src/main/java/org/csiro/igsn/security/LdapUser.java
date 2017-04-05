@@ -1,7 +1,7 @@
 package org.csiro.igsn.security;
 import java.util.Collection;
 
-import org.csiro.igsn.entity.service.AllocatorEntityService;
+
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,12 +23,7 @@ import org.springframework.security.ldap.userdetails.LdapUserDetails;
          this.name = name;
          this.email = email;
          this.userName = details.getUsername();
-         AllocatorEntityService allocatorService = new AllocatorEntityService();
-         if(allocatorService.searchAllocator(this.userName)!=null){
-        	 this.setAllocator(true);
-         }else{
-        	 this.setAllocator(false);
-         }
+       
          
      }
 
