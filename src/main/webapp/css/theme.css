@@ -2936,16 +2936,22 @@ a .fa-round:hover {
   display: none;
 }
 #nav .navbar-brand > img {
-  width: auto;
+  width: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: auto;
   display: block;
 }
 #nav .navbar-brand,
 #nav.shrinked .navbar-brand {
-  height: 50px;
+  #height: 50px;
   position: relative;
+}
+@media (max-width: 768px) {
+	#nav .navbar-brand > img {
+	  width: auto;  
+	  height: 50px;
+	}
 }
 @media (min-width: 768px) {
   .navbar-brand {
