@@ -38,7 +38,7 @@
 	                    <p ng-show="mandatoryleft.registeredObjectType.$invalid" class="small help-block">Select registered object type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm">
-	                      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The landing page of a resource. This page contains more detailed (domain-specific) information about the resource.">
+	                      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The landing page is the web page containing more detailed (domain-specific) information about the geosample">
 	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Landing Page</label>
 	                      <div class="form-inline">		                      
 							  <div class="form-group form-group-sm">
@@ -56,7 +56,7 @@
 	                    <div class="row">
 						  <div class="col-sm-6 col-xs-12">		
 						  	 <div class="input-group width-100">
-						  	    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The visibility of a resource's metadata. Use 'true' for public and 'false' for private resources.">
+						  	    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The visibility of a geosample or entity metadata. Use 'true' for public and 'false' for private geosamples or entities">
 	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> isPublic</label>
 			                    <select  class="form-control" name="ispublic"  ng-model="resource.isPublic" ng-options="o.v as o.n for o in [{ n: 'True', v: true }, { n: 'False', v: false }]" required></select>
 							    <p ng-show="mandatoryleft.ispublic.$invalid" class="small help-block">Select public access</p>
@@ -76,16 +76,16 @@
 						</div>                   
 	                  </div>	
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetitle.$invalid}">
-	                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The name, descriptive phrase or title of the geosample">
-	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Resource Title</label>
+	                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The name, descriptive phrase or title of the geosample or item">
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Sample or Item Title</label>
 	                    <input type="text" class="form-control" name="resourcetitle" placeholder="Title for resource" ng-model="resource.resourceTitle" required/>
-	                    <p ng-show="mandatoryleft.resourcetitle.$invalid" class="small help-block">Provide a title for the resource</p>
+	                    <p ng-show="mandatoryleft.resourcetitle.$invalid" class="small help-block">Provide a title for the sample or item</p>
 	                  </div>	     
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.resourcetype.$invalid}">
 	                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlResourceType">
-	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Resource Type</label>
+	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Sample or Item Type</label>
 	                    <select  ng-repeat="types in resource.resourceTypeses" class="form-control" ng-model="types.cvResourceType.resourceType"  name="resourcetype" ng-options="type as type for type in getResourceType" required></select>	 
-	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a resource type</p>                  
+	                    <p ng-show="mandatoryleft.resourcetype.$invalid" class="small help-block">Select a sample or item type</p>                  
 	                  </div>
 	                  <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryleft.materialtype.$invalid}">
 	                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlMaterialType">
@@ -107,12 +107,12 @@
 					    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="Resource archival information, mainly applicable to physical samples and sample collections. The curating instuition must be specified. This can be present or future curator.">
 	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Details</div></legend>
 					    <div class="form-group form-group-sm">
-						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The full name of a resource curator.">
+						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The full name of the sample or data curator.">
 	                      	<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curator</label>
 		                    <input type="text" class="form-control" placeholder="Curator" ng-model="resource.curationDetailses[0].curator"/>
 	                    </div>
 	                    <div class="form-group form-group-sm">
-		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The date the resource was moved to its current location.">
+		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The date the sample or item was moved to its current location.">
 	                       	 <i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Date</label>			     
 						     <div class="input-group width-200px" ng-class="{ 'has-error' : mandatoryright.curatingDate.$invalid  }">						     
 	                             <input type="text" format-date class="form-control" name="curatingDate" uib-datepicker-popup="yyyy-MM-dd"  is-open="form.curationDate.opened" ng-model="resource.curationDetailses[0].curationDate" close-text="Close"/>
@@ -123,19 +123,19 @@
                              <p ng-show="mandatoryright.curatingDate.$invalid" class="small help-block" style="color: #a94442;">Enter a valid date in the YYYY-MM-DD format</p>   
 		                 </div>
 		                 <div class="form-group form-group-sm">
-						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The location (address) where the sample is stored. This can be general or specific (room number, building name).">
+						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The location (address) where the sample or item is stored. This can be general or specific (room number, building name).">
 	                      	<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Location</label>
 		                    <input type="text" class="form-control" placeholder="Curation Location" ng-model="resource.curationDetailses[0].curationLocation"/>
 	                    </div>
 	                     <div class="form-group form-group-sm" ng-class="{ 'has-error' : mandatoryright.curatingInstitution.$invalid}">
-						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The institution where the sample is stored.">
+						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The institution where the sample or item is stored.">
 	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curating Institution</label>
 		                    <input type="text" class="form-control" name="curatingInstitution" placeholder="Curating Institution" ng-model="resource.curationDetailses[0].curatingInstitution" required/>
 		                    <p ng-show="mandatoryright.curatingInstitution.$invalid" class="small help-block">Enter the curating institution</p>
 	                    </div>
 		                 <div class="form-group form-group-sm">
-						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The uri of the institution where the sample is stored.">
-	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Institution Uri</label>
+						    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The URL of the institution where the sample or item is stored.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Curation Institution URL</label>
 		                    <input type="text" class="form-control" placeholder="http://" ng-model="resource.curationDetailses[0].institutionUri"/>		                    
 	                    </div>		                 
 					  </fieldset>			                       
@@ -187,56 +187,57 @@
 			          <div class="col-md-12"> 
 			            <form name="location">       
 				          	<fieldset class="form-group form-group-sm show-fieldset-borders">
-							    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The location where the resource was found/collected (sampling feature,specimen) or created (synthetic materials). This may refer to a geographic location (in Well Known Text) or a locality (aka. toponym). For a spatial location, the SRID  attribute may be used to indicate the spatial reference system (in EPSG). This refers to the spatial referencing system identifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 referenced coordinate system.">
+							    <legend><div class="title-sm text-theme hr-left"><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The location where the resource was found/collected (sampling feature,specimen) or created (synthetic materials). This may refer to a geographic location (in Well Known Text format POINT(Long Lat), e.g POINT (115.8834, -31.9944)) or a locality. For a spatial location, the Spatial Reference System Identifier(SRID)  attribute may be used to indicate the spatial reference system (in European Petroleum Survey Group, EPSG). This refers to the Spatial Referencing system IDentifier (SRID). Specify an EPSG code, e.g., '4326' is the EPSG code for the WGS84 geographic coordinate system.">
 	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Location</div></legend>
 							    <div class="form-group form-group-sm">
-								    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The named place/toponym or address. You may use the attribute localityIdentifier to denote the web location of a place.">
+								    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The place name or address. You may use the attribute locality Identifier(URL for location on web-based map e.g map.google.com) to denote the web location of a place.">
 	                     			 <i class="fa fa-question-circle" aria-hidden="true"></i></span> Locality</label>
 				                    <input type="text" class="form-control" placeholder="locality" ng-model="resource.location.locality"/>
 			                    </div>
 			                    <div class="form-group form-group-sm">
-								    <label>Locality uri</label>
+								     <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="URL for location on web-based map (e.g map.google.com) to denote the web location of a place.">
+	                     			 <i class="fa fa-question-circle" aria-hidden="true"></i></span> Locality URL</label>
 				                    <input type="text" class="form-control" placeholder="http://" ng-model="resource.location.localityUri"/>
 			                    </div>			                    
 				                 <div class="form-group form-group-sm">
-				                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="A vertical datum specifies the origin for elevations assocated with a resource. Specify the EPSG vertical coordinate reference system code. For example, 5711 refers is the epsg code for the Australian Height Datum (AHD).">
+				                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="A vertical datum specifies the origin for elevations assocated with a sample or item. Specify the European Petroleum Survey Group (EPSG) vertical coordinate reference system code. For example, 5711 refers is the EPSG code for the Australian Height Datum (AHD).">
 	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Vertical Datum</label>
 				                    <select  class="form-control" ng-model="resource.location.verticalDatum"  ng-options="epsg as epsg for epsg in getEpsg"></select>	                   
 				                 </div>
 				                 <div class="form-group form-group-sm">
-								    <label>Geometry uri</label>
-				                    <input type="text" class="form-control" placeholder="Geometry Uri" ng-model="resource.location.geometryUri"/>
+								    <label>Geometry URL</label>
+				                    <input type="text" class="form-control" placeholder="Geometry URL" ng-model="resource.location.geometryUri"/>
 			                    </div>		
 			                    <hr>	                   
 				                 <div class="form-group form-group-sm">
 				                 	<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="wkt"><b>Well Known Text</b></label>
-									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="geographic" ><b>Geographic(Point) Coordinate</b></label>									
-									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="utm"><b>UTM(Point) GDA94/MGA</b></label>       									
+									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="geographic" ><b>Geographic (Point) Coordinates (WGS94)</b></label>									
+									<label class="radio-inline mr-8"><input type="radio" name="optlocation-inputtype" ng-model="resource.locationInputType" value="utm"><b>Projected (Point) Coordinates (MGA94)</b></label>       									
 				                 </div>
 				                  <div ng-show="resource.locationInputType=='wkt' || resource.locationInputType=='geographic'" class="form-group form-group-sm" ng-class="{ 'has-error' : ((resource.location.wkt.length > 0 || latitude.latitude|| latitude.degree) && resource.location.srid==null)}">
 				                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlSRID">
-	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Spatial Reference System Identifier(SRID){{latitude.latitude}}{{longitude.longitude}}</label>
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Spatial Reference System Identifier (SRID){{latitude.latitude}}{{longitude.longitude}}</label>
 				                    <select  class="form-control" ng-model="resource.location.srid"  ng-options="epsg as epsg for epsg in getEpsg"></select>	
-				                     <p ng-show="((resource.location.wkt.length > 0 || latitude.latitude|| latitude.degree) && resource.location.srid==null)" class="small help-block">Select SRID for location</p>                   
+				                     <p ng-show="((resource.location.wkt.length > 0 || latitude.latitude|| latitude.degree) && resource.location.srid==null)" class="small help-block">Select Spatial Reference System Identifier(SRID) for location</p>                   
 				                 </div>
 			                     <div ng-show="resource.locationInputType=='wkt'" class="form-group form-group-sm" ng-class="{ 'has-error' : location.wkt.$invalid && !location.wkt.$pristine}">
 								    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlWellknowntext">
-	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> location well known text</label>
-				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(resource.location.wkt)" placeholder="Well known text, eg POINT(lon lat)"  ng-model="resource.location.wkt"/>
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Location Well Known Text</label>
+				                    <input type="text" class="form-control" name="wkt" ng-change="testIsWKT(resource.location.wkt)" placeholder="Well Known Text, e.g. POINT(long lat)"  ng-model="resource.location.wkt"/>
 				                    <p ng-show="location.wkt.$invalid && !location.wkt.$pristine" class="small help-block">Invalid well known text</p>  
 			                     </div>
 			                      <div ng-show="resource.locationInputType=='geographic' && !useDegree" class="form-group form-group-sm">
 								      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlGeographicCoordinates">
-				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geographic coordinates(Decimals) - (<a ng-click="useDegree=true">use degrees instead</a>)</label>
+				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geographic Coordinates (WGS84, decimal degrees) - (<a ng-click="useDegree=true">use degrees instead</a>)</label>
 				                      <div class="form-inline">		                      
 										  <div class="form-group form-group-sm">
 						                      <div class="input-group" style="width:300px" ng-class="{ 'has-error' : (location.latitudelatitude.$invalid)}">
 						                      	<label>Latitude</label>				                      				            
-									            <input name="latitudelatitude" type="number" step="any" min=-90 max=90 type="text" class="form-control" placeholder="Enter a valid Latitude in decimals"  ng-model="latitude.latitude"/>						            
+									            <input name="latitudelatitude" type="number" step="any" min=-90 max=90 type="text" class="form-control" placeholder="Enter a valid latitude in decimal degrees"  ng-model="latitude.latitude"/>						            
 									          </div>
 									          <div class="input-group" style="width:300px" ng-class="{ 'has-error' : (location.longitudelongitude.$invalid)}">
 									          	<label>Longitude</label>				                      				            
-									            <input name="longitudelongitude" type="number" step="any" min=-180 max=180 type="text" class="form-control" placeholder="Enter a valid Longitude in decimals"  ng-model="longitude.longitude"/>						            
+									            <input name="longitudelongitude" type="number" step="any" min=-180 max=180 type="text" class="form-control" placeholder="Enter a valid longitude in decimals degrees"  ng-model="longitude.longitude"/>						            
 									          </div>
 									          <p ng-show="location.longitudelongitude.$invalid || location.latitudelatitude.$invalid" class="small help-block" style="color: #a94442;">Coordinates out of range</p>							       
 								          </div>
@@ -244,7 +245,7 @@
 			                     </div>
 			                      <div ng-show="resource.locationInputType=='geographic' && useDegree" class="form-group form-group-sm">
 								      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlGeographicCoordinates">
-				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geographic coordinates(Degrees) - (<a ng-click="useDegree=false">use decimals instead</a>)</label>
+				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Geographic Coordinates (WGS84, degrees) - (<a ng-click="useDegree=false">use decimals instead</a>)</label>
 				                      <div class="row">		                      										
 					                      <div class="col-md-6" >
 					                      	<label>Latitude</label>	
@@ -268,21 +269,21 @@
 			                     </div>
 			                      <div ng-show="resource.locationInputType=='utm'" class="form-group form-group-sm">
 								      <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlUTMCoordinates">
-				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> UTM(GDA94/MGA) coordinates</label>
-				                      <p><small>Coordinates in UTM will be automatically converted to <a target="_BLANK" href='https://epsg.io/4326'>Geographic Coordinates</a></small></p>
+				                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> MGA94 coordinates</label>
+				                      <p><small>Coordinates in MGA94 will be automatically converted to <a target="_BLANK" href='https://epsg.io/4326'>Geographic Coordinates</a></small></p>
 				                      <div class="form-inline" ng-class="{ 'has-error' : (resource.location.easting && !resource.location.zone)}">	
-				                      	  <label>Zone:</label>	
+				                      	  <label>UTM Zone:</label>	
 				                       	  <select  class="form-control" ng-model="resource.location.zone"  ng-options="zone as zone for zone in getMGAZone"></select>
 				                      </div>
 				                      <div class="form-inline">		                      
 										  <div class="form-group form-group-sm">
 						                      <div class="input-group" style="width:300px" ng-class="{ 'has-error' : location.easting.$invalid || (resource.location.northing && !resource.location.easting)}">
 						                      	<label>Easting</label>				                      				            
-									            <input name="easting" type="number" step="any" min=99999 max=10000000 class="form-control" placeholder="Enter a valid easting in decimals"  ng-model="resource.location.easting"/>						            
+									            <input name="easting" type="number" step="any" min=99999 max=10000000 class="form-control" placeholder="Enter a valid easting in decimal degrees"  ng-model="resource.location.easting"/>						            
 									          </div>
 									          <div class="input-group" style="width:300px" ng-class="{ 'has-error' : location.northing.$invalid || (!resource.location.northing && resource.location.easting)}">
 									          	<label>Northing</label>				                      				            
-									            <input name="northing" type="number" step="any" min=999999 max=100000000 class="form-control" placeholder="Enter a valid northing in decimals"  ng-model="resource.location.northing"/>						            
+									            <input name="northing" type="number" step="any" min=999999 max=100000000 class="form-control" placeholder="Enter a valid northing in decimal degrees"  ng-model="resource.location.northing"/>						            
 									          </div>							       
 								          </div>
 								           <p ng-show="location.easting.$invalid || location.northing.$invalid" class="small help-block">Easting/Northing out of range</p>  
@@ -306,14 +307,14 @@
 		                     <div class="row" ng-repeat ="classification in resource.classificationses">
 							  <div class="col-sm-6 col-xs-12">		
 							  	  <div class="input-group width-100">
-								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="You may use the attribute classificationIdentifier to indicate the URI of the concept.">
-	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Classification uri:</label>					   					      
+								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="You may use the attribute classification identifier to indicate the URI of the concept.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Classification URL:</label>					   					      
 								      <input type="text" class="form-control"  placeholder="http://" ng-model="classification.classificationUri"/>
 							      </div>		    
 							  </div>
 							  <div class="col-sm-6 col-xs-12">	
 							  	  <div class="input-group width-100">
-								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="Domain-specific classification codes, i.e. other concepts describing the physical form, function or type of the resource.">
+								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="Domain-specific classification codes, i.e. other terms describing the physical form, function or type of the resource.">
 	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Classification</label>					   					      
 								      <input type="text" class="form-control"  placeholder="classification" ng-model="classification.classification"/>
 							      </div>								  	  		   				     
@@ -322,7 +323,7 @@
 							</div>		                    
 		                  </div>  
 		                   <div class="form-group form-group-sm">
-		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The purpose for collecting/creating the resource.">
+		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The purpose for collecting/creating the sample or item">
 	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Purpose</label>
 		                    <input type="text" class="form-control" placeholder="purpose" ng-model="resource.purpose"/>
 		                  </div>   
@@ -330,7 +331,8 @@
 		                    <div class="row" ng-repeat="sampledFeature in resource.sampledFeatureses">
 							  <div class="col-sm-6 col-xs-12">	
 							  	 <div class="input-group width-100">
-								  	  <label>Sampled Feature uri:</label>					   					      
+								  	   <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="the URl for any web page that describes the sampled feature ">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Sampled Feature URL</label>						   					      
 								      <input type="text" class="form-control" placeholder="http://" ng-model="sampledFeature.sampledFeatureUri"/>
 							      </div>						   					      							      						   
 							  </div>
@@ -343,7 +345,7 @@
 							</div>
 		                  </div>  
 						  <div class="form-group form-group-sm">
-						     <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The time period or date of the collection/creation of the sample.">
+						     <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The time period or date of the collection/creation of the sample or item.">
 	                      <i class="fa fa-question-circle" aria-hidden="true"></i></span> Date</label>			     
 						     <div class="input-group width-200px" ng-class="{ 'has-error' : otherInformation.resourceDate.$invalid}">					     
 	                             <input type="text" format-date class="form-control" name="resourceDate" uib-datepicker-popup="yyyy-MM-dd"  is-open="form.resourceDate.opened" ng-model="resource.resourceDate.timeInstant" close-text="Close"/>
@@ -357,14 +359,14 @@
 		                    <div class="row">
 							  <div class="col-sm-6 col-xs-12">		
 							  	 <div class="input-group width-100">
-								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The method/instrument by which the resource was collected/created, e.g., rock chip sampling, dredging, manual observation.">
-	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Method uri:</label>					   					      
+								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The method/instrument by which the sample or item was collected/created, e.g., rock chip sampling, dredging, manual observation.">
+	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Method URL:</label>					   					      
 								      <input type="text" class="form-control" placeholder="http://" ng-model="resource.method.methodUri"/>
 							      </div>				   					      							      				   
 							  </div>
 							  <div class="col-sm-6 col-xs-12">									  	  				   				      
 							      <div class="input-group width-100">
-								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The method/instrument by which the resource was collected/created, e.g., rock chip sampling, dredging, manual observation.">
+								  	  <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The method/instrument by which the sample or item was collected/created, e.g., rock chip sampling, dredging, manual observation.">
 	                      				<i class="fa fa-question-circle" aria-hidden="true"></i></span> Method:</label>					   					      
 								      <input type="text" class="form-control" placeholder="Method" ng-model="resource.method.method"/>
 							      </div>						    
@@ -372,13 +374,13 @@
 							</div>		                    
 		                  </div>  
 		                  <div class="form-group form-group-sm">
-		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The field program/project name, e.g., cruise or expedition; typically used for samples and sample collections.">
-	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Campaign</label>
+		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="The field program or project name in which the samples or data were collected">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Project:</label>
 		                    <input type="text" class="form-control" placeholder="Campaign" ng-model="resource.campaign"/>
 		                  </div> 
 						  <div class="form-group form-group-sm">
-		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="Any free text describing the resource.This can also be used to include additional metadata which cannot be specified with the standard schema elements.">
-	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Comments</label>
+		                    <label><span class="hasEvent colored" popover-trigger="'outsideClick'" popover-placement="right" uib-popover="Free text describing the sample or item. This can also be used to include additional metadata which cannot be specified with the standard schema elements.">
+	                      		<i class="fa fa-question-circle" aria-hidden="true"></i></span> Comments:</label>
 		                    <input type="text" class="form-control" placeholder="Comments" ng-model="resource.comments"/>
 		                  </div>      
 		                </form>	 	
@@ -406,7 +408,7 @@
 		                 </div>
 		                  <div class="form-group form-group-sm">
 						    <label>Contributor Identifier</label>
-		                    <input type="text" class="form-control" placeholder="Contributor Identifier" ng-model="contributor.contributorIdentifier">
+		                    <input type="text" class="form-control" placeholder="Contributor Identifier, e.g. ORCID" ng-model="contributor.contributorIdentifier">
 	                    </div>
 	                    <div class="form-group form-group-sm"  ng-class="{ 'has-error' : contributor.contributorIdentifier && !contributor.cvIdentifierType.identifierType}">
 		                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlRelatedIdentifierType">
@@ -428,7 +430,7 @@
 					    <legend><div class="title-sm text-theme hr-left">Related Resource</div></legend>
 					    <div class="form-group form-group-sm" >
 						    <label>Related resource</label>
-		                    <input type="text" class="form-control" placeholder="Related resource" ng-model="relatedResource.relatedResource">
+		                    <input type="text" class="form-control" placeholder="Related resource, e.g. URL for sample collection or data repository" ng-model="relatedResource.relatedResource">
 	                    </div>	                   
 	                    <div class="form-group form-group-sm" ng-class="{ 'has-error' : !relatedResource.cvIdentifierType.identifierType && (relatedResource.relationType || relatedResource.relatedResource)}">
 		                    <label><span class="hasEvent colored" popover-class="popover-width-600" popover-trigger="'outsideClick'" popover-placement="right" uib-popover-html="htmlRelatedIdentifierType">
