@@ -78,6 +78,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  
 	  $scope.resource.locationInputType = "wkt";
 	  $scope.useDegree = 'degrees';
+	  $scope.resource.registeredObjectType = 'http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample';
 		    
 	  if( $scope.resource.contributorses.length==0){
 		  $scope.resource.contributorses[0] = {}; 

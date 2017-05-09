@@ -119,7 +119,7 @@ public class WebFormIGSNMintCtrl {
 	}
 	
 	@RequestMapping("convertutm.do")
-	public ResponseEntity<Object> removeRegistrants(
+	public ResponseEntity<Object> convertutm(
 			@RequestParam(required = true, value ="zone") String zone,
 			@RequestParam(required = true, value ="easting") String easting,
 			@RequestParam(required = true, value ="northing") String northing,
