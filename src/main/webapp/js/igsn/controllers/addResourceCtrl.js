@@ -77,7 +77,7 @@ allControllers.controller('addResourceCtrl', ['$scope','$http','currentAuthServi
 	  }	  
 	  
 	  $scope.resource.locationInputType = "wkt";
-	  $scope.useDegree = false;
+	  $scope.useDegree = 'degrees';
 		    
 	  if( $scope.resource.contributorses.length==0){
 		  $scope.resource.contributorses[0] = {}; 
